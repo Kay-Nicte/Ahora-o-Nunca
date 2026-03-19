@@ -5,6 +5,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
+import { useAppStore } from '../lib/store'
 import { spacing, radius, typography } from '../lib/theme'
 import { LogoMark } from '../components/LogoMark'
 
@@ -36,6 +37,7 @@ const SLIDES = [
 
 export default function OnboardingScreen() {
   const theme = useTheme()
+  const setHasSeenOnboarding = useAppStore((s) => s.setHasSeenOnboarding)
   const [currentIndex, setCurrentIndex] = useState(0)
   const flatListRef = useRef<FlatList>(null)
 
@@ -43,6 +45,7 @@ export default function OnboardingScreen() {
     if (currentIndex < SLIDES.length - 1) {
       flatListRef.current?.scrollToIndex({ index: currentIndex + 1 })
     } else {
+      setHasSeenOnboarding()
       router.replace('/')
     }
   }
@@ -86,7 +89,7 @@ export default function OnboardingScreen() {
               <Text style={s.btnText}>{item.btn}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => router.replace('/login')}>
+            <TouchableOpacity onPress={() => { setHasSeenOnboarding(); router.replace('/login') }}>
               <Text style={s.skip}>
                 {currentIndex === 0 ? 'Ya tengo cuenta' : 'Saltar'}
               </Text>

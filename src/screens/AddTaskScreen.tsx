@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView,
+  ActivityIndicator,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useTasks } from '../hooks/useTasks'
 import { useAppStore } from '../lib/store'
-import { Category, CATEGORY_EMOJIS } from '../types'
+import { Category, EnergyLevel, CATEGORY_EMOJIS, ENERGY_EMOJIS } from '../types'
 import { useT } from '../lib/i18n'
+import { classifyTask } from '../lib/classify'
 import { spacing, radius, typography } from '../lib/theme'
 import { MicIcon } from '../components/Icons'
 import { AvatarButton } from '../components/AvatarButton'
@@ -17,19 +19,47 @@ import { BottomNav } from '../components/BottomNav'
 import { SwipeableScreen } from '../components/SwipeableScreen'
 
 const CATEGORIES: Category[] = ['home', 'work', 'mobile', 'errands', 'personal']
+const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
 
 export default function AddTaskScreen() {
   const theme = useTheme()
   const t = useT()
   const { createTask } = useTasks()
+  const isPremium = useAppStore((s) => s.profile?.is_premium ?? false)
+
   const [text, setText] = useState('')
   const [category, setCategory] = useState<Category | null>(null)
+  const [energy, setEnergy] = useState<EnergyLevel[]>([])
   const [showPremium, setShowPremium] = useState(false)
-  const isPremium = useAppStore((s) => s.profile?.is_premium ?? false)
+  const [classifying, setClassifying] = useState(false)
+  const [wasClassified, setWasClassified] = useState(false)
+
+  const toggleEnergy = (level: EnergyLevel) => {
+    setEnergy((prev) =>
+      prev.includes(level) ? prev.filter((l) => l !== level) : [...prev, level]
+    )
+    setWasClassified(false)
+  }
+
+  const handleTextBlur = useCallback(async () => {
+    if (!isPremium || !text.trim() || text.trim().length < 3) return
+    setClassifying(true)
+    try {
+      const result = await classifyTask(text.trim())
+      if (result.category) setCategory(result.category)
+      if (result.energyLevels.length > 0) setEnergy(result.energyLevels)
+      if (result.category || result.energyLevels.length > 0) setWasClassified(true)
+    } catch (_) {}
+    setClassifying(false)
+  }, [isPremium, text])
 
   const handleSave = async () => {
     if (!text.trim()) return
-    await createTask(text.trim(), [], category ?? undefined)
+    await createTask(text.trim(), energy, category ?? undefined)
+    setText('')
+    setCategory(null)
+    setEnergy([])
+    setWasClassified(false)
     router.back()
   }
 
@@ -37,94 +67,116 @@ export default function AddTaskScreen() {
 
   return (
     <SwipeableScreen activeTab="add">
-    <SafeAreaView style={s.container} edges={['top']}>
-      <ScrollView contentContainerStyle={s.scroll}>
-        {/* Header row */}
-        <View style={s.headerRow}>
-          <View>
-            <Text style={s.greeting}>{t('add.label')}</Text>
-            <Text style={s.title}><Text style={s.titleEm}>{t('add.title')}</Text></Text>
-          </View>
-          <AvatarButton onPress={() => router.push('/profile')} />
-        </View>
-
-        <View style={s.inputArea}>
-          {/* Voice button */}
-          <TouchableOpacity style={s.voiceBtn} activeOpacity={0.8} onPress={() => {
-            if (!isPremium) { setShowPremium(true); return }
-            // TODO: start voice recording
-          }}>
-            <MicIcon size={28} color="#fff" />
-          </TouchableOpacity>
-          <Text style={s.voiceHint}>{t('add.speak')}</Text>
-
-          {/* Divider */}
-          <View style={s.divider}>
-            <View style={[s.dividerLine, { backgroundColor: theme.border }]} />
-            <Text style={[s.dividerText, { color: theme.muted }]}>{t('add.or')}</Text>
-            <View style={[s.dividerLine, { backgroundColor: theme.border }]} />
+      <SafeAreaView style={s.container} edges={['top']}>
+        <ScrollView contentContainerStyle={s.scroll}>
+          <View style={s.headerRow}>
+            <View>
+              <Text style={s.greeting}>{t('add.label')}</Text>
+              <Text style={s.title}><Text style={s.titleEm}>{t('add.title')}</Text></Text>
+            </View>
+            <AvatarButton onPress={() => router.push('/profile')} />
           </View>
 
-          {/* Text input */}
-          <TextInput
-            style={[s.input, {
-              backgroundColor: theme.dark ? theme.surface : '#fff',
-              borderColor: theme.border,
-              color: theme.text,
-            }]}
-            placeholder={t('add.placeholder')}
-            placeholderTextColor={theme.muted}
-            value={text}
-            onChangeText={setText}
-          />
-        </View>
+          <View style={s.inputArea}>
+            {/* Voice button */}
+            <TouchableOpacity style={s.voiceBtn} activeOpacity={0.8} onPress={() => {
+              if (!isPremium) { setShowPremium(true); return }
+              // TODO: start voice recording
+            }}>
+              <MicIcon size={28} color="#fff" />
+            </TouchableOpacity>
+            <Text style={s.voiceHint}>{t('add.speak')}</Text>
 
-        {/* Category chips */}
-        <Text style={s.sectionLabel}>{t('add.category')}</Text>
-        <View style={s.chips}>
-          {CATEGORIES.map((cat) => {
-            const isSelected = category === cat
-            return (
-              <TouchableOpacity
-                key={cat}
-                style={[
-                  s.chip,
-                  { borderColor: theme.border },
-                  isSelected && s.chipSelected,
-                ]}
-                onPress={() => setCategory(isSelected ? null : cat)}
-              >
-                <Text style={[
-                  s.chipText,
-                  { color: theme.muted },
-                  isSelected && s.chipTextSelected,
-                ]}>
-                  {CATEGORY_EMOJIS[cat]} {t(`cat.${cat}` as any)}
-                </Text>
-              </TouchableOpacity>
-            )
-          })}
-        </View>
+            {/* Divider */}
+            <View style={s.divider}>
+              <View style={[s.dividerLine, { backgroundColor: theme.border }]} />
+              <Text style={[s.dividerText, { color: theme.muted }]}>{t('add.or')}</Text>
+              <View style={[s.dividerLine, { backgroundColor: theme.border }]} />
+            </View>
 
-        {/* Save button */}
-        <View style={s.saveArea}>
-          <TouchableOpacity
-            style={[s.saveBtn, !text.trim() && { opacity: 0.4 }]}
-            onPress={handleSave}
-            disabled={!text.trim()}
-          >
-            <Text style={s.saveBtnText}>{t('add.save')}</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            {/* Text input */}
+            <TextInput
+              style={[s.input, {
+                backgroundColor: theme.dark ? theme.surface : '#fff',
+                borderColor: theme.border,
+                color: theme.text,
+              }]}
+              placeholder={t('add.placeholder')}
+              placeholderTextColor={theme.muted}
+              value={text}
+              onChangeText={(v) => { setText(v); setWasClassified(false) }}
+              onBlur={handleTextBlur}
+            />
 
-      <PremiumModal
-        visible={showPremium}
-        onClose={() => setShowPremium(false)}
-        feature={t('premium.voice')}
-      />
-      <BottomNav active="add" />
-    </SafeAreaView>
+            {/* Classifying indicator */}
+            {classifying && (
+              <View style={s.classifyRow}>
+                <ActivityIndicator size="small" color={theme.accent} />
+                <Text style={[s.classifyText, { color: theme.muted }]}>{t('add.classifying')}</Text>
+              </View>
+            )}
+            {wasClassified && !classifying && (
+              <Text style={[s.classifiedText, { color: theme.accent }]}>{t('add.classified')}</Text>
+            )}
+          </View>
+
+          {/* Category chips */}
+          <Text style={s.sectionLabel}>{t('add.category')}</Text>
+          <View style={s.chips}>
+            {CATEGORIES.map((cat) => {
+              const isSelected = category === cat
+              return (
+                <TouchableOpacity
+                  key={cat}
+                  style={[s.chip, { borderColor: theme.border }, isSelected && s.chipSelected]}
+                  onPress={() => { setCategory(isSelected ? null : cat); setWasClassified(false) }}
+                >
+                  <Text style={[s.chipText, { color: theme.muted }, isSelected && s.chipTextSelected]}>
+                    {CATEGORY_EMOJIS[cat]} {t(`cat.${cat}` as any)}
+                  </Text>
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+
+          {/* Energy chips */}
+          <Text style={[s.sectionLabel, { marginTop: 6 }]}>{t('add.energy')}</Text>
+          <View style={s.chips}>
+            {ENERGY_OPTIONS.map((level) => {
+              const isSelected = energy.includes(level)
+              return (
+                <TouchableOpacity
+                  key={level}
+                  style={[s.chip, { borderColor: theme.border }, isSelected && s.chipSelected]}
+                  onPress={() => toggleEnergy(level)}
+                >
+                  <Text style={[s.chipText, { color: theme.muted }, isSelected && s.chipTextSelected]}>
+                    {ENERGY_EMOJIS[level]} {t(`energy.${level}` as any)}
+                  </Text>
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+
+          {/* Save button */}
+          <View style={s.saveArea}>
+            <TouchableOpacity
+              style={[s.saveBtn, !text.trim() && { opacity: 0.4 }]}
+              onPress={handleSave}
+              disabled={!text.trim()}
+            >
+              <Text style={s.saveBtnText}>{t('add.save')}</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+
+        <PremiumModal
+          visible={showPremium}
+          onClose={() => setShowPremium(false)}
+          feature={t('premium.voice')}
+        />
+        <BottomNav active="add" />
+      </SafeAreaView>
     </SwipeableScreen>
   )
 }
@@ -134,114 +186,70 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     container: { flex: 1, backgroundColor: theme.bg },
     scroll: { paddingBottom: 20 },
     headerRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'flex-start',
-      paddingHorizontal: 20,
-      paddingTop: 8,
-      paddingBottom: 20,
+      flexDirection: 'row', justifyContent: 'space-between',
+      alignItems: 'flex-start', paddingHorizontal: 20,
+      paddingTop: 8, paddingBottom: 20,
     },
     greeting: {
-      fontFamily: typography.sans,
-      fontSize: 10,
-      letterSpacing: 1.8,
-      textTransform: 'uppercase',
-      color: theme.muted,
-      marginBottom: 6,
+      fontFamily: typography.sans, fontSize: 10,
+      letterSpacing: 1.8, textTransform: 'uppercase',
+      color: theme.muted, marginBottom: 6,
     },
-    title: {
-      fontFamily: typography.serif,
-      fontSize: 22,
-      color: theme.text,
-    },
-    titleEm: {
-      fontFamily: typography.serifItalic,
-    },
+    title: { fontFamily: typography.serif, fontSize: 22, color: theme.text },
+    titleEm: { fontFamily: typography.serifItalic },
     inputArea: {
-      paddingHorizontal: 20,
-      paddingBottom: 14,
-      alignItems: 'center',
-      gap: 10,
+      paddingHorizontal: 20, paddingBottom: 14,
+      alignItems: 'center', gap: 10,
     },
     voiceBtn: {
-      width: 72,
-      height: 72,
-      borderRadius: 36,
+      width: 72, height: 72, borderRadius: 36,
       backgroundColor: theme.accent,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: 'center', justifyContent: 'center',
     },
-    voiceHint: {
-      fontFamily: typography.sans,
-      fontSize: 10,
-      color: theme.muted,
-    },
+    voiceHint: { fontFamily: typography.sans, fontSize: 10, color: theme.muted },
     divider: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 10,
-      width: '100%',
-      marginVertical: 2,
+      flexDirection: 'row', alignItems: 'center',
+      gap: 10, width: '100%', marginVertical: 2,
     },
     dividerLine: { flex: 1, height: 1 },
-    dividerText: {
-      fontFamily: typography.sans,
-      fontSize: 10,
-    },
+    dividerText: { fontFamily: typography.sans, fontSize: 10 },
     input: {
-      width: '100%',
-      borderWidth: 1.5,
-      borderRadius: 12,
-      padding: 12,
-      paddingHorizontal: 14,
-      fontFamily: typography.sans,
-      fontSize: 12,
+      width: '100%', borderWidth: 1.5, borderRadius: 12,
+      padding: 12, paddingHorizontal: 14,
+      fontFamily: typography.sans, fontSize: 12,
+    },
+    classifyRow: {
+      flexDirection: 'row', alignItems: 'center', gap: 8,
+    },
+    classifyText: { fontFamily: typography.sans, fontSize: 11 },
+    classifiedText: {
+      fontFamily: typography.sansBold, fontSize: 11,
     },
     sectionLabel: {
-      fontFamily: typography.sansBold,
-      fontSize: 9,
-      letterSpacing: 2,
-      textTransform: 'uppercase',
-      color: theme.muted,
-      paddingHorizontal: 20,
-      paddingBottom: 8,
+      fontFamily: typography.sansBold, fontSize: 9,
+      letterSpacing: 2, textTransform: 'uppercase',
+      color: theme.muted, paddingHorizontal: 20, paddingBottom: 8,
     },
     chips: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: 6,
-      paddingHorizontal: 20,
+      flexDirection: 'row', flexWrap: 'wrap',
+      gap: 6, paddingHorizontal: 20,
     },
     chip: {
-      paddingVertical: 5,
-      paddingHorizontal: 12,
-      borderRadius: radius.full,
-      borderWidth: 1.5,
+      paddingVertical: 5, paddingHorizontal: 12,
+      borderRadius: radius.full, borderWidth: 1.5,
     },
     chipSelected: {
       borderColor: theme.accent,
       backgroundColor: 'rgba(91,126,201,0.1)',
     },
-    chipText: {
-      fontFamily: typography.sansBold,
-      fontSize: 10,
-    },
-    chipTextSelected: {
-      color: theme.accent,
-    },
-    saveArea: {
-      paddingHorizontal: 14,
-      paddingTop: 14,
-    },
+    chipText: { fontFamily: typography.sansBold, fontSize: 10 },
+    chipTextSelected: { color: theme.accent },
+    saveArea: { paddingHorizontal: 14, paddingTop: 14 },
     saveBtn: {
-      backgroundColor: theme.accent,
-      borderRadius: radius.md,
-      padding: 14,
-      alignItems: 'center',
+      backgroundColor: theme.accent, borderRadius: radius.md,
+      padding: 14, alignItems: 'center',
     },
     saveBtnText: {
-      fontFamily: typography.sansBold,
-      fontSize: 12,
-      color: '#fff',
+      fontFamily: typography.sansBold, fontSize: 12, color: '#fff',
     },
   })

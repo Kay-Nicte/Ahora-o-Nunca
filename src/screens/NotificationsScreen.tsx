@@ -10,6 +10,8 @@ import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 import { PremiumModal } from '../components/PremiumModal'
 import { useAppStore } from '../lib/store'
+import { requestNotificationPermission, scheduleDailyNotification, cancelNotification } from '../lib/notifications'
+import { ConfirmModal } from '../components/ConfirmModal'
 import { router } from 'expo-router'
 
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
@@ -140,7 +142,56 @@ export default function NotificationsScreen() {
   const [eveningM, setEveningM] = useState(0)
 
   const [showPremium, setShowPremium] = useState(false)
+  const [showPermModal, setShowPermModal] = useState(false)
   const [editingSlot, setEditingSlot] = useState<'morning' | 'evening' | null>(null)
+
+  // Schedule/cancel notifications when settings change
+  const syncNotifications = async (
+    fixed: boolean, mOn: boolean, eOn: boolean,
+    mH: number, mM: number, eH: number, eM: number,
+  ) => {
+    if (!fixed || !mOn) {
+      await cancelNotification('morning')
+    } else {
+      const granted = await requestNotificationPermission()
+      if (!granted) { setShowPermModal(true); return }
+      await scheduleDailyNotification(
+        'morning', mH, mM,
+        t('notif.push.morning.title'), t('notif.push.morning.body'),
+      )
+    }
+    if (!fixed || !eOn) {
+      await cancelNotification('evening')
+    } else {
+      const granted = await requestNotificationPermission()
+      if (!granted) { setShowPermModal(true); return }
+      await scheduleDailyNotification(
+        'evening', eH, eM,
+        t('notif.push.evening.title'), t('notif.push.evening.body'),
+      )
+    }
+  }
+
+  const toggleFixed = (v: boolean) => {
+    setFixedEnabled(v)
+    syncNotifications(v, morningOn, eveningOn, morningH, morningM, eveningH, eveningM)
+  }
+  const toggleMorning = (v: boolean) => {
+    setMorningOn(v)
+    syncNotifications(fixedEnabled, v, eveningOn, morningH, morningM, eveningH, eveningM)
+  }
+  const toggleEvening = (v: boolean) => {
+    setEveningOn(v)
+    syncNotifications(fixedEnabled, morningOn, v, morningH, morningM, eveningH, eveningM)
+  }
+  const setMorningTimeAndSync = (h: number, m: number) => {
+    setMorningH(h); setMorningM(m)
+    syncNotifications(fixedEnabled, morningOn, eveningOn, h, m, eveningH, eveningM)
+  }
+  const setEveningTimeAndSync = (h: number, m: number) => {
+    setEveningH(h); setEveningM(m)
+    syncNotifications(fixedEnabled, morningOn, eveningOn, morningH, morningM, h, m)
+  }
 
   const s = styles(theme)
 
@@ -162,7 +213,7 @@ export default function NotificationsScreen() {
           <Text style={[s.toggleLabel, { color: theme.text }]}>{t('notif.fixed')}</Text>
           <Text style={[s.toggleSub, { color: theme.muted }]}>{t('notif.fixed.sub')}</Text>
         </View>
-        <Toggle on={fixedEnabled} onToggle={() => setFixedEnabled(!fixedEnabled)} />
+        <Toggle on={fixedEnabled} onToggle={() => toggleFixed(!fixedEnabled)} />
       </View>
 
       <View style={[s.toggleRow, { borderColor: theme.border }]}>
@@ -190,7 +241,7 @@ export default function NotificationsScreen() {
                   : (theme.dark ? theme.surface : '#fff'),
                 borderColor: morningOn ? theme.accent : theme.border,
               }]}
-              onPress={() => setMorningOn(!morningOn)}
+              onPress={() => toggleMorning(!morningOn)}
               activeOpacity={0.7}
             >
               <Text style={s.timeEmoji}>🌅</Text>
@@ -210,7 +261,7 @@ export default function NotificationsScreen() {
                   : (theme.dark ? theme.surface : '#fff'),
                 borderColor: eveningOn ? theme.accent : theme.border,
               }]}
-              onPress={() => setEveningOn(!eveningOn)}
+              onPress={() => toggleEvening(!eveningOn)}
               activeOpacity={0.7}
             >
               <Text style={s.timeEmoji}>🌇</Text>
@@ -233,7 +284,7 @@ export default function NotificationsScreen() {
         minute={morningM}
         label={t('notif.morningTime')}
         confirmLabel={t('notif.done')}
-        onConfirm={(h, m) => { setMorningH(h); setMorningM(m) }}
+        onConfirm={(h, m) => setMorningTimeAndSync(h, m)}
         onClose={() => setEditingSlot(null)}
       />
       <TimePicker
@@ -242,8 +293,18 @@ export default function NotificationsScreen() {
         minute={eveningM}
         label={t('notif.eveningTime')}
         confirmLabel={t('notif.done')}
-        onConfirm={(h, m) => { setEveningH(h); setEveningM(m) }}
+        onConfirm={(h, m) => setEveningTimeAndSync(h, m)}
         onClose={() => setEditingSlot(null)}
+      />
+
+      <ConfirmModal
+        visible={showPermModal}
+        onClose={() => setShowPermModal(false)}
+        title={t('notif.permTitle')}
+        message={t('notif.permMsg')}
+        confirmText="OK"
+        cancelText={t('tasks.action.cancel')}
+        onConfirm={() => {}}
       />
 
       <View style={{ flex: 1 }} />

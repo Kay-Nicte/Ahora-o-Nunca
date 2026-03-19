@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
-import Animated, {
-  useSharedValue, useAnimatedStyle,
-  withSpring, withDelay,
-} from 'react-native-reanimated'
 import { useTheme } from '../hooks/useTheme'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography } from '../lib/theme'
@@ -15,39 +11,46 @@ export default function DoneScreen() {
   const t = useT()
   const completedThisWeek = 3 // TODO: fetch from DB
 
-  const scale = useSharedValue(0)
-  const opacity = useSharedValue(0)
+  const scale = useRef(new Animated.Value(0)).current
+  const opacity = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    scale.value = withSpring(1, { damping: 12, stiffness: 180 })
-    opacity.value = withDelay(200, withSpring(1))
+    Animated.spring(scale, {
+      toValue: 1,
+      damping: 12,
+      stiffness: 180,
+      useNativeDriver: true,
+    }).start()
+
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 400,
+      delay: 200,
+      useNativeDriver: true,
+    }).start()
   }, [])
 
-  const ringStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }))
-
-  const textStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ translateY: (1 - opacity.value) * 12 }],
-  }))
+  const translateY = opacity.interpolate({
+    inputRange: [0, 1],
+    outputRange: [12, 0],
+  })
 
   const s = doneStyles(theme)
 
   return (
     <SafeAreaView style={s.container}>
-      <Animated.View style={[s.ring, ringStyle]}>
+      <Animated.View style={[s.ring, { transform: [{ scale }] }]}>
         <Text style={s.ringText}>✓</Text>
       </Animated.View>
 
-      <Animated.View style={[s.textBlock, textStyle]}>
+      <Animated.View style={[s.textBlock, { opacity, transform: [{ translateY }] }]}>
         <Text style={s.big}>
           {t('done.title')}{'\n'}<Text style={s.bigEm}>{t('done.titleEm')}</Text>
         </Text>
         <Text style={s.sub}>{t('done.sub')}</Text>
       </Animated.View>
 
-      <Animated.View style={[s.actions, textStyle]}>
+      <Animated.View style={[s.actions, { opacity, transform: [{ translateY }] }]}>
         <TouchableOpacity
           style={s.btn}
           onPress={() => router.replace('/')}

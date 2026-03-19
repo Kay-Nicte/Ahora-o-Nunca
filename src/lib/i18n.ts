@@ -44,7 +44,10 @@ const translations = {
     'add.or': 'o escribe',
     'add.placeholder': 'Ej: llamar al médico...',
     'add.category': 'Categoría (opcional)',
+    'add.energy': 'Estado de energía (opcional)',
     'add.save': 'Guardar ✓',
+    'add.classifying': 'Clasificando...',
+    'add.classified': '✨ Clasificado automáticamente',
 
     // Categories
     'cat.home': 'Casa',
@@ -61,8 +64,15 @@ const translations = {
     'tasks.empty': 'No tienes tareas pendientes',
     'tasks.new': '+ Nueva tarea',
     'tasks.action.done': '✓ Hecho',
+    'tasks.action.edit': '✏️ Editar',
     'tasks.action.delete': '🗑️ Eliminar',
     'tasks.action.cancel': 'Cancelar',
+    'tasks.edit.title': 'Editar tarea',
+    'tasks.edit.save': 'Guardar',
+
+    'tasks.completed': 'Completadas',
+    'tasks.completed.count': 'completada',
+    'tasks.completed.countPlural': 'completadas',
 
     // Premium features
     'premium.voice': 'Añadir por voz',
@@ -113,6 +123,12 @@ const translations = {
     'notif.morningTime': '🌅 Hora de mañana',
     'notif.eveningTime': '🌇 Hora de tarde',
     'notif.done': 'Listo',
+    'notif.push.morning.title': '¿Cómo estás ahora? 🌅',
+    'notif.push.morning.body': 'Una tarea. La que toca.',
+    'notif.push.evening.title': '¿Aún te queda algo? 🌇',
+    'notif.push.evening.body': 'Solo una cosa más.',
+    'notif.permTitle': 'Permiso necesario',
+    'notif.permMsg': 'Necesitamos permiso para enviarte recordatorios.',
 
     // Privacy
     'privacy.title': 'Privacidad y datos',
@@ -207,6 +223,9 @@ const translations = {
     'add.or': 'or type',
     'add.placeholder': 'E.g.: call the doctor...',
     'add.category': 'Category (optional)',
+    'add.energy': 'Energy state (optional)',
+    'add.classifying': 'Classifying...',
+    'add.classified': '✨ Auto-classified',
     'add.save': 'Save ✓',
 
     'cat.home': 'Home',
@@ -222,8 +241,15 @@ const translations = {
     'tasks.empty': 'No pending tasks',
     'tasks.new': '+ New task',
     'tasks.action.done': '✓ Done',
+    'tasks.action.edit': '✏️ Edit',
     'tasks.action.delete': '🗑️ Delete',
     'tasks.action.cancel': 'Cancel',
+    'tasks.edit.title': 'Edit task',
+    'tasks.edit.save': 'Save',
+
+    'tasks.completed': 'Completed',
+    'tasks.completed.count': 'completed',
+    'tasks.completed.countPlural': 'completed',
 
     'premium.voice': 'Voice input',
     'premium.smartNotif': 'Smart notifications',
@@ -268,6 +294,12 @@ const translations = {
     'notif.morningTime': '🌅 Morning time',
     'notif.eveningTime': '🌇 Evening time',
     'notif.done': 'Done',
+    'notif.push.morning.title': 'How are you now? 🌅',
+    'notif.push.morning.body': 'One task. The one that fits.',
+    'notif.push.evening.title': 'Anything left? 🌇',
+    'notif.push.evening.body': 'Just one more thing.',
+    'notif.permTitle': 'Permission needed',
+    'notif.permMsg': 'We need permission to send you reminders.',
 
     'privacy.title': 'Privacy & data',
     'privacy.sub': 'Your data is yours.',

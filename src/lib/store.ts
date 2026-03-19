@@ -17,6 +17,7 @@ interface AppState {
   setTasks: (tasks: Task[]) => void
   addTask: (task: Task) => void
   completeTask: (taskId: string) => void
+  updateTask: (taskId: string, updates: Partial<Pick<Task, 'text' | 'category' | 'energy_levels'>>) => void
   deleteTask: (taskId: string) => void
   skipTask: (taskId: string) => void
 
@@ -32,6 +33,10 @@ interface AppState {
   // Notifications
   notificationsConfig: NotificationsConfig | null
   setNotificationsConfig: (config: NotificationsConfig) => void
+
+  // Onboarding
+  hasSeenOnboarding: boolean
+  setHasSeenOnboarding: () => void
 
   // Preferences
   appearanceMode: AppearanceMode
@@ -67,6 +72,12 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
       ),
       currentTask: state.currentTask?.id === taskId ? null : state.currentTask,
     })),
+  updateTask: (taskId, updates) =>
+    set((state) => ({
+      tasks: state.tasks.map((t) =>
+        t.id === taskId ? { ...t, ...updates } : t
+      ),
+    })),
   deleteTask: (taskId) =>
     set((state) => ({
       tasks: state.tasks.filter((t) => t.id !== taskId),
@@ -98,6 +109,9 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
 
   notificationsConfig: null,
   setNotificationsConfig: (config) => set({ notificationsConfig: config }),
+
+  hasSeenOnboarding: false,
+  setHasSeenOnboarding: () => set({ hasSeenOnboarding: true }),
 
   appearanceMode: 'system',
   setAppearanceMode: (mode) => set({ appearanceMode: mode }),
@@ -169,6 +183,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   name: 'ahora-o-nunca-store',
   storage: createJSONStorage(() => AsyncStorage),
   partialize: (state) => ({
+    hasSeenOnboarding: state.hasSeenOnboarding,
     appearanceMode: state.appearanceMode,
     language: state.language,
     avatarEmoji: state.avatarEmoji,

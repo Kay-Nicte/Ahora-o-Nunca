@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"C:/Users/34696/Desktop/Panal/Ahora o nunca/.claude/agents\")",
+      "Bash(mkdir -p \"C:/Users/34696/Desktop/Panal/Ahora o nunca/docs\")",
+      "Bash(ls -la 'C:/Users/34696/Desktop/Panal/Ahora o nunca/{src}/')",
+      "Bash(find 'C:/Users/34696/Desktop/Panal/Ahora o nunca/' -name *.ts -o -name *.tsx -o -name *.js -o -name *.jsx)",
+      "Bash(npx expo:*)",
+      "Bash(npm install:*)",
+      "Bash(npm view:*)",
+      "Bash(cd:*)",
+      "Bash(node:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm uninstall:*)"
+    ]
+  }
+}
