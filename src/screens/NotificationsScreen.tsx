@@ -10,7 +10,8 @@ import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 import { PremiumModal } from '../components/PremiumModal'
 import { useAppStore } from '../lib/store'
-import { requestNotificationPermission, scheduleDailyNotification, cancelNotification } from '../lib/notifications'
+import { usePremium } from '../hooks/usePremium'
+import { checkNotificationPermission, requestNotificationPermission, scheduleDailyNotification, cancelNotification } from '../lib/notifications'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { router } from 'expo-router'
 
@@ -130,22 +131,51 @@ const tpStyles = StyleSheet.create({
 export default function NotificationsScreen() {
   const theme = useTheme()
   const t = useT()
-  const isPremium = useAppStore((s) => s.profile?.is_premium ?? false)
+  const { isPremium } = usePremium()
 
-  const [fixedEnabled, setFixedEnabled] = useState(true)
-  const [smartEnabled, setSmartEnabled] = useState(false)
-  const [morningOn, setMorningOn] = useState(true)
-  const [eveningOn, setEveningOn] = useState(true)
-  const [morningH, setMorningH] = useState(10)
-  const [morningM, setMorningM] = useState(0)
-  const [eveningH, setEveningH] = useState(18)
-  const [eveningM, setEveningM] = useState(0)
+  const ns = useAppStore((s) => s.notifSettings)
+  const setNS = useAppStore((s) => s.setNotifSettings)
+  const { fixedEnabled, morningOn, eveningOn, morningH, morningM, eveningH, eveningM, smartEnabled } = ns
+
+  const setFixedEnabled = (v: boolean) => setNS({ fixedEnabled: v })
+  const setSmartEnabled = (v: boolean) => setNS({ smartEnabled: v })
+  const setMorningOn = (v: boolean) => setNS({ morningOn: v })
+  const setEveningOn = (v: boolean) => setNS({ eveningOn: v })
+  const setMorningH = (v: number) => setNS({ morningH: v })
+  const setMorningM = (v: number) => setNS({ morningM: v })
+  const setEveningH = (v: number) => setNS({ eveningH: v })
+  const setEveningM = (v: number) => setNS({ eveningM: v })
 
   const [showPremium, setShowPremium] = useState(false)
   const [showPermModal, setShowPermModal] = useState(false)
+  const [showPermDenied, setShowPermDenied] = useState(false)
   const [editingSlot, setEditingSlot] = useState<'morning' | 'evening' | null>(null)
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null)
 
-  // Schedule/cancel notifications when settings change
+  // Ask permission with our modal first, then request system permission
+  const ensurePermission = async (onGranted: () => void) => {
+    const alreadyGranted = await checkNotificationPermission()
+    if (alreadyGranted) {
+      onGranted()
+      return
+    }
+    // Show our pretty modal first
+    setPendingAction(() => onGranted)
+    setShowPermModal(true)
+  }
+
+  const handlePermAccepted = async () => {
+    setShowPermModal(false)
+    const granted = await requestNotificationPermission()
+    if (granted && pendingAction) {
+      pendingAction()
+    } else if (!granted) {
+      setShowPermDenied(true)
+    }
+    setPendingAction(null)
+  }
+
+  // Schedule/cancel notifications (asks permission if needed)
   const syncNotifications = async (
     fixed: boolean, mOn: boolean, eOn: boolean,
     mH: number, mM: number, eH: number, eM: number,
@@ -153,8 +183,16 @@ export default function NotificationsScreen() {
     if (!fixed || !mOn) {
       await cancelNotification('morning')
     } else {
-      const granted = await requestNotificationPermission()
-      if (!granted) { setShowPermModal(true); return }
+      const granted = await checkNotificationPermission()
+      if (!granted) {
+        ensurePermission(async () => {
+          await scheduleDailyNotification(
+            'morning', mH, mM,
+            t('notif.push.morning.title'), t('notif.push.morning.body'),
+          )
+        })
+        return
+      }
       await scheduleDailyNotification(
         'morning', mH, mM,
         t('notif.push.morning.title'), t('notif.push.morning.body'),
@@ -163,8 +201,8 @@ export default function NotificationsScreen() {
     if (!fixed || !eOn) {
       await cancelNotification('evening')
     } else {
-      const granted = await requestNotificationPermission()
-      if (!granted) { setShowPermModal(true); return }
+      const granted = await checkNotificationPermission()
+      if (!granted) return // already asked above
       await scheduleDailyNotification(
         'evening', eH, eM,
         t('notif.push.evening.title'), t('notif.push.evening.body'),
@@ -229,50 +267,49 @@ export default function NotificationsScreen() {
           setSmartEnabled(!smartEnabled)
         }} />
       </View>
+      <View style={[s.smartHintRow, { borderColor: theme.border }]}>
+        <Text style={[s.smartHint, { color: theme.muted }]}>{t('notif.smart.hint')}</Text>
+      </View>
 
       {fixedEnabled && (
         <>
           <Text style={s.sectionLabel}>{t('notif.schedule')}</Text>
           <View style={s.timeGrid}>
-            <TouchableOpacity
-              style={[s.timeCard, {
-                backgroundColor: morningOn
-                  ? (theme.dark ? '#202640' : '#eef1fa')
-                  : (theme.dark ? theme.surface : '#fff'),
-                borderColor: morningOn ? theme.accent : theme.border,
-              }]}
-              onPress={() => toggleMorning(!morningOn)}
-              activeOpacity={0.7}
-            >
-              <Text style={s.timeEmoji}>🌅</Text>
-              <Text style={[s.timeName, { color: theme.text }]}>{t('notif.morning')}</Text>
+            <View style={[s.timeCard, {
+              backgroundColor: morningOn
+                ? (theme.dark ? '#202640' : '#eef1fa')
+                : (theme.dark ? theme.surface : '#fff'),
+              borderColor: morningOn ? theme.accent : theme.border,
+            }]}>
+              <TouchableOpacity onPress={() => toggleMorning(!morningOn)} style={s.timeTop}>
+                <Text style={s.timeEmoji}>🌅</Text>
+                <Text style={[s.timeName, { color: theme.text }]}>{t('notif.morning')}</Text>
+              </TouchableOpacity>
               {morningOn && (
-                <TouchableOpacity onPress={() => setEditingSlot('morning')}>
+                <TouchableOpacity onPress={() => setEditingSlot('morning')} style={s.timeBottom}>
                   <Text style={s.timeValue}>{pad(morningH)}:{pad(morningM)}</Text>
                   <Text style={[s.tapHint, { color: theme.muted }]}>{t('notif.tapChange')}</Text>
                 </TouchableOpacity>
               )}
-            </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity
-              style={[s.timeCard, {
-                backgroundColor: eveningOn
-                  ? (theme.dark ? '#202640' : '#eef1fa')
-                  : (theme.dark ? theme.surface : '#fff'),
-                borderColor: eveningOn ? theme.accent : theme.border,
-              }]}
-              onPress={() => toggleEvening(!eveningOn)}
-              activeOpacity={0.7}
-            >
-              <Text style={s.timeEmoji}>🌇</Text>
-              <Text style={[s.timeName, { color: theme.text }]}>{t('notif.evening')}</Text>
+            <View style={[s.timeCard, {
+              backgroundColor: eveningOn
+                ? (theme.dark ? '#202640' : '#eef1fa')
+                : (theme.dark ? theme.surface : '#fff'),
+              borderColor: eveningOn ? theme.accent : theme.border,
+            }]}>
+              <TouchableOpacity onPress={() => toggleEvening(!eveningOn)} style={s.timeTop}>
+                <Text style={s.timeEmoji}>🌇</Text>
+                <Text style={[s.timeName, { color: theme.text }]}>{t('notif.evening')}</Text>
+              </TouchableOpacity>
               {eveningOn && (
-                <TouchableOpacity onPress={() => setEditingSlot('evening')}>
+                <TouchableOpacity onPress={() => setEditingSlot('evening')} style={s.timeBottom}>
                   <Text style={s.timeValue}>{pad(eveningH)}:{pad(eveningM)}</Text>
                   <Text style={[s.tapHint, { color: theme.muted }]}>{t('notif.tapChange')}</Text>
                 </TouchableOpacity>
               )}
-            </TouchableOpacity>
+            </View>
           </View>
         </>
       )}
@@ -299,9 +336,18 @@ export default function NotificationsScreen() {
 
       <ConfirmModal
         visible={showPermModal}
-        onClose={() => setShowPermModal(false)}
-        title={t('notif.permTitle')}
+        onClose={() => { setShowPermModal(false); setPendingAction(null) }}
+        title="🔔"
         message={t('notif.permMsg')}
+        confirmText="OK"
+        cancelText={t('tasks.action.cancel')}
+        onConfirm={handlePermAccepted}
+      />
+      <ConfirmModal
+        visible={showPermDenied}
+        onClose={() => setShowPermDenied(false)}
+        title={t('notif.permTitle')}
+        message={t('notif.permDenied')}
         confirmText="OK"
         cancelText={t('tasks.action.cancel')}
         onConfirm={() => {}}
@@ -348,6 +394,17 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold, fontSize: 8,
       letterSpacing: 1, textTransform: 'uppercase', color: '#1a1e2e',
     },
+    smartHintRow: {
+      paddingHorizontal: 20,
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      backgroundColor: theme.dark ? 'rgba(91,126,201,0.05)' : 'rgba(91,126,201,0.04)',
+    },
+    smartHint: {
+      fontFamily: typography.sans,
+      fontSize: 10,
+      lineHeight: 15,
+    },
     sectionLabel: {
       fontFamily: typography.sansBold, fontSize: 9, letterSpacing: 2,
       textTransform: 'uppercase', color: theme.muted,
@@ -357,6 +414,8 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     timeCard: {
       flex: 1, borderWidth: 1.5, borderRadius: radius.md, padding: 12, alignItems: 'center',
     },
+    timeTop: { alignItems: 'center' },
+    timeBottom: { alignItems: 'center', marginTop: 4 },
     timeEmoji: { fontSize: 18, marginBottom: 4 },
     timeName: { fontFamily: typography.sansBold, fontSize: 11, marginBottom: 2 },
     timeValue: {

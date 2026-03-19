@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Share } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAuth } from '../hooks/useAuth'
+import { useAppStore } from '../lib/store'
+import { supabase } from '../lib/supabase'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { ConfirmModal } from '../components/ConfirmModal'
@@ -12,8 +14,65 @@ export default function PrivacyScreen() {
   const theme = useTheme()
   const t = useT()
   const { signOut } = useAuth()
+  const tasks = useAppStore((s) => s.tasks)
   const [showDelete, setShowDelete] = useState(false)
-  const [showExport, setShowExport] = useState(false)
+  const [showExported, setShowExported] = useState(false)
+
+  const handleExportData = async () => {
+    const data = {
+      exportedAt: new Date().toISOString(),
+      tasks: tasks.map((tk) => ({
+        text: tk.text,
+        category: tk.category,
+        energy_levels: tk.energy_levels,
+        completed: tk.completed,
+        completed_at: tk.completed_at,
+        created_at: tk.created_at,
+      })),
+    }
+
+    const json = JSON.stringify(data, null, 2)
+
+    try {
+      await Share.share({
+        message: json,
+        title: 'Ahora o Nunca — Data Export',
+      })
+    } catch (_) {
+      setShowExported(true)
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    // Delete from Supabase if connected
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        await supabase.from('task_energy_levels')
+          .delete()
+          .in('task_id', tasks.map((t) => t.id))
+        await supabase.from('tasks').delete().eq('user_id', user.id)
+        await supabase.from('profiles').delete().eq('id', user.id)
+      }
+    } catch (_) {}
+
+    // Clear local state
+    useAppStore.setState({
+      tasks: [],
+      profile: null,
+      currentTask: null,
+      avatarEmoji: null,
+      avatarBg: null,
+      avatarImageUri: null,
+      trialActivated: false,
+      trialActivatedAt: null,
+      hasSeenOnboarding: false,
+      tasksCreatedWithoutAccount: 0,
+    })
+
+    await signOut()
+    router.replace('/onboarding')
+  }
 
   const s = styles(theme)
 
@@ -41,7 +100,7 @@ export default function PrivacyScreen() {
 
           <TouchableOpacity
             style={[s.actionRow, { borderColor: theme.border }]}
-            onPress={() => setShowExport(true)}
+            onPress={handleExportData}
           >
             <Text style={[s.actionText, { color: theme.accent }]}>{t('privacy.export')}</Text>
           </TouchableOpacity>
@@ -56,27 +115,24 @@ export default function PrivacyScreen() {
       </ScrollView>
 
       <ConfirmModal
-        visible={showExport}
-        onClose={() => setShowExport(false)}
-        title={t('privacy.export')}
-        message={t('privacy.export.msg')}
-        confirmText="OK"
-        cancelText={t('privacy.delete.cancel')}
-        onConfirm={() => {}}
-      />
-
-      <ConfirmModal
         visible={showDelete}
         onClose={() => setShowDelete(false)}
         title={t('privacy.delete.title')}
         message={t('privacy.delete.msg')}
         confirmText={t('privacy.delete.confirm')}
         cancelText={t('privacy.delete.cancel')}
-        onConfirm={async () => {
-          await signOut()
-          router.replace('/')
-        }}
+        onConfirm={handleDeleteAccount}
         destructive
+      />
+
+      <ConfirmModal
+        visible={showExported}
+        onClose={() => setShowExported(false)}
+        title={t('privacy.export')}
+        message={t('privacy.export.msg')}
+        confirmText="OK"
+        cancelText={t('privacy.delete.cancel')}
+        onConfirm={() => {}}
       />
     </SafeAreaView>
   )

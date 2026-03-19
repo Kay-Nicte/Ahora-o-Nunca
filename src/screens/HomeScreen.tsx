@@ -13,6 +13,8 @@ import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 import { BoltIcon } from '../components/Icons'
 import { SwipeableScreen } from '../components/SwipeableScreen'
+import { TrialBanner } from '../components/TrialBanner'
+import { AccountNudge } from '../components/AccountNudge'
 import { useT } from '../lib/i18n'
 
 const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
@@ -32,8 +34,11 @@ export default function HomeScreen() {
     )
   }
 
+  const resetSkipped = useAppStore((s) => s.resetSkipped)
+
   const handleSeeTask = async () => {
     if (selected.length === 0) return
+    resetSkipped()
     await fetchTaskForEnergy(selected)
     router.push('/task')
   }
@@ -54,6 +59,8 @@ export default function HomeScreen() {
             <Text style={s.title}>{t('home.title')}{'\n'}<Text style={s.titleEm}>{t('home.titleEm')}</Text></Text>
             <Text style={s.sub}>{t('home.sub')}</Text>
           </View>
+          <TrialBanner />
+          <AccountNudge />
           <Text style={s.sectionLabel}>{t('home.state')}</Text>
           <View style={s.grid}>
             {ENERGY_OPTIONS.map((level) => {

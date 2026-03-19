@@ -66,6 +66,7 @@ const translations = {
     'tasks.action.done': '✓ Hecho',
     'tasks.action.edit': '✏️ Editar',
     'tasks.action.delete': '🗑️ Eliminar',
+    'tasks.action.restore': '↩️ Restaurar',
     'tasks.action.cancel': 'Cancelar',
     'tasks.edit.title': 'Editar tarea',
     'tasks.edit.save': 'Guardar',
@@ -87,8 +88,11 @@ const translations = {
     'profile.noAccount': 'sin cuenta',
     'profile.premium': 'Premium',
     'profile.freePlan': 'Plan gratuito',
+    'profile.trialActive': 'días de prueba',
+    'profile.premiumActive': 'Activo',
     'profile.notifications': 'Notificaciones',
     'profile.notConfigured': 'Sin configurar',
+    'profile.notifStatus': 'y',
     'profile.language': 'Idioma',
     'profile.appearance': 'Apariencia',
     'profile.privacy': 'Privacidad y datos',
@@ -116,6 +120,7 @@ const translations = {
     'notif.fixed.sub': 'Tú eliges la hora',
     'notif.smart': 'Notificaciones inteligentes',
     'notif.smart.sub': 'La app aprende tus momentos',
+    'notif.smart.hint': 'Analiza cuándo completas más tareas y te avisa en esos momentos.',
     'notif.schedule': 'Horario fijo',
     'notif.morning': 'Mañana',
     'notif.evening': 'Tarde',
@@ -128,7 +133,8 @@ const translations = {
     'notif.push.evening.title': '¿Aún te queda algo? 🌇',
     'notif.push.evening.body': 'Solo una cosa más.',
     'notif.permTitle': 'Permiso necesario',
-    'notif.permMsg': 'Necesitamos permiso para enviarte recordatorios.',
+    'notif.permMsg': 'Para avisarte, necesitamos tu permiso.',
+    'notif.permDenied': 'Sin permiso no podemos avisarte. Puedes activarlo en Ajustes.',
 
     // Privacy
     'privacy.title': 'Privacidad y datos',
@@ -172,6 +178,7 @@ const translations = {
     'paywall.price': '3,99€',
     'paywall.priceLabel': 'pago único',
     'paywall.cta': 'Empezar 7 días gratis →',
+    'paywall.ctaPaid': 'Comprar para siempre →',
     'paywall.ctaSub': 'Sin tarjeta hasta que lo decidas',
     'paywall.dismiss': 'No, gracias',
 
@@ -180,6 +187,23 @@ const translations = {
     'premium.sub': 'Desbloquéala con un solo pago.\nSin suscripciones, para siempre.',
     'premium.cta': 'Ver Premium →',
     'premium.dismiss': 'Ahora no',
+
+    // Task limit
+    'limit.reached': 'Has llegado a 5 tareas.',
+    'limit.feature': 'Tareas ilimitadas',
+
+    // Account nudge
+    'nudge.tasks': 'Tus tareas solo están en este móvil.',
+    'nudge.trial': 'Te quedan pocos días de Pro.',
+    'nudge.cta': 'Crear cuenta gratis',
+    'nudge.later': 'Luego',
+
+    // Trial
+    'trial.banner': '🎁 7 días gratis de Pro',
+    'trial.modal.title': '7 días gratis',
+    'trial.modal.sub': 'Voz, clasificación y más.\nSin tarjeta. Sin trampa.',
+    'trial.modal.activate': 'Activar gratis',
+    'trial.modal.later': 'Luego',
 
     // Common
     'back': '← Volver',
@@ -243,6 +267,7 @@ const translations = {
     'tasks.action.done': '✓ Done',
     'tasks.action.edit': '✏️ Edit',
     'tasks.action.delete': '🗑️ Delete',
+    'tasks.action.restore': '↩️ Restore',
     'tasks.action.cancel': 'Cancel',
     'tasks.edit.title': 'Edit task',
     'tasks.edit.save': 'Save',
@@ -261,8 +286,11 @@ const translations = {
     'profile.noAccount': 'no account',
     'profile.premium': 'Premium',
     'profile.freePlan': 'Free plan',
+    'profile.trialActive': 'trial days left',
+    'profile.premiumActive': 'Active',
     'profile.notifications': 'Notifications',
     'profile.notConfigured': 'Not configured',
+    'profile.notifStatus': 'and',
     'profile.language': 'Language',
     'profile.appearance': 'Appearance',
     'profile.privacy': 'Privacy & data',
@@ -287,6 +315,7 @@ const translations = {
     'notif.fixed.sub': 'You choose the time',
     'notif.smart': 'Smart notifications',
     'notif.smart.sub': 'The app learns your moments',
+    'notif.smart.hint': 'It checks when you complete more tasks and reminds you at those times.',
     'notif.schedule': 'Fixed schedule',
     'notif.morning': 'Morning',
     'notif.evening': 'Evening',
@@ -299,7 +328,8 @@ const translations = {
     'notif.push.evening.title': 'Anything left? 🌇',
     'notif.push.evening.body': 'Just one more thing.',
     'notif.permTitle': 'Permission needed',
-    'notif.permMsg': 'We need permission to send you reminders.',
+    'notif.permMsg': 'To remind you, we need your permission.',
+    'notif.permDenied': 'Without permission we can\'t send reminders. You can enable it in Settings.',
 
     'privacy.title': 'Privacy & data',
     'privacy.sub': 'Your data is yours.',
@@ -340,6 +370,7 @@ const translations = {
     'paywall.price': '€3.99',
     'paywall.priceLabel': 'one-time',
     'paywall.cta': 'Start 7 free days →',
+    'paywall.ctaPaid': 'Buy forever →',
     'paywall.ctaSub': 'No card until you decide',
     'paywall.dismiss': 'No, thanks',
 
@@ -347,6 +378,20 @@ const translations = {
     'premium.sub': 'Unlock it with a single payment.\nNo subscriptions, forever.',
     'premium.cta': 'See Premium →',
     'premium.dismiss': 'Not now',
+
+    'limit.reached': 'You\'ve reached 5 tasks.',
+    'limit.feature': 'Unlimited tasks',
+
+    'nudge.tasks': 'Your tasks only exist on this phone.',
+    'nudge.trial': 'Your Pro days are almost up.',
+    'nudge.cta': 'Create free account',
+    'nudge.later': 'Later',
+
+    'trial.banner': '🎁 7 free days of Pro',
+    'trial.modal.title': '7 free days',
+    'trial.modal.sub': 'Voice, smart classify & more.\nNo card. No catch.',
+    'trial.modal.activate': 'Activate free',
+    'trial.modal.later': 'Later',
 
     'back': '← Back',
   },
@@ -357,6 +402,6 @@ type TranslationKey = keyof typeof translations.es
 export function useT() {
   const language = useAppStore((s) => s.language)
   return (key: TranslationKey): string => {
-    return translations[language]?.[key] ?? translations.es[key] ?? key
+    return translations[language]?.[key] ?? translations.en[key] ?? key
   }
 }

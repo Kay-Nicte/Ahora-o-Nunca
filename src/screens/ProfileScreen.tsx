@@ -10,6 +10,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { ChevronRightIcon } from '../components/Icons'
+import { usePremium } from '../hooks/usePremium'
 import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 
@@ -22,6 +23,18 @@ export default function ProfileScreen() {
   const appearanceMode = useAppStore((s) => s.appearanceMode)
   const language = useAppStore((s) => s.language)
   const { signOut } = useAuth()
+  const { isPremium, isTrial, trialDaysLeft } = usePremium()
+  const ns = useAppStore((s) => s.notifSettings)
+
+  const pad = (n: number) => n.toString().padStart(2, '0')
+  const notifSummary = (() => {
+    if (!ns.fixedEnabled && !ns.smartEnabled) return t('profile.notConfigured')
+    const parts: string[] = []
+    if (ns.fixedEnabled && ns.morningOn) parts.push(`${pad(ns.morningH)}:${pad(ns.morningM)}`)
+    if (ns.fixedEnabled && ns.eveningOn) parts.push(`${pad(ns.eveningH)}:${pad(ns.eveningM)}`)
+    if (ns.smartEnabled) parts.push('Smart')
+    return parts.join(` ${t('profile.notifStatus')} `)
+  })()
 
   const s = styles(theme)
 
@@ -48,7 +61,9 @@ export default function ProfileScreen() {
                   <Text style={s.proBadgeText}>PRO</Text>
                 </View>
               </View>
-              <Text style={[s.rowSub, { color: theme.muted }]}>{t('profile.freePlan')}</Text>
+              <Text style={[s.rowSub, { color: theme.muted }]}>
+                {isTrial ? `${trialDaysLeft} ${t('profile.trialActive')}` : isPremium ? t('profile.premiumActive') : t('profile.freePlan')}
+              </Text>
             </View>
             <ChevronRightIcon size={14} color={theme.muted} />
           </TouchableOpacity>
@@ -57,7 +72,7 @@ export default function ProfileScreen() {
           <TouchableOpacity style={[s.row, { borderColor: theme.border }]} onPress={() => router.push('/notifications')}>
             <View>
               <Text style={[s.rowText, { color: theme.text }]}>{t('profile.notifications')}</Text>
-              <Text style={[s.rowSub, { color: theme.muted }]}>{t('profile.notConfigured')}</Text>
+              <Text style={[s.rowSub, { color: theme.muted }]}>{notifSummary}</Text>
             </View>
             <ChevronRightIcon size={14} color={theme.muted} />
           </TouchableOpacity>

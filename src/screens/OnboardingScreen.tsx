@@ -16,21 +16,21 @@ const SLIDES = [
     emoji: '🧠',
     showLogo: true,
     title: 'Ahora o Nunca',
-    sub: 'Solo te pregunta cómo estás ahora.',
+    sub: '¿Cómo estás ahora?',
     btn: 'Empezar →',
   },
   {
     emoji: '⚡',
     showLogo: false,
-    title: 'Una tarea.\nLa que toca ahora.',
-    sub: 'Una cosa. La que puedes hacer ahora. Sin listas.',
+    title: 'Solo una tarea.',
+    sub: 'Sin listas. Sin agobio.',
     btn: 'Siguiente →',
   },
   {
     emoji: '🎙️',
     showLogo: false,
-    title: 'Añade tareas en 2 segundos.',
-    sub: 'Dilo. La app lo recuerda.',
+    title: 'Dilo y listo.',
+    sub: 'Añade tareas con la voz.',
     btn: 'Probar sin cuenta →',
   },
 ]
@@ -68,9 +68,9 @@ export default function OnboardingScreen() {
         renderItem={({ item }) => (
           <View style={s.slide}>
             <Text style={s.emoji}>{item.emoji}</Text>
-            {item.showLogo && <LogoMark size={64} />}
-            <View style={{ height: 16 }} />
-            <Text style={s.title}>{item.title}</Text>
+            {item.showLogo && <LogoMark size={56} />}
+            <View style={{ height: 12 }} />
+            <Text style={s.title} numberOfLines={2} adjustsFontSizeToFit>{item.title}</Text>
             <Text style={s.sub}>{item.sub}</Text>
 
             <View style={s.dots}>
@@ -111,25 +111,25 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingHorizontal: 24,
+      paddingHorizontal: 20,
     },
-    emoji: { fontSize: 56, marginBottom: 20 },
+    emoji: { fontSize: 48, marginBottom: 14 },
     title: {
       fontFamily: typography.serifItalic,
-      fontSize: 28,
+      fontSize: 22,
       color: theme.dark ? theme.text : '#fff',
       textAlign: 'center',
-      lineHeight: 34,
+      lineHeight: 28,
       marginBottom: 10,
+      width: '100%',
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 12,
+      fontSize: 15,
       color: theme.dark ? theme.muted : 'rgba(255,255,255,0.7)',
       textAlign: 'center',
-      lineHeight: 19,
-      marginBottom: 32,
-      maxWidth: 220,
+      lineHeight: 22,
+      marginBottom: 28,
     },
     dots: {
       flexDirection: 'row',

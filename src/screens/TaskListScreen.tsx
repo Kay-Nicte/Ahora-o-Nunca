@@ -15,6 +15,7 @@ import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 import { SwipeableScreen } from '../components/SwipeableScreen'
 import { ConfirmModal } from '../components/ConfirmModal'
+import { TrialBanner } from '../components/TrialBanner'
 
 const CATEGORIES: Category[] = ['home', 'work', 'mobile', 'errands', 'personal']
 const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
@@ -24,11 +25,13 @@ export default function TaskListScreen() {
   const t = useT()
   const tasks = useAppStore((s) => s.tasks)
   const deleteTask = useAppStore((s) => s.deleteTask)
+  const restoreTask = useAppStore((s) => s.restoreTask)
   const updateTask = useAppStore((s) => s.updateTask)
   const { fetchTasks, markComplete } = useTasks()
 
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null)
   const [actionTask, setActionTask] = useState<Task | null>(null)
+  const [completedActionTask, setCompletedActionTask] = useState<string | null>(null)
   const [editTask, setEditTask] = useState<Task | null>(null)
   const [editText, setEditText] = useState('')
   const [editCategory, setEditCategory] = useState<Category | null>(null)
@@ -74,7 +77,7 @@ export default function TaskListScreen() {
         borderColor: theme.border,
       }]}
       onPress={completed ? undefined : () => markComplete(task.id)}
-      onLongPress={() => completed ? setTaskToDelete(task.id) : setActionTask(task)}
+      onLongPress={() => completed ? setCompletedActionTask(task.id) : setActionTask(task)}
       activeOpacity={0.7}
     >
       <View style={[
@@ -116,6 +119,7 @@ export default function TaskListScreen() {
         </View>
 
         <ScrollView style={s.list} contentContainerStyle={s.listContent}>
+          <TrialBanner />
           {pendingTasks.map((task) => renderTask(task))}
 
           {pendingTasks.length === 0 && (
@@ -271,6 +275,45 @@ export default function TaskListScreen() {
           </Pressable>
         </Modal>
 
+        {/* Completed task action: restore or delete side by side */}
+        <Modal
+          visible={!!completedActionTask}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setCompletedActionTask(null)}
+        >
+          <Pressable style={s.sheetBackdrop} onPress={() => setCompletedActionTask(null)}>
+            <Pressable
+              style={[s.sheetCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+              onPress={(e) => e.stopPropagation()}
+            >
+              <View style={s.sideBySide}>
+                <TouchableOpacity
+                  style={[s.sideBySideBtn, { backgroundColor: theme.accent }]}
+                  onPress={() => {
+                    if (completedActionTask) restoreTask(completedActionTask)
+                    setCompletedActionTask(null)
+                  }}
+                >
+                  <Text style={s.sheetBtnText}>{t('tasks.action.restore')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[s.sideBySideBtn, { backgroundColor: colors.error }]}
+                  onPress={() => {
+                    if (completedActionTask) deleteTask(completedActionTask)
+                    setCompletedActionTask(null)
+                  }}
+                >
+                  <Text style={s.sheetBtnText}>{t('tasks.action.delete')}</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity style={s.sheetCancel} onPress={() => setCompletedActionTask(null)}>
+                <Text style={[s.sheetCancelText, { color: theme.muted }]}>{t('tasks.action.cancel')}</Text>
+              </TouchableOpacity>
+            </Pressable>
+          </Pressable>
+        </Modal>
+
         <ConfirmModal
           visible={!!taskToDelete}
           onClose={() => setTaskToDelete(null)}
@@ -357,6 +400,17 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: 'center', marginBottom: 8,
     },
     sheetBtnText: { fontFamily: typography.sansBold, fontSize: 13, color: '#fff' },
+    sideBySide: {
+      flexDirection: 'row',
+      gap: 8,
+      marginBottom: 8,
+    },
+    sideBySideBtn: {
+      flex: 1,
+      borderRadius: radius.md,
+      padding: 14,
+      alignItems: 'center',
+    },
     sheetCancel: { padding: 10, alignItems: 'center' },
     sheetCancelText: { fontFamily: typography.sans, fontSize: 12 },
     // Edit modal

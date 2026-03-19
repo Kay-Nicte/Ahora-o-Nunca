@@ -6,12 +6,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useT } from '../lib/i18n'
+import { usePremium } from '../hooks/usePremium'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { LogoMark } from '../components/LogoMark'
 
 export default function PaywallScreen() {
   const theme = useTheme()
   const t = useT()
+  const { trialUsed } = usePremium()
 
   const PERKS = [
     { icon: '🔔', title: t('paywall.perk1'), sub: t('paywall.perk1.sub') },
@@ -31,8 +33,8 @@ export default function PaywallScreen() {
           <Text style={s.sub}>{t('paywall.sub')}</Text>
         </View>
 
-        {/* Trial badge */}
-        <Text style={s.trialBadge}>{t('paywall.trial')}</Text>
+        {/* Trial badge — only if never used trial */}
+        {!trialUsed && <Text style={s.trialBadge}>{t('paywall.trial')}</Text>}
 
         {/* Perks card */}
         <View style={[s.card, {
@@ -59,11 +61,13 @@ export default function PaywallScreen() {
         {/* CTA */}
         <View style={s.ctaArea}>
           <TouchableOpacity style={s.ctaBtn}>
-            <Text style={s.ctaBtnText}>{t('paywall.cta')}</Text>
+            <Text style={s.ctaBtnText}>{trialUsed ? t('paywall.ctaPaid') : t('paywall.cta')}</Text>
           </TouchableOpacity>
-          <Text style={[s.ctaSub, { color: theme.muted }]}>
-            {t('paywall.ctaSub')}
-          </Text>
+          {!trialUsed && (
+            <Text style={[s.ctaSub, { color: theme.muted }]}>
+              {t('paywall.ctaSub')}
+            </Text>
+          )}
         </View>
 
         {/* Close */}

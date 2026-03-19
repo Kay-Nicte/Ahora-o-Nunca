@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView,
-  ActivityIndicator,
+  ActivityIndicator, Modal, Pressable, Animated,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -11,12 +11,15 @@ import { useAppStore } from '../lib/store'
 import { Category, EnergyLevel, CATEGORY_EMOJIS, ENERGY_EMOJIS } from '../types'
 import { useT } from '../lib/i18n'
 import { classifyTask } from '../lib/classify'
+import { usePremium } from '../hooks/usePremium'
 import { spacing, radius, typography } from '../lib/theme'
 import { MicIcon } from '../components/Icons'
+import { useVoiceRecorder } from '../hooks/useVoiceRecorder'
 import { AvatarButton } from '../components/AvatarButton'
 import { PremiumModal } from '../components/PremiumModal'
 import { BottomNav } from '../components/BottomNav'
 import { SwipeableScreen } from '../components/SwipeableScreen'
+import { TrialBanner } from '../components/TrialBanner'
 
 const CATEGORIES: Category[] = ['home', 'work', 'mobile', 'errands', 'personal']
 const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
@@ -25,14 +28,42 @@ export default function AddTaskScreen() {
   const theme = useTheme()
   const t = useT()
   const { createTask } = useTasks()
-  const isPremium = useAppStore((s) => s.profile?.is_premium ?? false)
+  const { isPremium } = usePremium()
+
+  const tasks = useAppStore((s) => s.tasks)
+  const pendingCount = tasks.filter((tk) => !tk.completed).length
+  const FREE_LIMIT = 5
 
   const [text, setText] = useState('')
   const [category, setCategory] = useState<Category | null>(null)
   const [energy, setEnergy] = useState<EnergyLevel[]>([])
   const [showPremium, setShowPremium] = useState(false)
+  const [showLimit, setShowLimit] = useState(false)
   const [classifying, setClassifying] = useState(false)
   const [wasClassified, setWasClassified] = useState(false)
+  const [showRecording, setShowRecording] = useState(false)
+  const { recording, processing, startRecording, stopRecording, cancelRecording, classifyVoiceText } = useVoiceRecorder()
+
+  const handleVoiceStart = async () => {
+    if (!isPremium) { setShowPremium(true); return }
+    const started = await startRecording()
+    if (started) setShowRecording(true)
+  }
+
+  const handleVoiceStop = async () => {
+    const uri = await stopRecording()
+    setShowRecording(false)
+    if (!uri) return
+    // For now, prompt user typed text since we need STT service
+    // When Supabase is set up, this will transcribe via Edge Function
+    // For MVP: the recording modal lets user speak, then they type what they said
+    // TODO: integrate actual STT when backend is ready
+  }
+
+  const handleVoiceCancel = async () => {
+    await cancelRecording()
+    setShowRecording(false)
+  }
 
   const toggleEnergy = (level: EnergyLevel) => {
     setEnergy((prev) =>
@@ -55,6 +86,10 @@ export default function AddTaskScreen() {
 
   const handleSave = async () => {
     if (!text.trim()) return
+    if (!isPremium && pendingCount >= FREE_LIMIT) {
+      setShowLimit(true)
+      return
+    }
     await createTask(text.trim(), energy, category ?? undefined)
     setText('')
     setCategory(null)
@@ -77,12 +112,10 @@ export default function AddTaskScreen() {
             <AvatarButton onPress={() => router.push('/profile')} />
           </View>
 
+          <TrialBanner />
           <View style={s.inputArea}>
             {/* Voice button */}
-            <TouchableOpacity style={s.voiceBtn} activeOpacity={0.8} onPress={() => {
-              if (!isPremium) { setShowPremium(true); return }
-              // TODO: start voice recording
-            }}>
+            <TouchableOpacity style={s.voiceBtn} activeOpacity={0.8} onPress={handleVoiceStart}>
               <MicIcon size={28} color="#fff" />
             </TouchableOpacity>
             <Text style={s.voiceHint}>{t('add.speak')}</Text>
@@ -175,6 +208,33 @@ export default function AddTaskScreen() {
           onClose={() => setShowPremium(false)}
           feature={t('premium.voice')}
         />
+        {/* Recording modal */}
+        <Modal visible={showRecording} transparent animationType="fade" onRequestClose={handleVoiceCancel}>
+          <Pressable style={s.recBackdrop} onPress={handleVoiceCancel}>
+            <Pressable style={[s.recCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
+              <View style={[s.recPulse, { backgroundColor: theme.accent }]}>
+                <MicIcon size={32} color="#fff" />
+              </View>
+              <Text style={[s.recTitle, { color: theme.text }]}>
+                {processing ? t('add.classifying') : recording ? '...' : ''}
+              </Text>
+              <Text style={[s.recSub, { color: theme.muted }]}>
+                {recording ? t('add.speak') : ''}
+              </Text>
+              {recording && (
+                <TouchableOpacity style={[s.recStopBtn, { backgroundColor: theme.accent }]} onPress={handleVoiceStop}>
+                  <Text style={s.recStopText}>⏹</Text>
+                </TouchableOpacity>
+              )}
+            </Pressable>
+          </Pressable>
+        </Modal>
+
+        <PremiumModal
+          visible={showLimit}
+          onClose={() => setShowLimit(false)}
+          feature={t('limit.feature')}
+        />
         <BottomNav active="add" />
       </SafeAreaView>
     </SwipeableScreen>
@@ -252,4 +312,27 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     saveBtnText: {
       fontFamily: typography.sansBold, fontSize: 12, color: '#fff',
     },
+    // Recording modal
+    recBackdrop: {
+      flex: 1, backgroundColor: 'rgba(0,0,0,0.6)',
+      justifyContent: 'center', alignItems: 'center', padding: 40,
+    },
+    recCard: {
+      width: '100%', borderRadius: 24, padding: 32, alignItems: 'center',
+    },
+    recPulse: {
+      width: 80, height: 80, borderRadius: 40,
+      alignItems: 'center', justifyContent: 'center', marginBottom: 16,
+    },
+    recTitle: {
+      fontFamily: typography.serifItalic, fontSize: 20, marginBottom: 6,
+    },
+    recSub: {
+      fontFamily: typography.sans, fontSize: 12, marginBottom: 20,
+    },
+    recStopBtn: {
+      width: 56, height: 56, borderRadius: 28,
+      alignItems: 'center', justifyContent: 'center',
+    },
+    recStopText: { fontSize: 24, color: '#fff' },
   })

@@ -69,6 +69,7 @@ export function useTasks() {
     }
 
     addTask(localTask)
+    useAppStore.getState().incrementTasksCreated()
     return { error: null }
   }
 
@@ -97,7 +98,7 @@ export function useTasks() {
     } catch (_) {}
 
     skipTask(taskId)
-    await fetchTaskForEnergy(currentLevels)
+    await fetchTaskForEnergy(currentLevels, taskId)
   }
 
   const transcribeAndCategorize = async (_audioUri: string): Promise<{

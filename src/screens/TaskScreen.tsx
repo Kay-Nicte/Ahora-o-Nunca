@@ -48,6 +48,9 @@ export default function TaskScreen() {
 
   const handleSkip = async () => {
     await skipAndNext(currentTask.id, selectedEnergy)
+    // If no more tasks after skip, go home
+    const next = useAppStore.getState().currentTask
+    if (!next) router.replace('/')
   }
 
   const energyLabels = selectedEnergy
