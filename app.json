@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Ahora o Nunca - TDAH",
+    "slug": "ahora-o-nunca",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#12141e"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tuapp.ahoraonunca",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Necesitamos el micrófono para añadir tareas por voz.",
+        "NSCameraUsageDescription": "Necesitamos la cámara para hacerte una foto de perfil.",
+        "NSPhotoLibraryUsageDescription": "Necesitamos acceso a tu galería para elegir una foto de perfil."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#12141e"
+      },
+      "package": "com.tuapp.ahoraonunca",
+      "permissions": [
+        "RECORD_AUDIO",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "scheme": "ahoraonunca",
+    "extra": {
+      "eas": {
+        "projectId": "TU_PROJECT_ID_AQUI"
+      }
+    }
+  }
+}
