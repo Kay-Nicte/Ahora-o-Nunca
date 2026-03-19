@@ -8,7 +8,15 @@ import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useTasks } from '../hooks/useTasks'
-import { ENERGY_EMOJIS, ENERGY_LABELS, Category, EnergyLevel, Task, CATEGORY_EMOJIS } from '../types'
+import { Category, EnergyLevel, Task, CATEGORY_COLORS } from '../types'
+import { BoltIcon, FeatherIcon, ClockIcon, SmartphoneIcon } from '../components/Icons'
+
+const ENERGY_ICON_MAP: Record<EnergyLevel, typeof BoltIcon> = {
+  high: BoltIcon,
+  calm: FeatherIcon,
+  short_time: ClockIcon,
+  mobile_only: SmartphoneIcon,
+}
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { AvatarButton } from '../components/AvatarButton'
@@ -92,9 +100,11 @@ export default function TaskListScreen() {
           {task.text}
         </Text>
         {!completed && task.energy_levels && task.energy_levels.length > 0 && (
-          <Text style={[s.taskMeta, { color: theme.muted }]}>
-            {task.energy_levels.map((l) => ENERGY_EMOJIS[l]).join(' ')}
-          </Text>
+          <View style={s.taskMetaRow}>
+            {task.energy_levels.map((l) =>
+              React.createElement(ENERGY_ICON_MAP[l], { key: l, size: 12, color: theme.muted })
+            )}
+          </View>
         )}
       </View>
       {task.category && (
@@ -234,7 +244,7 @@ export default function TaskListScreen() {
                       onPress={() => setEditCategory(sel ? null : cat)}
                     >
                       <Text style={[s.chipText, { color: theme.muted }, sel && { color: theme.accent }]}>
-                        {CATEGORY_EMOJIS[cat]} {t(`cat.${cat}` as any)}
+                        ● {t(`cat.${cat}` as any)}
                       </Text>
                     </TouchableOpacity>
                   )
@@ -253,7 +263,7 @@ export default function TaskListScreen() {
                       onPress={() => toggleEnergy(level)}
                     >
                       <Text style={[s.chipText, { color: theme.muted }, sel && { color: theme.accent }]}>
-                        {ENERGY_EMOJIS[level]} {t(`energy.${level}` as any)}
+                        {t(`energy.${level}` as any)}
                       </Text>
                     </TouchableOpacity>
                   )
@@ -341,7 +351,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       justifyContent: 'space-between', marginBottom: 6,
     },
     title: { fontFamily: typography.serif, fontSize: 26, color: theme.text },
-    titleEm: { fontFamily: typography.serifItalic, color: theme.dark ? '#6b8ed9' : theme.accent },
+    titleEm: { fontFamily: typography.serifItalic, color: theme.accent },
     sub: { fontFamily: typography.sans, fontSize: 11, color: theme.muted },
     list: { flex: 1 },
     listContent: { paddingTop: 8, paddingBottom: 20 },
@@ -359,6 +369,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     checkMark: { color: '#fff', fontSize: 10, fontWeight: '700' },
     taskInfo: { flex: 1 },
     taskName: { fontFamily: typography.sansBold, fontSize: 12 },
+    taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4 },
     taskNameDone: { textDecorationLine: 'line-through' },
     taskMeta: { fontFamily: typography.sans, fontSize: 10, marginTop: 2 },
     catBadge: {

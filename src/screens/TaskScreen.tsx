@@ -7,7 +7,7 @@ import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useTasks } from '../hooks/useTasks'
-import { ENERGY_EMOJIS, CATEGORY_EMOJIS } from '../types'
+import { ENERGY_SYMBOLS, CATEGORY_COLORS } from '../types'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography } from '../lib/theme'
 
@@ -54,7 +54,7 @@ export default function TaskScreen() {
   }
 
   const energyLabels = selectedEnergy
-    .map((l) => `${ENERGY_EMOJIS[l]} ${t(`energy.${l}` as any)}`)
+    .map((l) => t(`energy.${l}` as any))
     .join(' · ')
 
   const s = taskStyles(theme)
@@ -77,7 +77,7 @@ export default function TaskScreen() {
         <View style={s.meta}>
           {currentTask.category && (
             <Text style={s.metaText}>
-              {CATEGORY_EMOJIS[currentTask.category]} {t(`cat.${currentTask.category}` as any)}
+              ● {t(`cat.${currentTask.category}` as any)}
             </Text>
           )}
         </View>

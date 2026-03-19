@@ -282,7 +282,7 @@ export default function NotificationsScreen() {
               borderColor: morningOn ? theme.accent : theme.border,
             }]}>
               <TouchableOpacity onPress={() => toggleMorning(!morningOn)} style={s.timeTop}>
-                <Text style={s.timeEmoji}>🌅</Text>
+                <Text style={s.timeEmoji}></Text>
                 <Text style={[s.timeName, { color: theme.text }]}>{t('notif.morning')}</Text>
               </TouchableOpacity>
               {morningOn && (
@@ -300,7 +300,7 @@ export default function NotificationsScreen() {
               borderColor: eveningOn ? theme.accent : theme.border,
             }]}>
               <TouchableOpacity onPress={() => toggleEvening(!eveningOn)} style={s.timeTop}>
-                <Text style={s.timeEmoji}>🌇</Text>
+                <Text style={s.timeEmoji}></Text>
                 <Text style={[s.timeName, { color: theme.text }]}>{t('notif.evening')}</Text>
               </TouchableOpacity>
               {eveningOn && (
@@ -337,7 +337,7 @@ export default function NotificationsScreen() {
       <ConfirmModal
         visible={showPermModal}
         onClose={() => { setShowPermModal(false); setPendingAction(null) }}
-        title="🔔"
+        title=""
         message={t('notif.permMsg')}
         confirmText="OK"
         cancelText={t('tasks.action.cancel')}
@@ -377,7 +377,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       justifyContent: 'space-between', marginBottom: 6,
     },
     title: { fontFamily: typography.serif, fontSize: 26, color: theme.text },
-    titleEm: { fontFamily: typography.serifItalic, color: theme.dark ? '#6b8ed9' : theme.accent },
+    titleEm: { fontFamily: typography.serifItalic, color: theme.accent },
     sub: { fontFamily: typography.sans, fontSize: 11, color: theme.muted },
     toggleRow: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',

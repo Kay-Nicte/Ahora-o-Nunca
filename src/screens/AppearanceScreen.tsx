@@ -8,9 +8,9 @@ import { useT } from '../lib/i18n'
 import { spacing, radius, typography } from '../lib/theme'
 
 const OPTIONS: { key: AppearanceMode; labelKey: 'appearance.system' | 'appearance.light' | 'appearance.dark'; emoji: string; descKey: 'appearance.system.desc' | 'appearance.light.desc' | 'appearance.dark.desc' }[] = [
-  { key: 'system', labelKey: 'appearance.system', emoji: '📱', descKey: 'appearance.system.desc' },
-  { key: 'light', labelKey: 'appearance.light', emoji: '☀️', descKey: 'appearance.light.desc' },
-  { key: 'dark', labelKey: 'appearance.dark', emoji: '🌙', descKey: 'appearance.dark.desc' },
+  { key: 'system', labelKey: 'appearance.system', emoji: '', descKey: 'appearance.system.desc' },
+  { key: 'light', labelKey: 'appearance.light', emoji: '', descKey: 'appearance.light.desc' },
+  { key: 'dark', labelKey: 'appearance.dark', emoji: '', descKey: 'appearance.dark.desc' },
 ]
 
 export default function AppearanceScreen() {

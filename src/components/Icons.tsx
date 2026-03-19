@@ -81,6 +81,40 @@ export function ImageIcon({ size = 24, color = 'currentColor' }: IconProps) {
   )
 }
 
+// Feather / calm
+export function FeatherIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <Path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+      <Line x1="16" y1="8" x2="2" y2="22" />
+      <Line x1="17.5" y1="15" x2="9" y2="15" />
+    </Svg>
+  )
+}
+
+// Clock / short time
+export function ClockIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <Circle cx="12" cy="12" r="10" />
+      <Polyline points="12 6 12 12 16 14" />
+    </Svg>
+  )
+}
+
+// Smartphone / mobile only
+export function SmartphoneIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <Rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+      <Line x1="12" y1="18" x2="12.01" y2="18" />
+    </Svg>
+  )
+}
+
 export function BellIcon({ size = 24, color = 'currentColor' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none"

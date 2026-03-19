@@ -22,10 +22,10 @@ export default function PrivacyScreen() {
     const pending = tasks.filter((tk) => !tk.completed)
     const completed = tasks.filter((tk) => tk.completed)
 
-    let message = '📋 Ahora o Nunca\n\n'
+    let message = 'Ahora o Nunca\n\n'
 
     if (pending.length > 0) {
-      message += '⏳ Pendientes:\n'
+      message += 'Pendientes:\n'
       pending.forEach((tk) => {
         message += `• ${tk.text}`
         if (tk.category) message += ` [${tk.category}]`

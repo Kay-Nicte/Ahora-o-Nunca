@@ -8,7 +8,7 @@ import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useTasks } from '../hooks/useTasks'
 import { useAppStore } from '../lib/store'
-import { Category, EnergyLevel, CATEGORY_EMOJIS, ENERGY_EMOJIS } from '../types'
+import { Category, EnergyLevel, CATEGORY_COLORS, ENERGY_SYMBOLS } from '../types'
 import { useT } from '../lib/i18n'
 import { classifyTask } from '../lib/classify'
 import { usePremium } from '../hooks/usePremium'
@@ -168,11 +168,11 @@ export default function AddTaskScreen() {
               return (
                 <TouchableOpacity
                   key={cat}
-                  style={[s.chip, { borderColor: theme.border }, isSelected && s.chipSelected]}
+                  style={[s.chip, { borderColor: theme.border }, isSelected && { borderColor: CATEGORY_COLORS[cat], backgroundColor: CATEGORY_COLORS[cat] + '18' }]}
                   onPress={() => { setCategory(isSelected ? null : cat); setWasClassified(false) }}
                 >
-                  <Text style={[s.chipText, { color: theme.muted }, isSelected && s.chipTextSelected]}>
-                    {CATEGORY_EMOJIS[cat]} {t(`cat.${cat}` as any)}
+                  <Text style={[s.chipText, { color: theme.muted }, isSelected && { color: CATEGORY_COLORS[cat] }]}>
+                    ● {t(`cat.${cat}` as any)}
                   </Text>
                 </TouchableOpacity>
               )
@@ -191,7 +191,7 @@ export default function AddTaskScreen() {
                   onPress={() => toggleEnergy(level)}
                 >
                   <Text style={[s.chipText, { color: theme.muted }, isSelected && s.chipTextSelected]}>
-                    {ENERGY_EMOJIS[level]} {t(`energy.${level}` as any)}
+                    {t(`energy.${level}` as any)}
                   </Text>
                 </TouchableOpacity>
               )

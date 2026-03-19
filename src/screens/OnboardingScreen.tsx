@@ -13,21 +13,18 @@ const { width } = Dimensions.get('window')
 
 const SLIDES = [
   {
-    emoji: '🧠',
     showLogo: true,
     title: 'Ahora o Nunca',
     sub: '¿Cómo estás ahora?',
     btn: 'Empezar →',
   },
   {
-    emoji: '⚡',
     showLogo: false,
     title: 'Solo una tarea.',
     sub: 'Sin listas. Sin agobio.',
     btn: 'Siguiente →',
   },
   {
-    emoji: '🎙️',
     showLogo: false,
     title: 'Dilo y listo.',
     sub: 'Añade tareas con la voz.',
@@ -67,8 +64,7 @@ export default function OnboardingScreen() {
         keyExtractor={(_, i) => String(i)}
         renderItem={({ item }) => (
           <View style={s.slide}>
-            <Text style={s.emoji}>{item.emoji}</Text>
-            {item.showLogo && <LogoMark size={56} />}
+            {item.showLogo && <LogoMark size={64} />}
             <View style={{ height: 12 }} />
             <Text style={s.title} numberOfLines={2} adjustsFontSizeToFit>{item.title}</Text>
             <Text style={s.sub}>{item.sub}</Text>
@@ -113,7 +109,6 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       justifyContent: 'center',
       paddingHorizontal: 20,
     },
-    emoji: { fontSize: 48, marginBottom: 14 },
     title: {
       fontFamily: typography.serifItalic,
       fontSize: 22,

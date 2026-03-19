@@ -38,7 +38,6 @@ export function TrialBanner() {
             style={[s.card, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={s.emoji}>🎁</Text>
             <Text style={[s.title, { color: theme.text }]}>{t('trial.modal.title')}</Text>
             <Text style={[s.sub, { color: theme.muted }]}>{t('trial.modal.sub')}</Text>
 
@@ -88,7 +87,6 @@ const s = StyleSheet.create({
     padding: 28,
     alignItems: 'center',
   },
-  emoji: { fontSize: 40, marginBottom: 12 },
   title: {
     fontFamily: typography.serifItalic,
     fontSize: 24,

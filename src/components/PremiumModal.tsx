@@ -33,7 +33,6 @@ export function PremiumModal({ visible, onClose, feature }: PremiumModalProps) {
         <Pressable style={[s.card, {
           backgroundColor: theme.dark ? theme.surface : '#fff',
         }]} onPress={(e) => e.stopPropagation()}>
-          <Text style={s.emoji}>✨</Text>
           <Text style={[s.title, { color: theme.text }]}>
             {feature || 'Esta función'} {t('premium.isPro')}
           </Text>
@@ -67,10 +66,6 @@ const s = StyleSheet.create({
     borderRadius: 20,
     padding: 28,
     alignItems: 'center',
-  },
-  emoji: {
-    fontSize: 36,
-    marginBottom: 12,
   },
   title: {
     fontFamily: typography.serifItalic,

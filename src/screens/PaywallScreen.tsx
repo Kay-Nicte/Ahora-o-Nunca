@@ -98,7 +98,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     titleEm: {
       fontFamily: typography.serifItalic,
-      color: theme.dark ? '#6b8ed9' : theme.accent,
+      color: theme.accent,
     },
     sub: {
       fontFamily: typography.sans,

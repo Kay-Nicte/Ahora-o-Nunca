@@ -7,11 +7,18 @@ import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useTasks } from '../hooks/useTasks'
-import { EnergyLevel, ENERGY_LABELS, ENERGY_EMOJIS } from '../types'
+import { EnergyLevel, ENERGY_LABELS, ENERGY_SYMBOLS } from '../types'
 import { spacing, radius, typography } from '../lib/theme'
 import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
-import { BoltIcon } from '../components/Icons'
+import { BoltIcon, FeatherIcon, ClockIcon, SmartphoneIcon } from '../components/Icons'
+
+const ENERGY_ICONS: Record<EnergyLevel, typeof BoltIcon> = {
+  high: BoltIcon,
+  calm: FeatherIcon,
+  short_time: ClockIcon,
+  mobile_only: SmartphoneIcon,
+}
 import { SwipeableScreen } from '../components/SwipeableScreen'
 import { TrialBanner } from '../components/TrialBanner'
 import { AccountNudge } from '../components/AccountNudge'
@@ -62,22 +69,22 @@ export default function HomeScreen() {
           <TrialBanner />
           <AccountNudge />
           <Text style={s.sectionLabel}>{t('home.state')}</Text>
-          <View style={s.grid}>
+          <View style={s.energyList}>
             {ENERGY_OPTIONS.map((level) => {
               const isSelected = selected.includes(level)
               return (
                 <TouchableOpacity
                   key={level}
-                  style={[s.card, isSelected && s.cardSelected]}
+                  style={[s.energyRow, isSelected && s.energyRowSelected]}
                   onPress={() => toggleEnergy(level)}
                   activeOpacity={0.7}
                 >
-                  <Text style={s.cardEmoji}>{ENERGY_EMOJIS[level]}</Text>
-                  <Text style={[s.cardName, isSelected && s.cardNameSelected]}>
+                  {React.createElement(ENERGY_ICONS[level], {
+                    size: 16,
+                    color: isSelected ? theme.accent : (theme.dark ? theme.text : theme.muted),
+                  })}
+                  <Text style={[s.energyName, isSelected && { color: theme.accent }]}>
                     {t(`energy.${level}` as any)}
-                  </Text>
-                  <Text style={[s.cardDesc, isSelected && s.cardDescSelected]}>
-                    {t(`energy.${level}.desc` as any)}
                   </Text>
                 </TouchableOpacity>
               )
@@ -141,7 +148,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     titleEm: {
       fontFamily: typography.serifItalic,
-      color: theme.dark ? '#6b8ed9' : theme.accent,
+      color: theme.accent,
     },
     sub: {
       fontFamily: typography.sans,
@@ -159,39 +166,31 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingTop: spacing.md,
       paddingBottom: spacing.sm,
     },
-    grid: {
+    energyList: {
       flexDirection: 'row',
       flexWrap: 'wrap',
       paddingHorizontal: 14,
-      gap: spacing.sm,
+      gap: 6,
     },
-    card: {
-      width: '47%',
-      backgroundColor: theme.dark ? theme.surface : '#fff',
+    energyRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: radius.full,
       borderWidth: 1.5,
-      borderColor: theme.border,
-      borderRadius: radius.md,
-      padding: 12,
+      borderColor: theme.dark ? '#3a4060' : theme.border,
     },
-    cardSelected: {
+    energyRowSelected: {
       borderColor: theme.accent,
-      backgroundColor: theme.dark ? '#202640' : '#eef1fa',
+      backgroundColor: theme.dark ? '#1e2238' : '#edf0f8',
     },
-    cardEmoji: { fontSize: 20, marginBottom: 5 },
-    cardName: {
-      fontFamily: typography.sansBold,
-      fontSize: 11,
-      color: theme.text,
-      marginBottom: 2,
+    energyName: {
+      fontFamily: typography.serifItalic,
+      fontSize: 15,
+      color: theme.dark ? theme.text : theme.muted,
     },
-    cardNameSelected: { color: theme.accent },
-    cardDesc: {
-      fontFamily: typography.sans,
-      fontSize: 9,
-      color: theme.muted,
-      lineHeight: 13,
-    },
-    cardDescSelected: { color: theme.accent },
     btns: {
       flexDirection: 'row',
       gap: spacing.sm,
