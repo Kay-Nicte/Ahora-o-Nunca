@@ -19,25 +19,34 @@ export default function PrivacyScreen() {
   const [showExported, setShowExported] = useState(false)
 
   const handleExportData = async () => {
-    const data = {
-      exportedAt: new Date().toISOString(),
-      tasks: tasks.map((tk) => ({
-        text: tk.text,
-        category: tk.category,
-        energy_levels: tk.energy_levels,
-        completed: tk.completed,
-        completed_at: tk.completed_at,
-        created_at: tk.created_at,
-      })),
+    const pending = tasks.filter((tk) => !tk.completed)
+    const completed = tasks.filter((tk) => tk.completed)
+
+    let message = '📋 Ahora o Nunca\n\n'
+
+    if (pending.length > 0) {
+      message += '⏳ Pendientes:\n'
+      pending.forEach((tk) => {
+        message += `• ${tk.text}`
+        if (tk.category) message += ` [${tk.category}]`
+        message += '\n'
+      })
+      message += '\n'
     }
 
-    const json = JSON.stringify(data, null, 2)
+    if (completed.length > 0) {
+      message += '✓ Completadas:\n'
+      completed.forEach((tk) => {
+        message += `• ${tk.text}\n`
+      })
+    }
+
+    if (tasks.length === 0) {
+      message += 'Sin tareas.'
+    }
 
     try {
-      await Share.share({
-        message: json,
-        title: 'Ahora o Nunca — Data Export',
-      })
+      await Share.share({ message })
     } catch (_) {
       setShowExported(true)
     }

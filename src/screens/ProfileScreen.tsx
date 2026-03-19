@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity, ScrollView,
 } from 'react-native'
@@ -10,6 +10,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { ChevronRightIcon } from '../components/Icons'
+import { ConfirmModal } from '../components/ConfirmModal'
 import { usePremium } from '../hooks/usePremium'
 import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
@@ -24,6 +25,7 @@ export default function ProfileScreen() {
   const language = useAppStore((s) => s.language)
   const { signOut } = useAuth()
   const { isPremium, isTrial, trialDaysLeft } = usePremium()
+  const [showLogout, setShowLogout] = useState(false)
   const ns = useAppStore((s) => s.notifSettings)
 
   const pad = (n: number) => n.toString().padStart(2, '0')
@@ -72,7 +74,7 @@ export default function ProfileScreen() {
           <TouchableOpacity style={[s.row, { borderColor: theme.border }]} onPress={() => router.push('/notifications')}>
             <View>
               <Text style={[s.rowText, { color: theme.text }]}>{t('profile.notifications')}</Text>
-              <Text style={[s.rowSub, { color: theme.muted }]}>{notifSummary}</Text>
+              <Text style={[s.rowSubNotif, { color: theme.muted }]}>{notifSummary}</Text>
             </View>
             <ChevronRightIcon size={14} color={theme.muted} />
           </TouchableOpacity>
@@ -106,13 +108,27 @@ export default function ProfileScreen() {
           {/* Logout */}
           <TouchableOpacity
             style={[s.row, { borderColor: theme.border }]}
-            onPress={signOut}
+            onPress={() => setShowLogout(true)}
           >
             <Text style={[s.rowText, { color: colors.error }]}>{t('profile.logout')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
 
+      <ConfirmModal
+        visible={showLogout}
+        onClose={() => setShowLogout(false)}
+        title={t('profile.logout.confirm')}
+        message={t('profile.logout.msg')}
+        confirmText={t('profile.logout')}
+        cancelText={t('tasks.action.cancel')}
+        onConfirm={async () => {
+          await signOut()
+          useAppStore.setState({ profile: null, hasSeenOnboarding: false })
+          router.replace('/onboarding')
+        }}
+        destructive
+      />
       <BottomNav active="home" />
     </SafeAreaView>
   )
@@ -177,8 +193,13 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontSize: 12,
     },
     rowSub: {
-      fontFamily: typography.sans,
-      fontSize: 10,
-      marginTop: 1,
+      fontFamily: typography.sansBold,
+      fontSize: 12,
+      marginTop: 2,
+    },
+    rowSubNotif: {
+      fontFamily: typography.serif,
+      fontSize: 14,
+      marginTop: 2,
     },
   })

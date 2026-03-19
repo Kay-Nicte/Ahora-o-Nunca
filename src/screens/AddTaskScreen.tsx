@@ -42,22 +42,29 @@ export default function AddTaskScreen() {
   const [classifying, setClassifying] = useState(false)
   const [wasClassified, setWasClassified] = useState(false)
   const [showRecording, setShowRecording] = useState(false)
-  const { recording, processing, startRecording, stopRecording, cancelRecording, classifyVoiceText } = useVoiceRecorder()
+  const [voiceError, setVoiceError] = useState(false)
+  const { recording, processing, startRecording, stopAndTranscribe, cancelRecording } = useVoiceRecorder()
 
   const handleVoiceStart = async () => {
     if (!isPremium) { setShowPremium(true); return }
+    setVoiceError(false)
     const started = await startRecording()
     if (started) setShowRecording(true)
   }
 
   const handleVoiceStop = async () => {
-    const uri = await stopRecording()
-    setShowRecording(false)
-    if (!uri) return
-    // For now, prompt user typed text since we need STT service
-    // When Supabase is set up, this will transcribe via Edge Function
-    // For MVP: the recording modal lets user speak, then they type what they said
-    // TODO: integrate actual STT when backend is ready
+    const result = await stopAndTranscribe()
+    console.log('[AddTask] Voice result:', JSON.stringify(result))
+    if (result && result.text) {
+      setText(result.text)
+      if (result.category) setCategory(result.category)
+      if (result.energyLevels.length > 0) setEnergy(result.energyLevels)
+      setWasClassified(true)
+      setShowRecording(false)
+    } else {
+      setShowRecording(false)
+      setVoiceError(true)
+    }
   }
 
   const handleVoiceCancel = async () => {
@@ -210,25 +217,35 @@ export default function AddTaskScreen() {
         />
         {/* Recording modal */}
         <Modal visible={showRecording} transparent animationType="fade" onRequestClose={handleVoiceCancel}>
-          <Pressable style={s.recBackdrop} onPress={handleVoiceCancel}>
+          <Pressable style={s.recBackdrop} onPress={recording ? undefined : handleVoiceCancel}>
             <Pressable style={[s.recCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
-              <View style={[s.recPulse, { backgroundColor: theme.accent }]}>
-                <MicIcon size={32} color="#fff" />
-              </View>
-              <Text style={[s.recTitle, { color: theme.text }]}>
-                {processing ? t('add.classifying') : recording ? '...' : ''}
-              </Text>
-              <Text style={[s.recSub, { color: theme.muted }]}>
-                {recording ? t('add.speak') : ''}
-              </Text>
-              {recording && (
-                <TouchableOpacity style={[s.recStopBtn, { backgroundColor: theme.accent }]} onPress={handleVoiceStop}>
-                  <Text style={s.recStopText}>⏹</Text>
-                </TouchableOpacity>
+              {processing ? (
+                <>
+                  <ActivityIndicator size="large" color={theme.accent} style={{ marginBottom: 16 }} />
+                  <Text style={[s.recTitle, { color: theme.text }]}>{t('add.processing')}</Text>
+                </>
+              ) : (
+                <>
+                  <View style={[s.recPulse, { backgroundColor: '#e05555' }]}>
+                    <MicIcon size={32} color="#fff" />
+                  </View>
+                  <Text style={[s.recTitle, { color: theme.text }]}>{t('add.recording')}</Text>
+                  <Text style={[s.recSub, { color: theme.muted }]}>{t('add.tapToStop')}</Text>
+                  <TouchableOpacity style={[s.recStopBtn, { backgroundColor: theme.accent }]} onPress={handleVoiceStop}>
+                    <Text style={s.recStopText}>⏹</Text>
+                  </TouchableOpacity>
+                </>
               )}
             </Pressable>
           </Pressable>
         </Modal>
+
+        {/* Voice error */}
+        {voiceError && (
+          <View style={s.voiceErrorRow}>
+            <Text style={[s.voiceErrorText, { color: theme.muted }]}>{t('add.voiceError')}</Text>
+          </View>
+        )}
 
         <PremiumModal
           visible={showLimit}
@@ -335,4 +352,10 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: 'center', justifyContent: 'center',
     },
     recStopText: { fontSize: 24, color: '#fff' },
+    voiceErrorRow: {
+      paddingHorizontal: 20, paddingTop: 4, paddingBottom: 8,
+    },
+    voiceErrorText: {
+      fontFamily: typography.sans, fontSize: 11, textAlign: 'center',
+    },
   })

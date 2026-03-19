@@ -11,7 +11,9 @@
       "Bash(cd:*)",
       "Bash(node:*)",
       "Bash(npm ls:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(winget search:*)",
+      "Bash(curl -L -o \"C:/Users/34696/Desktop/Panal/supabase.exe\" \"https://github.com/supabase/cli/releases/latest/download/supabase_windows_amd64.exe\")"
     ]
   }
 }

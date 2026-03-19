@@ -48,6 +48,10 @@ const translations = {
     'add.save': 'Guardar ✓',
     'add.classifying': 'Clasificando...',
     'add.classified': '✨ Clasificado automáticamente',
+    'add.recording': 'Grabando...',
+    'add.processing': 'Procesando...',
+    'add.voiceError': 'No se pudo transcribir. Escríbelo.',
+    'add.tapToStop': 'Toca para parar',
 
     // Categories
     'cat.home': 'Casa',
@@ -97,6 +101,8 @@ const translations = {
     'profile.appearance': 'Apariencia',
     'profile.privacy': 'Privacidad y datos',
     'profile.logout': 'Cerrar sesión',
+    'profile.logout.confirm': '¿Cerrar sesión?',
+    'profile.logout.msg': 'Tus tareas locales se mantienen.',
 
     // Appearance
     'appearance.title': 'Apariencia',
@@ -250,6 +256,10 @@ const translations = {
     'add.energy': 'Energy state (optional)',
     'add.classifying': 'Classifying...',
     'add.classified': '✨ Auto-classified',
+    'add.recording': 'Recording...',
+    'add.processing': 'Processing...',
+    'add.voiceError': 'Could not transcribe. Type it instead.',
+    'add.tapToStop': 'Tap to stop',
     'add.save': 'Save ✓',
 
     'cat.home': 'Home',
@@ -295,6 +305,8 @@ const translations = {
     'profile.appearance': 'Appearance',
     'profile.privacy': 'Privacy & data',
     'profile.logout': 'Log out',
+    'profile.logout.confirm': 'Log out?',
+    'profile.logout.msg': 'Your local tasks will stay.',
 
     'appearance.title': 'Appearance',
     'appearance.sub': 'Choose how the app looks.',
