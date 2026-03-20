@@ -85,6 +85,10 @@ interface AppState {
   totalCompleted: number
   unlockedRewards: string[]
 
+  // Last opened
+  lastOpenedAt: string | null
+  setLastOpened: () => void
+
   // Account nudge
   tasksCreatedWithoutAccount: number
   incrementTasksCreated: () => void
@@ -234,6 +238,9 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   totalCompleted: 0,
   unlockedRewards: [],
 
+  lastOpenedAt: null,
+  setLastOpened: () => set({ lastOpenedAt: new Date().toISOString() }),
+
   tasksCreatedWithoutAccount: 0,
   incrementTasksCreated: () => set((s) => ({
     tasksCreatedWithoutAccount: s.tasksCreatedWithoutAccount + 1,
@@ -346,6 +353,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     totalCompleted: state.totalCompleted,
     unlockedRewards: state.unlockedRewards,
     notifSettings: state.notifSettings,
+    lastOpenedAt: state.lastOpenedAt,
     tasksCreatedWithoutAccount: state.tasksCreatedWithoutAccount,
     lastNudgeDismissedAt: state.lastNudgeDismissedAt,
     appearanceMode: state.appearanceMode,

@@ -25,6 +25,7 @@ import { TrialBanner } from '../components/TrialBanner'
 import { AccountNudge } from '../components/AccountNudge'
 import { ResumeBanner } from '../components/ResumeBanner'
 import { QuickCapture } from '../components/QuickCapture'
+import { WelcomeBack } from '../components/WelcomeBack'
 import { useT } from '../lib/i18n'
 
 const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
@@ -83,6 +84,7 @@ export default function HomeScreen() {
             </View>
             <Text style={s.title}>{t('home.title')}{'\n'}<Text style={s.titleEm}>{t('home.titleEm')}</Text></Text>
             <Text style={s.sub}>{t('home.sub')}</Text>
+            <WelcomeBack />
           </View>
           <TrialBanner />
           <AccountNudge />

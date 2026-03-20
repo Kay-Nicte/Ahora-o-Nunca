@@ -239,6 +239,9 @@ const translations = {
     'frustration.rest': 'Descanso',
     'frustration.try': 'Voy a intentarlo',
 
+    // Welcome back
+    'welcome.back': 'Qué bien que estés aquí.',
+
     // Calm mode
     'calm.title': 'Qué necesitas',
     'calm.titleEm': 'ahora?',
@@ -539,6 +542,8 @@ const translations = {
     'frustration.sub': 'Sometimes it\'s not the right time.',
     'frustration.rest': 'I\'ll rest',
     'frustration.try': 'I\'ll try',
+
+    'welcome.back': 'Good to see you here.',
 
     'calm.title': 'What do you need',
     'calm.titleEm': 'right now?',
