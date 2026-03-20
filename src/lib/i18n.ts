@@ -231,6 +231,10 @@ const translations = {
     'frustration.rest': 'Descanso',
     'frustration.try': 'Voy a intentarlo',
 
+    // Quick capture
+    'capture.placeholder': 'Apunta antes de que se te olvide...',
+    'capture.saved': 'Apuntado.',
+
     // Resume
     'resume.title': 'Estabas con:',
     'resume.continue': 'Seguimos',
@@ -491,6 +495,9 @@ const translations = {
     'frustration.sub': 'Sometimes it\'s not the right time.',
     'frustration.rest': 'I\'ll rest',
     'frustration.try': 'I\'ll try',
+
+    'capture.placeholder': 'Write it down before you forget...',
+    'capture.saved': 'Got it.',
 
     'resume.title': 'You were on:',
     'resume.continue': 'Continue',

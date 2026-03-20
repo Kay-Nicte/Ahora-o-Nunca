@@ -24,6 +24,7 @@ import { tapLight } from '../lib/haptics'
 import { TrialBanner } from '../components/TrialBanner'
 import { AccountNudge } from '../components/AccountNudge'
 import { ResumeBanner } from '../components/ResumeBanner'
+import { QuickCapture } from '../components/QuickCapture'
 import { useT } from '../lib/i18n'
 
 const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
@@ -147,6 +148,7 @@ export default function HomeScreen() {
           )}
         </ScrollView>
         <BottomNav active="home" />
+        <QuickCapture />
       </SafeAreaView>
     </SwipeableScreen>
   )

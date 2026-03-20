@@ -23,6 +23,7 @@ import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 import { SwipeableScreen } from '../components/SwipeableScreen'
 import { ConfirmModal } from '../components/ConfirmModal'
+import { QuickCapture } from '../components/QuickCapture'
 import { tapSuccess, tapWarning, tapLight } from '../lib/haptics'
 import { TrialBanner } from '../components/TrialBanner'
 
@@ -346,6 +347,7 @@ export default function TaskListScreen() {
           destructive
         />
         <BottomNav active="tasks" />
+        <QuickCapture />
       </SafeAreaView>
     </SwipeableScreen>
   )
