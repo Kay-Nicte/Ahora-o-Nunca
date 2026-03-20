@@ -225,6 +225,11 @@ const translations = {
     'premium.cta': 'Ver Premium →',
     'premium.dismiss': 'Ahora no',
 
+    // Resume
+    'resume.title': 'Estabas con:',
+    'resume.continue': 'Seguimos',
+    'resume.skip': 'Otra cosa',
+
     // All done
     'allDone.title': 'Todo hecho.',
     'allDone.sub': 'No tienes nada pendiente.',
@@ -475,6 +480,10 @@ const translations = {
     'focus.yes': 'Let\'s go',
     'focus.no': 'Enough',
     'focus.streak': 'in a row',
+
+    'resume.title': 'You were on:',
+    'resume.continue': 'Continue',
+    'resume.skip': 'Something else',
 
     'allDone.title': 'All done.',
     'allDone.sub': 'Nothing pending.',

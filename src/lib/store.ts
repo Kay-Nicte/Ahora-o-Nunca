@@ -318,6 +318,8 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     avatarEmoji: state.avatarEmoji,
     avatarBg: state.avatarBg,
     avatarImageUri: state.avatarImageUri,
+    currentTask: state.currentTask,
+    selectedEnergy: state.selectedEnergy,
     tasks: state.tasks,
   }),
 }))

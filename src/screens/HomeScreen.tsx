@@ -23,6 +23,7 @@ import { SwipeableScreen } from '../components/SwipeableScreen'
 import { tapLight } from '../lib/haptics'
 import { TrialBanner } from '../components/TrialBanner'
 import { AccountNudge } from '../components/AccountNudge'
+import { ResumeBanner } from '../components/ResumeBanner'
 import { useT } from '../lib/i18n'
 
 const ENERGY_OPTIONS: EnergyLevel[] = ['high', 'calm', 'short_time', 'mobile_only']
@@ -84,6 +85,7 @@ export default function HomeScreen() {
           </View>
           <TrialBanner />
           <AccountNudge />
+          <ResumeBanner />
           {pendingCount === 0 ? (
             <View style={s.allDone}>
               <Text style={[s.allDoneTitle, { color: theme.accent }]}>{t('allDone.title')}</Text>
