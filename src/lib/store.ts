@@ -76,6 +76,10 @@ interface AppState {
   trialActivatedAt: string | null
   activateTrial: () => void
 
+  // Rewards
+  totalCompleted: number
+  unlockedRewards: string[]
+
   // Account nudge
   tasksCreatedWithoutAccount: number
   incrementTasksCreated: () => void
@@ -119,6 +123,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
           : t
       ),
       currentTask: state.currentTask?.id === taskId ? null : state.currentTask,
+      totalCompleted: state.totalCompleted + 1,
     })),
   restoreTask: (taskId) =>
     set((state) => ({
@@ -193,6 +198,9 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     trialActivated: true,
     trialActivatedAt: new Date().toISOString(),
   }),
+
+  totalCompleted: 0,
+  unlockedRewards: [],
 
   tasksCreatedWithoutAccount: 0,
   incrementTasksCreated: () => set((s) => ({
@@ -298,6 +306,8 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     hasSeenOnboarding: state.hasSeenOnboarding,
     trialActivated: state.trialActivated,
     trialActivatedAt: state.trialActivatedAt,
+    totalCompleted: state.totalCompleted,
+    unlockedRewards: state.unlockedRewards,
     notifSettings: state.notifSettings,
     tasksCreatedWithoutAccount: state.tasksCreatedWithoutAccount,
     lastNudgeDismissedAt: state.lastNudgeDismissedAt,

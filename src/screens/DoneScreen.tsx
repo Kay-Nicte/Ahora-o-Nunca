@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -6,6 +6,8 @@ import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useT } from '../lib/i18n'
 import { tapSuccess } from '../lib/haptics'
+import { getNewUnlocks, getLevel, Reward } from '../lib/rewards'
+import { RewardModal } from '../components/RewardModal'
 import { spacing, radius, typography } from '../lib/theme'
 
 const PHRASES_ES = [
@@ -34,6 +36,23 @@ export default function DoneScreen() {
   const incrementFocusStreak = useAppStore((s) => s.incrementFocusStreak)
   const resetFocusStreak = useAppStore((s) => s.resetFocusStreak)
   const fetchTaskForEnergy = useAppStore((s) => s.fetchTaskForEnergy)
+  const totalCompleted = useAppStore((s) => s.totalCompleted)
+  const unlockedRewards = useAppStore((s) => s.unlockedRewards)
+
+  // Check for new unlocks
+  const [pendingReward, setPendingReward] = useState<Reward | null>(null)
+  useEffect(() => {
+    const newUnlocks = getNewUnlocks(totalCompleted, unlockedRewards)
+    if (newUnlocks.length > 0) {
+      // Show the first new unlock, save all
+      setPendingReward(newUnlocks[0])
+      useAppStore.setState({
+        unlockedRewards: [...unlockedRewards, ...newUnlocks.map((r) => r.id)],
+      })
+    }
+  }, [])
+
+  const level = getLevel(totalCompleted)
 
   const completedThisWeek = tasks.filter((tk) => {
     if (!tk.completed || !tk.completed_at) return false
@@ -130,7 +149,12 @@ export default function DoneScreen() {
           </>
         )}
         <Text style={s.weekCount}>{completedThisWeek} {t('done.streak')}</Text>
+        <Text style={[s.levelText, { color: theme.muted }]}>
+          {t('rewards.level')} {level.level} — {language === 'es' ? level.title_es : level.title_en}
+        </Text>
       </Animated.View>
+
+      <RewardModal reward={pendingReward} onClose={() => setPendingReward(null)} />
     </SafeAreaView>
   )
 }
@@ -214,5 +238,11 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
       color: theme.muted,
       letterSpacing: 0.8,
       marginTop: 16,
+    },
+    levelText: {
+      fontFamily: typography.sansBold,
+      fontSize: 11,
+      letterSpacing: 1,
+      marginTop: 8,
     },
   })

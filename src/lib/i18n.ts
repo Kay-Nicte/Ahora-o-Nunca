@@ -57,6 +57,18 @@ const translations = {
     'task.nudge': 'No tienes que acabar. Solo empieza.',
     'task.timer': 'min',
     'task.shake': 'Agita para saltar',
+    'task.helpStart': 'Ayúdame a empezar',
+    'task.remindMe': 'Avísame en...',
+    'task.remind.15': '15 min',
+    'task.remind.30': '30 min',
+    'task.remind.60': '1 hora',
+    'task.remind.no': 'No hace falta',
+    'task.remind.set': 'Te aviso.',
+    'task.remind.push.title': '¿Sigues ahí?',
+    'task.remind.push.body': 'Llevas un rato. ¿Todo bien?',
+    'task.helpLoading': 'Pensando...',
+    'task.stepDone': 'Hecho',
+    'task.stepsComplete': 'Lo conseguiste.',
 
     // Daily summary
     'summary.title': 'Hoy hiciste',
@@ -216,6 +228,11 @@ const translations = {
     'allDone.sub': 'No tienes nada pendiente.',
     'allDone.add': 'Añadir tarea',
 
+    // Rewards
+    'rewards.unlocked': 'Desbloqueado',
+    'rewards.level': 'Nivel',
+    'rewards.tasksTotal': 'tareas completadas',
+
     // Focus mode
     'focus.oneMore': 'Una más?',
     'focus.yes': 'Vamos',
@@ -293,6 +310,18 @@ const translations = {
     'task.nudge': 'You don\'t have to finish. Just start.',
     'task.timer': 'min',
     'task.shake': 'Shake to skip',
+    'task.helpStart': 'Help me start',
+    'task.remindMe': 'Remind me in...',
+    'task.remind.15': '15 min',
+    'task.remind.30': '30 min',
+    'task.remind.60': '1 hour',
+    'task.remind.no': 'No need',
+    'task.remind.set': 'I\'ll remind you.',
+    'task.remind.push.title': 'Still there?',
+    'task.remind.push.body': 'You\'ve been at it a while. All good?',
+    'task.helpLoading': 'Thinking...',
+    'task.stepDone': 'Done',
+    'task.stepsComplete': 'You did it.',
 
     'summary.title': 'Today you did',
     'summary.suffix_one': 'thing.',
@@ -433,6 +462,10 @@ const translations = {
     'premium.sub': 'Unlock it with a single payment.\nNo subscriptions, forever.',
     'premium.cta': 'See Premium →',
     'premium.dismiss': 'Not now',
+
+    'rewards.unlocked': 'Unlocked',
+    'rewards.level': 'Level',
+    'rewards.tasksTotal': 'tasks completed',
 
     'focus.oneMore': 'One more?',
     'focus.yes': 'Let\'s go',

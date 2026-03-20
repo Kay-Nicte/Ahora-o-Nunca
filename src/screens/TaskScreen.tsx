@@ -12,6 +12,10 @@ import { useT } from '../lib/i18n'
 import { useShake } from '../hooks/useShake'
 import { spacing, radius, typography } from '../lib/theme'
 import { tapSuccess, tapMedium } from '../lib/haptics'
+import { usePremium } from '../hooks/usePremium'
+import { MicroSteps } from '../components/MicroSteps'
+import { PremiumModal } from '../components/PremiumModal'
+import { RemindMe } from '../components/RemindMe'
 
 export default function TaskScreen() {
   const theme = useTheme()
@@ -26,28 +30,26 @@ export default function TaskScreen() {
     return () => clearInterval(interval)
   }, [currentTask?.id])
 
-  // Nudge after 10 seconds of inactivity
-  const [showNudge, setShowNudge] = useState(false)
+  // Reset timer on new task
   useEffect(() => {
-    setShowNudge(false)
     setSeconds(0)
-    const timer = setTimeout(() => setShowNudge(true), 10000)
-    return () => clearTimeout(timer)
+    setShowNudge(false)
   }, [currentTask?.id])
 
-  // Nudge fade in
+  // Nudge after 5 seconds
+  const [showNudge, setShowNudge] = useState(false)
   const nudgeOpacity = useRef(new Animated.Value(0)).current
   useEffect(() => {
-    if (showNudge) {
+    const timer = setTimeout(() => {
+      setShowNudge(true)
       Animated.timing(nudgeOpacity, {
         toValue: 1,
-        duration: 600,
+        duration: 500,
         useNativeDriver: true,
       }).start()
-    } else {
-      nudgeOpacity.setValue(0)
-    }
-  }, [showNudge])
+    }, 5000)
+    return () => clearTimeout(timer)
+  }, [currentTask?.id])
 
   const handleDone = useCallback(async () => {
     if (!currentTask) return
@@ -67,6 +69,10 @@ export default function TaskScreen() {
   // Shake to skip (if enabled)
   const shakeEnabled = useAppStore((s) => s.shakeEnabled)
   useShake(shakeEnabled ? handleSkip : () => {})
+
+  // Premium for micro-steps
+  const { isPremium } = usePremium()
+  const [showPremiumModal, setShowPremiumModal] = useState(false)
 
   if (!currentTask) {
     return (
@@ -126,16 +132,31 @@ export default function TaskScreen() {
           )}
         </View>
 
-        {/* Nudge */}
+        {/* Nudge after 5s */}
         {showNudge && (
-          <Animated.View style={[s.nudge, { opacity: nudgeOpacity }]}>
+          <Animated.View style={{ opacity: nudgeOpacity, marginTop: spacing.md }}>
             <Text style={s.nudgeText}>{t('task.nudge')}</Text>
           </Animated.View>
         )}
+
+        {/* Micro-steps: help me start (always visible) */}
+        <MicroSteps
+          taskText={currentTask.text}
+          onAllDone={handleDone}
+          isPremium={isPremium}
+          onPremiumRequired={() => setShowPremiumModal(true)}
+        />
       </View>
 
+      <PremiumModal
+        visible={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        feature={t('task.helpStart')}
+      />
+
       <View style={s.bottom}>
-        <View style={s.actions}>
+        <RemindMe visible />
+        <View style={[s.actions, { marginTop: spacing.md }]}>
           <TouchableOpacity style={s.doneBtn} onPress={handleDone}>
             <Text style={s.doneBtnText}>{t('task.done')}</Text>
           </TouchableOpacity>
@@ -233,17 +254,10 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold,
       fontSize: 13,
     },
-    nudge: {
-      marginTop: spacing.xl,
-      backgroundColor: 'rgba(255,255,255,0.1)',
-      borderRadius: radius.md,
-      padding: spacing.md,
-    },
     nudgeText: {
       fontFamily: typography.serifItalic,
-      fontSize: 16,
-      color: 'rgba(255,255,255,0.6)',
-      textAlign: 'center',
+      fontSize: 15,
+      color: 'rgba(255,255,255,0.4)',
     },
     bottom: { padding: 14, paddingBottom: spacing.xl },
     actions: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
