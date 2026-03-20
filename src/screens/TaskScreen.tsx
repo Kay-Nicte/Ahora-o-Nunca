@@ -325,7 +325,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     taskTitle: {
       fontFamily: typography.serifItalic,
-      fontSize: 30,
+      fontSize: 32,
       color: theme.dark ? theme.text : '#fff',
       lineHeight: 35,
       marginBottom: spacing.sm,
@@ -367,7 +367,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       flex: 1,
       backgroundColor: theme.dark ? theme.accent : '#1a1e2e',
       borderRadius: radius.lg,
-      padding: 15,
+      padding: 18,
       alignItems: 'center',
     },
     doneBtnText: {
@@ -378,7 +378,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     skipBtn: {
       backgroundColor: theme.dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.12)',
       borderRadius: radius.lg,
-      padding: 15,
+      padding: 18,
       paddingHorizontal: spacing.lg,
       alignItems: 'center',
     },

@@ -58,7 +58,7 @@ const s = StyleSheet.create({
   card: {
     width: '100%',
     borderRadius: 20,
-    padding: 24,
+    padding: 28,
     alignItems: 'center',
   },
   title: {

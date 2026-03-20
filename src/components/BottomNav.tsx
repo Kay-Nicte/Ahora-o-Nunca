@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   nav: {
     flexDirection: 'row',
     borderTopWidth: 1,
-    paddingTop: 10,
+    paddingTop: 12,
   },
   tab: {
     flex: 1,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   label: {
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },

@@ -64,12 +64,12 @@ const s = StyleSheet.create({
   card: {
     width: '100%',
     borderRadius: 20,
-    padding: 28,
+    padding: 32,
     alignItems: 'center',
   },
   title: {
     fontFamily: typography.serifItalic,
-    fontSize: 22,
+    fontSize: 24,
     textAlign: 'center',
     marginBottom: 8,
   },

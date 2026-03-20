@@ -239,6 +239,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       gap: spacing.sm,
       paddingHorizontal: 14,
       paddingTop: spacing.md,
+      marginBottom: 20,
     },
     btnPrimary: {
       flex: 1,
@@ -248,7 +249,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       gap: 6,
       backgroundColor: theme.accent,
       borderRadius: radius.md,
-      padding: 14,
+      padding: 16,
     },
     btnDisabled: { opacity: 0.4 },
     btnPrimaryText: {

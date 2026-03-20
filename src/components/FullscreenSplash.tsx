@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgDark,
   },
   logoMark: {
-    width: 96,
-    height: 96,
-    borderRadius: 28,
+    width: 110,
+    height: 110,
+    borderRadius: 32,
     backgroundColor: colors.yellow,
     alignItems: 'center',
     justifyContent: 'center',
@@ -36,20 +36,20 @@ const styles = StyleSheet.create({
   },
   logoExclamation: {
     fontFamily: 'InstrumentSerif_400Regular_Italic',
-    fontSize: 64,
+    fontSize: 72,
     color: '#1a1e2e',
     lineHeight: 72,
   },
   appName: {
     fontFamily: 'InstrumentSerif_400Regular_Italic',
-    fontSize: 28,
+    fontSize: 32,
     color: colors.textDark,
     marginBottom: 8,
   },
   tagline: {
     fontFamily: 'AtkinsonHyperlegible_700Bold',
     fontSize: 12,
-    letterSpacing: 3,
+    letterSpacing: 4,
     color: colors.mutedDark,
   },
 })

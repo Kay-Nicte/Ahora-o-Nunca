@@ -256,12 +256,12 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: 'center',
       gap: 14,
       paddingHorizontal: 20,
-      paddingTop: 44,
-      paddingBottom: 20,
+      paddingTop: 20,
+      paddingBottom: 24,
     },
     name: {
       fontFamily: typography.serifItalic,
-      fontSize: 18,
+      fontSize: 22,
       color: theme.text,
     },
     email: {
