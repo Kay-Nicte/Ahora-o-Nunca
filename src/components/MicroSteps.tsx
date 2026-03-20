@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Animated,
 } from 'react-native'
@@ -53,8 +53,28 @@ export function MicroSteps({ taskText, onAllDone, isPremium, onPremiumRequired }
     setCurrentStep(0)
   }
 
+  // Stuck nudge: if no tap for 5 seconds on a step
+  const [showStuck, setShowStuck] = useState(false)
+  const stuckOpacity = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    if (!started) return
+    setShowStuck(false)
+    stuckOpacity.setValue(0)
+    const timer = setTimeout(() => {
+      setShowStuck(true)
+      Animated.timing(stuckOpacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start()
+    }, 5000)
+    return () => clearTimeout(timer)
+  }, [currentStep, started])
+
   const handleStepDone = () => {
     tapSuccess()
+    setShowStuck(false)
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
@@ -96,6 +116,11 @@ export function MicroSteps({ taskText, onAllDone, isPremium, onPremiumRequired }
         {currentStep + 1} / {steps.length}
       </Text>
       <Text style={s.stepText}>{steps[currentStep]}</Text>
+      {showStuck && (
+        <Animated.View style={{ opacity: stuckOpacity, marginBottom: 8 }}>
+          <Text style={s.stuckText}>{t('task.stepStuck')}</Text>
+        </Animated.View>
+      )}
       <TouchableOpacity style={s.stepBtn} onPress={handleStepDone}>
         <Text style={s.stepBtnText}>{t('task.stepDone')}</Text>
       </TouchableOpacity>
@@ -136,6 +161,11 @@ const s = StyleSheet.create({
     color: '#fff',
     lineHeight: 28,
     marginBottom: spacing.md,
+  },
+  stuckText: {
+    fontFamily: typography.serifItalic,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.35)',
   },
   stepBtn: {
     backgroundColor: 'rgba(255,255,255,0.15)',

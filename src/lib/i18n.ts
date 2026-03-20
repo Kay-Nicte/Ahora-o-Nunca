@@ -69,6 +69,7 @@ const translations = {
     'task.helpLoading': 'Pensando...',
     'task.stepDone': 'Hecho',
     'task.stepsComplete': 'Lo conseguiste.',
+    'task.stepStuck': 'Solo esto. Nada más.',
 
     // Daily summary
     'summary.title': 'Hoy hiciste',
@@ -322,6 +323,7 @@ const translations = {
     'task.helpLoading': 'Thinking...',
     'task.stepDone': 'Done',
     'task.stepsComplete': 'You did it.',
+    'task.stepStuck': 'Just this. Nothing else.',
 
     'summary.title': 'Today you did',
     'summary.suffix_one': 'thing.',
