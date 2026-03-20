@@ -107,6 +107,8 @@ interface AppState {
   avatarImageUri: string | null
   setAvatarEmoji: (emoji: string, bg: string) => void
   setAvatarImage: (uri: string) => void
+  profileBackground: string | null
+  setProfileBackground: (color: string | null) => void
 
   // Actions
   fetchTasks: () => Promise<void>
@@ -234,6 +236,8 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   avatarImageUri: null,
   setAvatarEmoji: (emoji, bg) => set({ avatarEmoji: emoji, avatarBg: bg, avatarImageUri: null }),
   setAvatarImage: (uri) => set({ avatarImageUri: uri, avatarEmoji: null, avatarBg: null }),
+  profileBackground: null,
+  setProfileBackground: (color) => set({ profileBackground: color }),
 
   fetchTasks: async () => {
     const { data, error } = await supabase
@@ -332,6 +336,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     avatarEmoji: state.avatarEmoji,
     avatarBg: state.avatarBg,
     avatarImageUri: state.avatarImageUri,
+    profileBackground: state.profileBackground,
     currentTask: state.currentTask,
     selectedEnergy: state.selectedEnergy,
     tasks: state.tasks,

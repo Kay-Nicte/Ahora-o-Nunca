@@ -10,6 +10,7 @@ import { useAppStore } from '../lib/store'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { CameraIcon, ImageIcon } from '../components/Icons'
+import { REWARDS } from '../lib/rewards'
 import { ConfirmModal } from '../components/ConfirmModal'
 
 const AVATAR_OPTIONS = [
@@ -27,11 +28,18 @@ export default function AvatarScreen() {
   const theme = useTheme()
   const t = useT()
   const { avatarEmoji, avatarBg, avatarImageUri, setAvatarEmoji, setAvatarImage } = useAppStore()
+  const unlockedRewards = useAppStore((s) => s.unlockedRewards)
+
+  // Merge base avatars with unlocked reward avatars
+  const unlockedAvatars = REWARDS
+    .filter((r) => r.type === 'avatar' && unlockedRewards.includes(r.id))
+    .map((r) => ({ emoji: r.value, bg: '#9b8ec4' }))
+  const allAvatars = [...AVATAR_OPTIONS, ...unlockedAvatars]
 
   // Local state to preview before saving
   const [selectedIdx, setSelectedIdx] = useState<number | null>(() => {
     if (!avatarEmoji) return null
-    return AVATAR_OPTIONS.findIndex((o) => o.emoji === avatarEmoji)
+    return allAvatars.findIndex((o) => o.emoji === avatarEmoji)
   })
   const [previewUri, setPreviewUri] = useState<string | null>(avatarImageUri)
   const [permMessage, setPermMessage] = useState<string | null>(null)
@@ -80,7 +88,7 @@ export default function AvatarScreen() {
     if (previewUri) {
       setAvatarImage(previewUri)
     } else if (selectedIdx !== null) {
-      const opt = AVATAR_OPTIONS[selectedIdx]
+      const opt = allAvatars[selectedIdx]
       setAvatarEmoji(opt.emoji, opt.bg)
     }
     router.back()
@@ -103,8 +111,8 @@ export default function AvatarScreen() {
           {previewUri ? (
             <Image source={{ uri: previewUri }} style={s.previewImage} />
           ) : selectedIdx !== null ? (
-            <View style={[s.previewCircle, { backgroundColor: AVATAR_OPTIONS[selectedIdx].bg }]}>
-              <Text style={s.previewEmoji}>{AVATAR_OPTIONS[selectedIdx].emoji}</Text>
+            <View style={[s.previewCircle, { backgroundColor: allAvatars[selectedIdx].bg }]}>
+              <Text style={s.previewEmoji}>{allAvatars[selectedIdx].emoji}</Text>
             </View>
           ) : (
             <View style={[s.previewCircle, { backgroundColor: theme.accent }]}>
@@ -141,7 +149,7 @@ export default function AvatarScreen() {
 
         {/* Avatar grid */}
         <View style={s.avatarGrid}>
-          {AVATAR_OPTIONS.map((opt, i) => (
+          {allAvatars.map((opt, i) => (
             <TouchableOpacity
               key={i}
               style={[

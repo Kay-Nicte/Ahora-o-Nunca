@@ -14,7 +14,7 @@ import { spacing, radius, typography, colors } from '../lib/theme'
 import { ChevronRightIcon } from '../components/Icons'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { usePremium } from '../hooks/usePremium'
-import { getLevel } from '../lib/rewards'
+import { getLevel, REWARDS } from '../lib/rewards'
 import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 
@@ -56,6 +56,10 @@ export default function ProfileScreen() {
     setShowEditName(false)
   }
   const totalCompleted = useAppStore((s) => s.totalCompleted)
+  const unlockedRewards = useAppStore((s) => s.unlockedRewards)
+  const profileBackground = useAppStore((s) => s.profileBackground)
+  const setProfileBackground = useAppStore((s) => s.setProfileBackground)
+  const unlockedBgs = REWARDS.filter((r) => r.type === 'background' && unlockedRewards.includes(r.id))
   const level = getLevel(totalCompleted)
   const ns = useAppStore((s) => s.notifSettings)
 
@@ -75,15 +79,30 @@ export default function ProfileScreen() {
     <SafeAreaView style={s.container} edges={['top']}>
       <ScrollView>
         {/* Header */}
-        <View style={s.header}>
+        <View style={[s.header, profileBackground && { backgroundColor: profileBackground }]}>
           <AvatarButton size={48} onPress={() => router.push('/avatar')} />
           <TouchableOpacity onPress={() => { setEditName(profile?.username || ''); setShowEditName(true) }}>
-            <Text style={s.name}>{displayName}</Text>
-            <Text style={s.email}>{userEmail || t('profile.noAccount')}</Text>
-            <Text style={[s.levelBadge, { color: theme.accent }]}>
+            <Text style={[s.name, profileBackground && { color: '#fff' }]}>{displayName}</Text>
+            <Text style={[s.email, profileBackground && { color: 'rgba(255,255,255,0.7)' }]}>{userEmail || t('profile.noAccount')}</Text>
+            <Text style={[s.levelBadge, { color: profileBackground ? 'rgba(255,255,255,0.8)' : theme.accent }]}>
               {t('rewards.level')} {level.level} — {language === 'es' ? level.title_es : level.title_en} · {totalCompleted} {t('rewards.tasksTotal')}
             </Text>
           </TouchableOpacity>
+          {unlockedBgs.length > 0 && (
+            <View style={s.bgRow}>
+              <TouchableOpacity
+                style={[s.bgDot, { backgroundColor: theme.bg, borderColor: !profileBackground ? theme.accent : theme.border }]}
+                onPress={() => setProfileBackground(null)}
+              />
+              {unlockedBgs.map((bg) => (
+                <TouchableOpacity
+                  key={bg.id}
+                  style={[s.bgDot, { backgroundColor: bg.value, borderColor: profileBackground === bg.value ? theme.accent : 'transparent' }]}
+                  onPress={() => setProfileBackground(bg.value)}
+                />
+              ))}
+            </View>
+          )}
         </View>
 
         {/* Settings rows */}
@@ -249,6 +268,17 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sans,
       fontSize: 12,
       color: theme.muted,
+    },
+    bgRow: {
+      flexDirection: 'row',
+      gap: 8,
+      marginTop: 10,
+    },
+    bgDot: {
+      width: 28,
+      height: 28,
+      borderRadius: 14,
+      borderWidth: 2,
     },
     levelBadge: {
       fontFamily: typography.sansBold,
