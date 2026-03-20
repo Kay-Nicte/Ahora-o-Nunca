@@ -3,20 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
-import { BoltIcon, ListIcon, MicIcon } from './Icons'
+import { BoltIcon, ListIcon, MicIcon, HeartIcon } from './Icons'
 import { typography } from '../lib/theme'
 import { useT } from '../lib/i18n'
 
-type NavTab = 'home' | 'tasks' | 'add'
+type NavTab = 'home' | 'tasks' | 'add' | 'calm'
 
 const TAB_CONFIG: { key: NavTab; labelKey: string; icon: typeof BoltIcon; route: string }[] = [
   { key: 'home', labelKey: 'nav.now', icon: BoltIcon, route: '/' },
   { key: 'tasks', labelKey: 'nav.tasks', icon: ListIcon, route: '/tasks' },
   { key: 'add', labelKey: 'nav.add', icon: MicIcon, route: '/add-task' },
+  { key: 'calm', labelKey: 'nav.calm', icon: HeartIcon, route: '/calm' },
 ]
 
 // Map tab index for swipe
-const TAB_ORDER: NavTab[] = ['home', 'tasks', 'add']
+const TAB_ORDER: NavTab[] = ['home', 'tasks', 'add', 'calm']
 
 interface BottomNavProps {
   active: NavTab

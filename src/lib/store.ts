@@ -98,6 +98,8 @@ interface AppState {
   setLanguage: (lang: AppLanguage) => void
   shakeEnabled: boolean
   setShakeEnabled: (v: boolean) => void
+  calmTools: { discharge: boolean; grounding: boolean; breathe: boolean }
+  setCalmTools: (tools: Partial<AppState['calmTools']>) => void
 
   // Avatar
   avatarEmoji: string | null
@@ -224,6 +226,8 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   setLanguage: (lang) => set({ language: lang }),
   shakeEnabled: true,
   setShakeEnabled: (v) => set({ shakeEnabled: v }),
+  calmTools: { discharge: true, grounding: true, breathe: true },
+  setCalmTools: (tools) => set((s) => ({ calmTools: { ...s.calmTools, ...tools } })),
 
   avatarEmoji: null,
   avatarBg: null,
@@ -324,6 +328,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     appearanceMode: state.appearanceMode,
     language: state.language,
     shakeEnabled: state.shakeEnabled,
+    calmTools: state.calmTools,
     avatarEmoji: state.avatarEmoji,
     avatarBg: state.avatarBg,
     avatarImageUri: state.avatarImageUri,

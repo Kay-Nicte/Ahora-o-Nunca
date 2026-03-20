@@ -61,6 +61,7 @@ export default function RootLayout() {
         <Stack.Screen name="avatar" />
         <Stack.Screen name="appearance" />
         <Stack.Screen name="language" />
+        <Stack.Screen name="calm" />
         <Stack.Screen name="privacy" />
       </Stack>
       {splashVisible && (

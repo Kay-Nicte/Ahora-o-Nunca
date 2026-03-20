@@ -29,6 +29,8 @@ export default function ProfileScreen() {
   const language = useAppStore((s) => s.language)
   const shakeEnabled = useAppStore((s) => s.shakeEnabled)
   const setShakeEnabled = useAppStore((s) => s.setShakeEnabled)
+  const calmTools = useAppStore((s) => s.calmTools)
+  const setCalmTools = useAppStore((s) => s.setCalmTools)
   const { signOut } = useAuth()
   const { isPremium, isTrial, trialDaysLeft } = usePremium()
   const [showLogout, setShowLogout] = useState(false)
@@ -141,6 +143,25 @@ export default function ProfileScreen() {
             >
               <View style={[s.toggleKnob, { left: shakeEnabled ? 21 : 3 }]} />
             </TouchableOpacity>
+          </View>
+
+          {/* Calm tools */}
+          <View style={[s.row, { borderColor: theme.border, flexDirection: 'column', alignItems: 'flex-start' }]}>
+            <Text style={[s.rowText, { color: theme.text, marginBottom: 4 }]}>{t('profile.calmTools')}</Text>
+            <Text style={[s.rowSub, { color: theme.muted, marginBottom: 10 }]}>{t('profile.calmTools.sub')}</Text>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              {(['discharge', 'grounding', 'breathe'] as const).map((tool) => (
+                <TouchableOpacity
+                  key={tool}
+                  style={[s.calmChip, { borderColor: calmTools[tool] ? theme.accent : theme.border, backgroundColor: calmTools[tool] ? theme.accent + '18' : 'transparent' }]}
+                  onPress={() => setCalmTools({ [tool]: !calmTools[tool] })}
+                >
+                  <Text style={[s.calmChipText, { color: calmTools[tool] ? theme.accent : theme.muted }]}>
+                    {t(`calm.${tool}` as any)}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
 
           {/* Privacy */}
@@ -275,6 +296,16 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold,
       fontSize: 14,
       marginTop: 2,
+    },
+    calmChip: {
+      borderWidth: 1.5,
+      borderRadius: radius.full,
+      paddingVertical: 6,
+      paddingHorizontal: 14,
+    },
+    calmChipText: {
+      fontFamily: typography.sansBold,
+      fontSize: 12,
     },
     toggleTrack: {
       width: 40, height: 22, borderRadius: 999,
