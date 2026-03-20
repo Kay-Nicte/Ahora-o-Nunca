@@ -33,6 +33,16 @@ export default function HomeScreen() {
   const profile = useAppStore((s) => s.profile)
   const tasks = useAppStore((s) => s.tasks)
   const pendingCount = tasks.filter((tk) => !tk.completed).length
+  const now = new Date()
+  const completedThisWeek = tasks.filter((tk) => {
+    if (!tk.completed || !tk.completed_at) return false
+    return new Date(tk.completed_at) >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+  }).length
+  const completedToday = tasks.filter((tk) => {
+    if (!tk.completed || !tk.completed_at) return false
+    const d = new Date(tk.completed_at)
+    return d.toDateString() === now.toDateString()
+  }).length
   const { fetchTaskForEnergy } = useTasks()
   const [selected, setSelected] = useState<EnergyLevel[]>([])
 
@@ -121,6 +131,14 @@ export default function HomeScreen() {
               <Text style={s.btnSecondaryText}>{t('home.add')}</Text>
             </TouchableOpacity>
           </View>
+          {completedToday > 0 && (
+            <Text style={[s.dailySummary, { color: theme.muted }]}>
+              {t('summary.title')} {completedToday} {completedToday === 1 ? t('summary.suffix_one') : t('summary.suffix_other')} {t('summary.enough')}
+            </Text>
+          )}
+          {completedThisWeek > 0 && (
+            <Text style={[s.weekCount, { color: theme.accent }]}>{completedThisWeek} {t('done.streak')}</Text>
+          )}
           </>
           )}
         </ScrollView>
@@ -186,15 +204,16 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       flexDirection: 'row',
       flexWrap: 'wrap',
       paddingHorizontal: 14,
-      gap: 6,
+      gap: 8,
     },
     energyRow: {
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'center',
       gap: 8,
-      paddingVertical: 10,
-      paddingHorizontal: 16,
-      borderRadius: radius.full,
+      width: '48%',
+      paddingVertical: 12,
+      borderRadius: radius.md,
       borderWidth: 1.5,
       borderColor: theme.dark ? '#3a4060' : theme.border,
     },
@@ -244,6 +263,18 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold,
       fontSize: 13,
       color: theme.muted,
+    },
+    weekCount: {
+      fontFamily: typography.sansBold,
+      fontSize: 13,
+      textAlign: 'center',
+      marginTop: 20,
+    },
+    dailySummary: {
+      fontFamily: typography.serifItalic,
+      fontSize: 14,
+      textAlign: 'center',
+      marginTop: 16,
     },
     allDone: {
       alignItems: 'center',

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -37,10 +37,8 @@ export default function DoneScreen() {
     return d >= weekAgo
   }).length
 
-  const phrase = useMemo(() => {
-    const phrases = language === 'es' ? PHRASES_ES : PHRASES_EN
-    return phrases[Math.floor(Math.random() * phrases.length)]
-  }, [language])
+  const phrases = language === 'es' ? PHRASES_ES : PHRASES_EN
+  const phrase = phrases[completedThisWeek % phrases.length]
 
   const scale = useRef(new Animated.Value(0)).current
   const opacity = useRef(new Animated.Value(0)).current

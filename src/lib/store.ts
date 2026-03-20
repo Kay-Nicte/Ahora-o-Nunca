@@ -80,6 +80,8 @@ interface AppState {
   setAppearanceMode: (mode: AppearanceMode) => void
   language: AppLanguage
   setLanguage: (lang: AppLanguage) => void
+  shakeEnabled: boolean
+  setShakeEnabled: (v: boolean) => void
 
   // Avatar
   avatarEmoji: string | null
@@ -192,6 +194,8 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   setAppearanceMode: (mode) => set({ appearanceMode: mode }),
   language: detectLanguage(),
   setLanguage: (lang) => set({ language: lang }),
+  shakeEnabled: true,
+  setShakeEnabled: (v) => set({ shakeEnabled: v }),
 
   avatarEmoji: null,
   avatarBg: null,
@@ -288,6 +292,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
     lastNudgeDismissedAt: state.lastNudgeDismissedAt,
     appearanceMode: state.appearanceMode,
     language: state.language,
+    shakeEnabled: state.shakeEnabled,
     avatarEmoji: state.avatarEmoji,
     avatarBg: state.avatarBg,
     avatarImageUri: state.avatarImageUri,

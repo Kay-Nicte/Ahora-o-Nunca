@@ -53,6 +53,18 @@ const translations = {
     'add.voiceError': 'No se pudo transcribir. Escríbelo.',
     'add.tapToStop': 'Toca para parar',
 
+    // Task screen
+    'task.nudge': 'No tienes que acabar. Solo empieza.',
+    'task.timer': 'min',
+    'task.shake': 'Agita para saltar',
+
+    // Daily summary
+    'summary.title': 'Hoy hiciste',
+    'summary.suffix_one': 'cosa.',
+    'summary.suffix_other': 'cosas.',
+    'summary.enough': 'Eso es suficiente.',
+    'summary.none': 'Mañana será.',
+
     // Categories
     'cat.home': 'Casa',
     'cat.work': 'Trabajo',
@@ -100,6 +112,8 @@ const translations = {
     'profile.language': 'Idioma',
     'profile.appearance': 'Apariencia',
     'profile.privacy': 'Privacidad y datos',
+    'profile.shake': 'Agitar para saltar',
+    'profile.shake.sub': 'Agita el móvil en la tarea',
     'profile.editName': 'Cambiar nombre',
     'profile.editName.placeholder': 'Tu nombre',
     'profile.editName.save': 'Guardar',
@@ -270,6 +284,16 @@ const translations = {
     'add.tapToStop': 'Tap to stop',
     'add.save': 'Save ✓',
 
+    'task.nudge': 'You don\'t have to finish. Just start.',
+    'task.timer': 'min',
+    'task.shake': 'Shake to skip',
+
+    'summary.title': 'Today you did',
+    'summary.suffix_one': 'thing.',
+    'summary.suffix_other': 'things.',
+    'summary.enough': 'That\'s enough.',
+    'summary.none': 'Tomorrow.',
+
     'cat.home': 'Home',
     'cat.work': 'Work',
     'cat.mobile': 'Phone',
@@ -312,6 +336,8 @@ const translations = {
     'profile.language': 'Language',
     'profile.appearance': 'Appearance',
     'profile.privacy': 'Privacy & data',
+    'profile.shake': 'Shake to skip',
+    'profile.shake.sub': 'Shake your phone on a task',
     'profile.editName': 'Change name',
     'profile.editName.placeholder': 'Your name',
     'profile.editName.save': 'Save',

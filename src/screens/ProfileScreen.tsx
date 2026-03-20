@@ -26,6 +26,8 @@ export default function ProfileScreen() {
   const userEmail = useAppStore((s) => s.userEmail)
   const appearanceMode = useAppStore((s) => s.appearanceMode)
   const language = useAppStore((s) => s.language)
+  const shakeEnabled = useAppStore((s) => s.shakeEnabled)
+  const setShakeEnabled = useAppStore((s) => s.setShakeEnabled)
   const { signOut } = useAuth()
   const { isPremium, isTrial, trialDaysLeft } = usePremium()
   const [showLogout, setShowLogout] = useState(false)
@@ -120,6 +122,20 @@ export default function ProfileScreen() {
             </View>
             <ChevronRightIcon size={14} color={theme.muted} />
           </TouchableOpacity>
+
+          {/* Shake */}
+          <View style={[s.row, { borderColor: theme.border }]}>
+            <View>
+              <Text style={[s.rowText, { color: theme.text }]}>{t('profile.shake')}</Text>
+              <Text style={[s.rowSub, { color: theme.muted }]}>{t('profile.shake.sub')}</Text>
+            </View>
+            <TouchableOpacity
+              style={[s.toggleTrack, { backgroundColor: shakeEnabled ? theme.accent : theme.border }]}
+              onPress={() => setShakeEnabled(!shakeEnabled)}
+            >
+              <View style={[s.toggleKnob, { left: shakeEnabled ? 21 : 3 }]} />
+            </TouchableOpacity>
+          </View>
 
           {/* Privacy */}
           <TouchableOpacity style={[s.row, { borderColor: theme.border }]} onPress={() => router.push('/privacy')}>
@@ -248,6 +264,16 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold,
       fontSize: 14,
       marginTop: 2,
+    },
+    toggleTrack: {
+      width: 40, height: 22, borderRadius: 999,
+      position: 'relative', justifyContent: 'center',
+    },
+    toggleKnob: {
+      width: 16, height: 16, borderRadius: 8,
+      backgroundColor: '#fff', position: 'absolute', top: 3,
+      elevation: 2, shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.2, shadowRadius: 3,
     },
     modalBackdrop: {
       flex: 1, backgroundColor: 'rgba(0,0,0,0.5)',

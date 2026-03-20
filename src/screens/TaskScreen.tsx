@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity, Animated,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useTasks } from '../hooks/useTasks'
-import { ENERGY_SYMBOLS, CATEGORY_COLORS } from '../types'
+import { CATEGORY_COLORS } from '../types'
 import { useT } from '../lib/i18n'
+import { useShake } from '../hooks/useShake'
 import { spacing, radius, typography } from '../lib/theme'
 import { tapSuccess, tapMedium } from '../lib/haptics'
 
@@ -18,12 +19,61 @@ export default function TaskScreen() {
   const { currentTask, isAltTask, selectedEnergy } = useAppStore()
   const { markComplete, skipAndNext } = useTasks()
 
+  // Timer
+  const [seconds, setSeconds] = useState(0)
+  useEffect(() => {
+    const interval = setInterval(() => setSeconds((s) => s + 1), 1000)
+    return () => clearInterval(interval)
+  }, [currentTask?.id])
+
+  // Nudge after 10 seconds of inactivity
+  const [showNudge, setShowNudge] = useState(false)
+  useEffect(() => {
+    setShowNudge(false)
+    setSeconds(0)
+    const timer = setTimeout(() => setShowNudge(true), 10000)
+    return () => clearTimeout(timer)
+  }, [currentTask?.id])
+
+  // Nudge fade in
+  const nudgeOpacity = useRef(new Animated.Value(0)).current
+  useEffect(() => {
+    if (showNudge) {
+      Animated.timing(nudgeOpacity, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }).start()
+    } else {
+      nudgeOpacity.setValue(0)
+    }
+  }, [showNudge])
+
+  const handleDone = useCallback(async () => {
+    if (!currentTask) return
+    tapSuccess()
+    await markComplete(currentTask.id)
+    router.push('/done')
+  }, [currentTask])
+
+  const handleSkip = useCallback(async () => {
+    if (!currentTask) return
+    tapMedium()
+    await skipAndNext(currentTask.id, selectedEnergy)
+    const next = useAppStore.getState().currentTask
+    if (!next) router.replace('/')
+  }, [currentTask, selectedEnergy])
+
+  // Shake to skip (if enabled)
+  const shakeEnabled = useAppStore((s) => s.shakeEnabled)
+  useShake(shakeEnabled ? handleSkip : () => {})
+
   if (!currentTask) {
     return (
       <SafeAreaView style={[emptyStyles.container, { backgroundColor: theme.bg }]}>
         <View style={emptyStyles.content}>
           <View style={[emptyStyles.iconBg, { backgroundColor: theme.surface }]}>
-            <Text style={emptyStyles.emoji}>😮‍💨</Text>
+            <Text style={emptyStyles.iconText}>?</Text>
           </View>
           <Text style={[emptyStyles.title, { color: theme.text, fontFamily: typography.serifItalic }]}>
             {t('task.empty.title')}
@@ -42,19 +92,7 @@ export default function TaskScreen() {
     )
   }
 
-  const handleDone = async () => {
-    tapSuccess()
-    await markComplete(currentTask.id)
-    router.push('/done')
-  }
-
-  const handleSkip = async () => {
-    tapMedium()
-    await skipAndNext(currentTask.id, selectedEnergy)
-    // If no more tasks after skip, go home
-    const next = useAppStore.getState().currentTask
-    if (!next) router.replace('/')
-  }
+  const minutes = Math.floor(seconds / 60)
 
   const energyLabels = selectedEnergy
     .map((l) => t(`energy.${l}` as any))
@@ -67,23 +105,33 @@ export default function TaskScreen() {
       <View style={s.top}>
         {isAltTask && (
           <View style={s.altBanner}>
-            <Text style={s.altBannerText}>
-              {t('task.alt')}
-            </Text>
+            <Text style={s.altBannerText}>{t('task.alt')}</Text>
           </View>
         )}
-        <View style={s.badge}>
-          <Text style={s.badgeText}>{energyLabels} · {t('task.badge.now')}</Text>
+        <View style={s.topRow}>
+          <View style={s.badge}>
+            <Text style={s.badgeText}>{energyLabels} · {t('task.badge.now')}</Text>
+          </View>
+          {minutes > 0 && (
+            <Text style={s.timer}>{minutes} {t('task.timer')}</Text>
+          )}
         </View>
         <Text style={s.label}>{t('task.label')}</Text>
         <Text style={s.taskTitle}>{currentTask.text}</Text>
         <View style={s.meta}>
           {currentTask.category && (
-            <Text style={s.metaText}>
+            <Text style={[s.metaText, { color: CATEGORY_COLORS[currentTask.category] }]}>
               ● {t(`cat.${currentTask.category}` as any)}
             </Text>
           )}
         </View>
+
+        {/* Nudge */}
+        {showNudge && (
+          <Animated.View style={[s.nudge, { opacity: nudgeOpacity }]}>
+            <Text style={s.nudgeText}>{t('task.nudge')}</Text>
+          </Animated.View>
+        )}
       </View>
 
       <View style={s.bottom}>
@@ -95,7 +143,7 @@ export default function TaskScreen() {
             <Text style={s.skipBtnText}>{t('task.skip')}</Text>
           </TouchableOpacity>
         </View>
-        <Text style={s.hint}>{t('task.hint')}</Text>
+        <Text style={s.hint}>{t('task.shake')}</Text>
       </View>
     </SafeAreaView>
   )
@@ -104,20 +152,17 @@ export default function TaskScreen() {
 const emptyStyles = StyleSheet.create({
   container: { flex: 1 },
   content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: spacing.xl,
+    flex: 1, alignItems: 'center', justifyContent: 'center', padding: spacing.xl,
   },
   iconBg: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
+    width: 80, height: 80, borderRadius: 40,
+    alignItems: 'center', justifyContent: 'center', marginBottom: 20,
   },
-  emoji: { fontSize: 32 },
+  iconText: {
+    fontFamily: typography.serifItalic,
+    fontSize: 36,
+    color: '#8890a8',
+  },
   title: { fontSize: 22, marginBottom: spacing.sm, textAlign: 'center', lineHeight: 28 },
   sub: { fontSize: 13, textAlign: 'center', marginBottom: spacing.xl, lineHeight: 18 },
   btn: { borderRadius: radius.md, padding: spacing.md, paddingHorizontal: spacing.xl },
@@ -132,6 +177,12 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       justifyContent: 'space-between',
     },
     top: { padding: spacing.lg, paddingTop: spacing.xxl },
+    topRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: spacing.lg,
+    },
     altBanner: {
       backgroundColor: 'rgba(0,0,0,0.15)',
       borderRadius: radius.md,
@@ -145,12 +196,10 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       textAlign: 'center',
     },
     badge: {
-      alignSelf: 'flex-start',
       backgroundColor: 'rgba(255,255,255,0.15)',
       borderRadius: radius.full,
       paddingHorizontal: spacing.md,
       paddingVertical: 4,
-      marginBottom: spacing.lg,
     },
     badgeText: {
       fontFamily: typography.sansBold,
@@ -158,6 +207,11 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       letterSpacing: 1,
       textTransform: 'uppercase',
       color: 'rgba(255,255,255,0.75)',
+    },
+    timer: {
+      fontFamily: typography.serif,
+      fontSize: 16,
+      color: 'rgba(255,255,255,0.4)',
     },
     label: {
       fontFamily: typography.sansBold,
@@ -176,9 +230,20 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     meta: { flexDirection: 'row', gap: spacing.md },
     metaText: {
-      fontFamily: typography.sans,
+      fontFamily: typography.sansBold,
       fontSize: 13,
-      color: theme.dark ? '#5a6480' : 'rgba(255,255,255,0.6)',
+    },
+    nudge: {
+      marginTop: spacing.xl,
+      backgroundColor: 'rgba(255,255,255,0.1)',
+      borderRadius: radius.md,
+      padding: spacing.md,
+    },
+    nudgeText: {
+      fontFamily: typography.serifItalic,
+      fontSize: 16,
+      color: 'rgba(255,255,255,0.6)',
+      textAlign: 'center',
     },
     bottom: { padding: 14, paddingBottom: spacing.xl },
     actions: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
