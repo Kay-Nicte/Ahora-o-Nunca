@@ -26,6 +26,8 @@ export interface Task {
   created_at: string
   energy_levels?: EnergyLevel[]
   estimated_minutes?: number | null
+  recurrence?: 'daily' | 'weekdays' | 'weekly' | null
+  recurrence_day?: number | null // 0-6 for weekly (0=sunday)
 }
 
 export interface TaskEnergyLevel {

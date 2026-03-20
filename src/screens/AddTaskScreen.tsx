@@ -42,6 +42,7 @@ export default function AddTaskScreen() {
   const [classifying, setClassifying] = useState(false)
   const [wasClassified, setWasClassified] = useState(false)
   const [estimatedMinutes, setEstimatedMinutes] = useState<number | null>(null)
+  const [recurrence, setRecurrence] = useState<'daily' | 'weekdays' | 'weekly' | null>(null)
   const [showRecording, setShowRecording] = useState(false)
   const [voiceError, setVoiceError] = useState(false)
   const { recording, processing, startRecording, stopAndTranscribe, cancelRecording } = useVoiceRecorder()
@@ -99,11 +100,12 @@ export default function AddTaskScreen() {
       setShowLimit(true)
       return
     }
-    await createTask(text.trim(), energy, category ?? undefined, estimatedMinutes)
+    await createTask(text.trim(), energy, category ?? undefined, estimatedMinutes, recurrence)
     setText('')
     setCategory(null)
     setEnergy([])
     setEstimatedMinutes(null)
+    setRecurrence(null)
     setWasClassified(false)
     router.back()
   }
@@ -195,6 +197,26 @@ export default function AddTaskScreen() {
                 >
                   <Text style={[s.chipText, { color: theme.muted }, isSelected && s.chipTextSelected]}>
                     {t(`energy.${level}` as any)}
+                  </Text>
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+
+          {/* Recurrence */}
+          <Text style={[s.sectionLabel, { marginTop: 6 }]}>{t('add.repeat')}</Text>
+          <View style={s.chips}>
+            {([null, 'daily', 'weekdays', 'weekly'] as const).map((rec) => {
+              const isSelected = recurrence === rec
+              const labelKey = rec === null ? 'add.repeat.none' : `add.repeat.${rec}`
+              return (
+                <TouchableOpacity
+                  key={rec || 'none'}
+                  style={[s.chip, { borderColor: theme.border }, isSelected && s.chipSelected]}
+                  onPress={() => setRecurrence(rec)}
+                >
+                  <Text style={[s.chipText, { color: theme.muted }, isSelected && s.chipTextSelected]}>
+                    {t(labelKey as any)}
                   </Text>
                 </TouchableOpacity>
               )

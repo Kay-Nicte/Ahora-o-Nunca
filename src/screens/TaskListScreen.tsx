@@ -109,13 +109,18 @@ export default function TaskListScreen() {
         <Text style={[s.taskName, completed && s.taskNameDone, { color: completed ? theme.muted : theme.text }]}>
           {task.text}
         </Text>
-        {!completed && task.energy_levels && task.energy_levels.length > 0 && (
-          <View style={s.taskMetaRow}>
-            {task.energy_levels.map((l) =>
+        <View style={s.taskMetaRow}>
+          {!completed && task.energy_levels && task.energy_levels.length > 0 &&
+            task.energy_levels.map((l) =>
               React.createElement(ENERGY_ICON_MAP[l], { key: l, size: 12, color: theme.muted })
-            )}
-          </View>
-        )}
+            )
+          }
+          {task.recurrence && (
+            <Text style={[s.recurrenceBadge, { color: theme.muted }]}>
+              ↻
+            </Text>
+          )}
+        </View>
       </View>
       {task.category && (
         <View style={s.catBadge}>
@@ -383,7 +388,8 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     checkMark: { color: '#fff', fontSize: 12, fontWeight: '700' },
     taskInfo: { flex: 1 },
     taskName: { fontFamily: typography.sansBold, fontSize: 14 },
-    taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4 },
+    taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4, alignItems: 'center' },
+    recurrenceBadge: { fontFamily: typography.sans, fontSize: 14 },
     taskNameDone: { textDecorationLine: 'line-through' },
     taskMeta: { fontFamily: typography.sans, fontSize: 12, marginTop: 2 },
     catBadge: {

@@ -15,6 +15,7 @@ export function useTasks() {
     energyLevels: EnergyLevel[],
     category?: Category,
     estimatedMinutes?: number | null,
+    recurrence?: 'daily' | 'weekdays' | 'weekly' | null,
   ) => {
     // Try Supabase first
     try {
@@ -68,6 +69,8 @@ export function useTasks() {
       created_at: new Date().toISOString(),
       energy_levels: energyLevels,
       estimated_minutes: estimatedMinutes ?? null,
+      recurrence: recurrence ?? null,
+      recurrence_day: recurrence === 'weekly' ? new Date().getDay() : null,
     }
 
     addTask(localTask)

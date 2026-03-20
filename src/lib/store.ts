@@ -125,15 +125,34 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   setTasks: (tasks) => set({ tasks }),
   addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
   completeTask: (taskId) =>
-    set((state) => ({
-      tasks: state.tasks.map((t) =>
+    set((state) => {
+      const task = state.tasks.find((t) => t.id === taskId)
+      const updatedTasks = state.tasks.map((t) =>
         t.id === taskId
           ? { ...t, completed: true, completed_at: new Date().toISOString() }
           : t
-      ),
-      currentTask: state.currentTask?.id === taskId ? null : state.currentTask,
-      totalCompleted: state.totalCompleted + 1,
-    })),
+      )
+
+      // Respawn recurrent task
+      if (task?.recurrence) {
+        const maxPos = Math.max(...updatedTasks.map((t) => t.position), 0)
+        const respawned: Task = {
+          ...task,
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+          completed: false,
+          completed_at: null,
+          position: maxPos + 1,
+          created_at: new Date().toISOString(),
+        }
+        updatedTasks.push(respawned)
+      }
+
+      return {
+        tasks: updatedTasks,
+        currentTask: state.currentTask?.id === taskId ? null : state.currentTask,
+        totalCompleted: state.totalCompleted + 1,
+      }
+    }),
   restoreTask: (taskId) =>
     set((state) => ({
       tasks: state.tasks.map((t) =>
