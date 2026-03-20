@@ -247,6 +247,8 @@ const translations = {
 
     // System tasks
     'systemTask.createAccount': 'Crear tu cuenta',
+    'systemTask.pickAvatar': 'Elige tu avatar',
+    'systemTask.setupNotifs': 'Configura tus notificaciones',
 
     // Welcome back
     'welcome.back': 'Qué bien que estés aquí.',
@@ -559,6 +561,8 @@ const translations = {
     'frustration.try': 'I\'ll try',
 
     'systemTask.createAccount': 'Create your account',
+    'systemTask.pickAvatar': 'Pick your avatar',
+    'systemTask.setupNotifs': 'Set up your notifications',
 
     'welcome.back': 'Good to see you here.',
 

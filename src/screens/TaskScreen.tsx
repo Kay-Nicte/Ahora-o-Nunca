@@ -62,10 +62,20 @@ export default function TaskScreen() {
     tapSuccess()
     resetSkips()
 
-    // System task: redirect to login instead of done
+    // System tasks: redirect to the right screen
     if (currentTask.id === 'system_create_account') {
       await markComplete(currentTask.id)
       router.replace('/login')
+      return
+    }
+    if (currentTask.id === 'system_pick_avatar') {
+      await markComplete(currentTask.id)
+      router.replace('/avatar')
+      return
+    }
+    if (currentTask.id === 'system_setup_notifs') {
+      await markComplete(currentTask.id)
+      router.replace('/notifications')
       return
     }
 
