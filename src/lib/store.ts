@@ -21,6 +21,8 @@ interface AppState {
   // Auth
   profile: Profile | null
   setProfile: (profile: Profile | null) => void
+  userEmail: string | null
+  setUserEmail: (email: string | null) => void
 
   // Tasks
   tasks: Task[]
@@ -94,6 +96,8 @@ interface AppState {
 export const useAppStore = create<AppState>()(persist((set, get) => ({
   profile: null,
   setProfile: (profile) => set({ profile }),
+  userEmail: null,
+  setUserEmail: (email) => set({ userEmail: email }),
 
   tasks: [],
   setTasks: (tasks) => set({ tasks }),
@@ -275,6 +279,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   name: 'ahora-o-nunca-store',
   storage: createJSONStorage(() => AsyncStorage),
   partialize: (state) => ({
+    userEmail: state.userEmail,
     hasSeenOnboarding: state.hasSeenOnboarding,
     trialActivated: state.trialActivated,
     trialActivatedAt: state.trialActivatedAt,

@@ -268,7 +268,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingTop: 8, paddingBottom: 20,
     },
     greeting: {
-      fontFamily: typography.sans, fontSize: 10,
+      fontFamily: typography.sans, fontSize: 12,
       letterSpacing: 1.8, textTransform: 'uppercase',
       color: theme.muted, marginBottom: 6,
     },
@@ -283,27 +283,27 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       backgroundColor: theme.accent,
       alignItems: 'center', justifyContent: 'center',
     },
-    voiceHint: { fontFamily: typography.sans, fontSize: 10, color: theme.muted },
+    voiceHint: { fontFamily: typography.sans, fontSize: 12, color: theme.muted },
     divider: {
       flexDirection: 'row', alignItems: 'center',
       gap: 10, width: '100%', marginVertical: 2,
     },
     dividerLine: { flex: 1, height: 1 },
-    dividerText: { fontFamily: typography.sans, fontSize: 10 },
+    dividerText: { fontFamily: typography.sans, fontSize: 12 },
     input: {
       width: '100%', borderWidth: 1.5, borderRadius: 12,
       padding: 12, paddingHorizontal: 14,
-      fontFamily: typography.sans, fontSize: 12,
+      fontFamily: typography.sans, fontSize: 14,
     },
     classifyRow: {
       flexDirection: 'row', alignItems: 'center', gap: 8,
     },
-    classifyText: { fontFamily: typography.sans, fontSize: 11 },
+    classifyText: { fontFamily: typography.sans, fontSize: 13 },
     classifiedText: {
-      fontFamily: typography.sansBold, fontSize: 11,
+      fontFamily: typography.sansBold, fontSize: 13,
     },
     sectionLabel: {
-      fontFamily: typography.sansBold, fontSize: 9,
+      fontFamily: typography.sansBold, fontSize: 11,
       letterSpacing: 2, textTransform: 'uppercase',
       color: theme.muted, paddingHorizontal: 20, paddingBottom: 8,
     },
@@ -319,7 +319,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       borderColor: theme.accent,
       backgroundColor: 'rgba(91,126,201,0.1)',
     },
-    chipText: { fontFamily: typography.sansBold, fontSize: 10 },
+    chipText: { fontFamily: typography.sansBold, fontSize: 12 },
     chipTextSelected: { color: theme.accent },
     saveArea: { paddingHorizontal: 14, paddingTop: 14 },
     saveBtn: {
@@ -327,7 +327,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       padding: 14, alignItems: 'center',
     },
     saveBtnText: {
-      fontFamily: typography.sansBold, fontSize: 12, color: '#fff',
+      fontFamily: typography.sansBold, fontSize: 14, color: '#fff',
     },
     // Recording modal
     recBackdrop: {
@@ -345,7 +345,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.serifItalic, fontSize: 20, marginBottom: 6,
     },
     recSub: {
-      fontFamily: typography.sans, fontSize: 12, marginBottom: 20,
+      fontFamily: typography.sans, fontSize: 14, marginBottom: 20,
     },
     recStopBtn: {
       width: 56, height: 56, borderRadius: 28,
@@ -356,6 +356,6 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingHorizontal: 20, paddingTop: 4, paddingBottom: 8,
     },
     voiceErrorText: {
-      fontFamily: typography.sans, fontSize: 11, textAlign: 'center',
+      fontFamily: typography.sans, fontSize: 13, textAlign: 'center',
     },
   })

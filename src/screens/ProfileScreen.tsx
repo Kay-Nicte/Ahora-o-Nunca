@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity, ScrollView,
+  Modal, Pressable, TextInput,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
+import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
@@ -21,11 +23,33 @@ export default function ProfileScreen() {
   const theme = useTheme()
   const t = useT()
   const profile = useAppStore((s) => s.profile)
+  const userEmail = useAppStore((s) => s.userEmail)
   const appearanceMode = useAppStore((s) => s.appearanceMode)
   const language = useAppStore((s) => s.language)
   const { signOut } = useAuth()
   const { isPremium, isTrial, trialDaysLeft } = usePremium()
   const [showLogout, setShowLogout] = useState(false)
+  const [showEditName, setShowEditName] = useState(false)
+  const [editName, setEditName] = useState(profile?.username || '')
+
+  const displayName = profile?.username || userEmail?.split('@')[0] || 'Usuario'
+
+  const handleSaveName = async () => {
+    const name = editName.trim()
+    if (!name) return
+    // Update in Supabase if connected
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        await supabase.from('profiles').update({ username: name }).eq('id', user.id)
+      }
+    } catch (_) {}
+    // Update local
+    useAppStore.setState({
+      profile: { ...(profile || { id: 'local', avatar_url: null, is_premium: false, premium_since: null, created_at: new Date().toISOString() }), username: name },
+    })
+    setShowEditName(false)
+  }
   const ns = useAppStore((s) => s.notifSettings)
 
   const pad = (n: number) => n.toString().padStart(2, '0')
@@ -46,10 +70,10 @@ export default function ProfileScreen() {
         {/* Header */}
         <View style={s.header}>
           <AvatarButton size={48} onPress={() => router.push('/avatar')} />
-          <View>
-            <Text style={s.name}>{profile?.username || 'Usuario'}</Text>
-            <Text style={s.email}>{t('profile.noAccount')}</Text>
-          </View>
+          <TouchableOpacity onPress={() => { setEditName(profile?.username || ''); setShowEditName(true) }}>
+            <Text style={s.name}>{displayName}</Text>
+            <Text style={s.email}>{userEmail || t('profile.noAccount')}</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Settings rows */}
@@ -74,7 +98,7 @@ export default function ProfileScreen() {
           <TouchableOpacity style={[s.row, { borderColor: theme.border }]} onPress={() => router.push('/notifications')}>
             <View>
               <Text style={[s.rowText, { color: theme.text }]}>{t('profile.notifications')}</Text>
-              <Text style={[s.rowSubNotif, { color: theme.muted }]}>{notifSummary}</Text>
+              <Text style={[s.rowSub, { color: theme.muted }]}>{notifSummary}</Text>
             </View>
             <ChevronRightIcon size={14} color={theme.muted} />
           </TouchableOpacity>
@@ -115,6 +139,34 @@ export default function ProfileScreen() {
         </View>
       </ScrollView>
 
+      {/* Edit name modal */}
+      <Modal visible={showEditName} transparent animationType="fade" onRequestClose={() => setShowEditName(false)}>
+        <Pressable style={s.modalBackdrop} onPress={() => setShowEditName(false)}>
+          <Pressable style={[s.modalCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
+            <Text style={[s.modalTitle, { color: theme.text }]}>{t('profile.editName')}</Text>
+            <TextInput
+              style={[s.modalInput, {
+                backgroundColor: theme.dark ? theme.bg : '#f0f2f7',
+                borderColor: theme.border,
+                color: theme.text,
+              }]}
+              value={editName}
+              onChangeText={setEditName}
+              placeholder={t('profile.editName.placeholder')}
+              placeholderTextColor={theme.muted}
+              autoFocus
+            />
+            <TouchableOpacity
+              style={[s.modalSaveBtn, { backgroundColor: theme.accent }, !editName.trim() && { opacity: 0.4 }]}
+              onPress={handleSaveName}
+              disabled={!editName.trim()}
+            >
+              <Text style={s.modalSaveBtnText}>{t('profile.editName.save')}</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
       <ConfirmModal
         visible={showLogout}
         onClose={() => setShowLogout(false)}
@@ -152,7 +204,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     email: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       color: theme.muted,
     },
     section: {
@@ -190,16 +242,37 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     rowText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
     },
     rowSub: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       marginTop: 2,
+    },
+    modalBackdrop: {
+      flex: 1, backgroundColor: 'rgba(0,0,0,0.5)',
+      justifyContent: 'center', alignItems: 'center', padding: 30,
+    },
+    modalCard: {
+      width: '100%', borderRadius: 20, padding: 24, alignItems: 'center',
+    },
+    modalTitle: {
+      fontFamily: typography.serifItalic, fontSize: 20, marginBottom: 16,
+    },
+    modalInput: {
+      width: '100%', borderWidth: 1.5, borderRadius: 12,
+      padding: 12, paddingHorizontal: 14,
+      fontFamily: typography.sans, fontSize: 16, marginBottom: 14,
+    },
+    modalSaveBtn: {
+      width: '100%', borderRadius: radius.md, padding: 14, alignItems: 'center',
+    },
+    modalSaveBtnText: {
+      fontFamily: typography.sansBold, fontSize: 15, color: '#fff',
     },
     rowSubNotif: {
       fontFamily: typography.serif,
-      fontSize: 14,
+      fontSize: 16,
       marginTop: 2,
     },
   })

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   tagline: {
     fontFamily: 'AtkinsonHyperlegible_700Bold',
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 3,
     color: colors.mutedDark,
   },

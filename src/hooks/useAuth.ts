@@ -49,11 +49,13 @@ export function useAuth() {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
   const setProfile = useAppStore((s) => s.setProfile)
+  const setUserEmail = useAppStore((s) => s.setUserEmail)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       if (session) {
+        setUserEmail(session.user.email ?? null)
         fetchProfile(session.user.id)
         migrateLocalTasks(session.user.id)
       }
@@ -64,10 +66,12 @@ export function useAuth() {
       (_event, session) => {
         setSession(session)
         if (session) {
+          setUserEmail(session.user.email ?? null)
           fetchProfile(session.user.id)
           migrateLocalTasks(session.user.id)
         } else {
           setProfile(null)
+          setUserEmail(null)
         }
       }
     )
@@ -94,9 +98,31 @@ export function useAuth() {
     return { error }
   }
 
+  const signInWithGoogle = async () => {
+    // Requires dev build + Google Cloud OAuth credentials
+    // Configure in Supabase Dashboard → Auth → Providers → Google
+    // Then: supabase.auth.signInWithOAuth({ provider: 'google' })
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: 'ahoraonunca://auth/callback' },
+    })
+    return { error }
+  }
+
+  const signInWithApple = async () => {
+    // Requires dev build + Apple Developer account
+    // Configure in Supabase Dashboard → Auth → Providers → Apple
+    // Then: supabase.auth.signInWithOAuth({ provider: 'apple' })
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: { redirectTo: 'ahoraonunca://auth/callback' },
+    })
+    return { error }
+  }
+
   const signOut = async () => {
     await supabase.auth.signOut()
   }
 
-  return { session, loading, signUp, signIn, signOut }
+  return { session, loading, signUp, signIn, signInWithGoogle, signInWithApple, signOut }
 }

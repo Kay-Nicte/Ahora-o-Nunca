@@ -120,7 +120,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 15,
+      fontSize: 16,
       color: theme.dark ? theme.muted : 'rgba(255,255,255,0.7)',
       textAlign: 'center',
       lineHeight: 22,
@@ -154,12 +154,12 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     btnText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       color: '#fff',
     },
     skip: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.dark ? theme.muted : 'rgba(255,255,255,0.5)',
       marginTop: 16,
       textDecorationLine: 'underline',

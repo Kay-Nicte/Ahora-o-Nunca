@@ -71,7 +71,7 @@ const s = StyleSheet.create({
   },
   bannerText: {
     fontFamily: typography.sansBold,
-    fontSize: 13,
+    fontSize: 15,
     color: '#1a1e2e',
   },
   backdrop: {
@@ -94,7 +94,7 @@ const s = StyleSheet.create({
   },
   sub: {
     fontFamily: typography.sans,
-    fontSize: 13,
+    fontSize: 15,
     textAlign: 'center',
     lineHeight: 20,
     marginBottom: 20,
@@ -109,12 +109,12 @@ const s = StyleSheet.create({
   },
   activateBtnText: {
     fontFamily: typography.sansBold,
-    fontSize: 14,
+    fontSize: 16,
     color: '#1a1e2e',
   },
   laterBtn: { padding: 8 },
   laterText: {
     fontFamily: typography.sans,
-    fontSize: 12,
+    fontSize: 14,
   },
 })

@@ -70,7 +70,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     back: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       marginBottom: 16,
     },
     title: {
@@ -81,7 +81,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.muted,
     },
     options: {
@@ -99,7 +99,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     flag: { fontSize: 24 },
     cardLabel: {
       fontFamily: typography.sansBold,
-      fontSize: 13,
+      fontSize: 15,
     },
     radio: {
       width: 20,

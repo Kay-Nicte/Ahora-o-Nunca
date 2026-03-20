@@ -159,11 +159,10 @@ export default function TaskListScreen() {
 
         <View style={s.addArea}>
           <TouchableOpacity
-            style={[s.addBtn, { borderColor: theme.border }]}
+            style={[s.addBtn, { borderColor: theme.accent }]}
             onPress={() => router.push('/add-task')}
           >
-            <View style={[s.micDot, { backgroundColor: theme.accent }]} />
-            <Text style={[s.addBtnText, { color: theme.muted }]}>{t('tasks.new')}</Text>
+            <Text style={[s.addBtnText, { color: theme.accent }]}>{t('tasks.new')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -352,7 +351,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     title: { fontFamily: typography.serif, fontSize: 26, color: theme.text },
     titleEm: { fontFamily: typography.serifItalic, color: theme.accent },
-    sub: { fontFamily: typography.sans, fontSize: 11, color: theme.muted },
+    sub: { fontFamily: typography.sans, fontSize: 13, color: theme.muted },
     list: { flex: 1 },
     listContent: { paddingTop: 8, paddingBottom: 20 },
     taskItem: {
@@ -366,25 +365,25 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: 18, height: 18, borderRadius: 9, borderWidth: 2,
       alignItems: 'center', justifyContent: 'center',
     },
-    checkMark: { color: '#fff', fontSize: 10, fontWeight: '700' },
+    checkMark: { color: '#fff', fontSize: 12, fontWeight: '700' },
     taskInfo: { flex: 1 },
-    taskName: { fontFamily: typography.sansBold, fontSize: 12 },
+    taskName: { fontFamily: typography.sansBold, fontSize: 14 },
     taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4 },
     taskNameDone: { textDecorationLine: 'line-through' },
-    taskMeta: { fontFamily: typography.sans, fontSize: 10, marginTop: 2 },
+    taskMeta: { fontFamily: typography.sans, fontSize: 12, marginTop: 2 },
     catBadge: {
       backgroundColor: 'rgba(91,126,201,0.15)',
       paddingHorizontal: 7, paddingVertical: 2, borderRadius: radius.full,
     },
-    catBadgeText: { fontFamily: typography.sansBold, fontSize: 9, color: theme.accent },
+    catBadgeText: { fontFamily: typography.sansBold, fontSize: 11, color: theme.accent },
     empty: { alignItems: 'center', paddingTop: 60 },
-    emptyText: { fontFamily: typography.sans, fontSize: 13 },
+    emptyText: { fontFamily: typography.sans, fontSize: 15 },
     addArea: { paddingHorizontal: 14, paddingVertical: 10 },
     addBtn: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
       gap: 6, borderWidth: 1.5, borderRadius: radius.md, padding: 12,
     },
-    addBtnText: { fontFamily: typography.sansBold, fontSize: 11 },
+    addBtnText: { fontFamily: typography.sansBold, fontSize: 13 },
     micDot: { width: 6, height: 6, borderRadius: 3 },
     // Completed
     completedHeader: {
@@ -392,10 +391,10 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingHorizontal: 20, paddingVertical: 12, marginTop: 8,
     },
     completedTitle: {
-      fontFamily: typography.sansBold, fontSize: 10,
+      fontFamily: typography.sansBold, fontSize: 12,
       letterSpacing: 1.5, textTransform: 'uppercase',
     },
-    completedArrow: { fontSize: 10 },
+    completedArrow: { fontSize: 12 },
     // Action sheet
     sheetBackdrop: {
       flex: 1, backgroundColor: 'rgba(0,0,0,0.5)',
@@ -410,7 +409,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       borderRadius: radius.md, padding: 14,
       alignItems: 'center', marginBottom: 8,
     },
-    sheetBtnText: { fontFamily: typography.sansBold, fontSize: 13, color: '#fff' },
+    sheetBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
     sideBySide: {
       flexDirection: 'row',
       gap: 8,
@@ -423,7 +422,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: 'center',
     },
     sheetCancel: { padding: 10, alignItems: 'center' },
-    sheetCancelText: { fontFamily: typography.sans, fontSize: 12 },
+    sheetCancelText: { fontFamily: typography.sans, fontSize: 14 },
     // Edit modal
     editCard: {
       borderRadius: 20, padding: 20, marginHorizontal: 14,
@@ -436,10 +435,10 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     editInput: {
       borderWidth: 1.5, borderRadius: 12,
       padding: 12, paddingHorizontal: 14,
-      fontFamily: typography.sans, fontSize: 13, marginBottom: 14,
+      fontFamily: typography.sans, fontSize: 15, marginBottom: 14,
     },
     editLabel: {
-      fontFamily: typography.sansBold, fontSize: 9,
+      fontFamily: typography.sansBold, fontSize: 11,
       letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 8,
     },
     chipRow: {
@@ -453,9 +452,9 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       borderColor: theme.accent,
       backgroundColor: 'rgba(91,126,201,0.1)',
     },
-    chipText: { fontFamily: typography.sansBold, fontSize: 9 },
+    chipText: { fontFamily: typography.sansBold, fontSize: 11 },
     editSaveBtn: {
       borderRadius: radius.md, padding: 14, alignItems: 'center', marginBottom: 4,
     },
-    editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 13, color: '#fff' },
+    editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
   })

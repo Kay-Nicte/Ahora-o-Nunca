@@ -117,7 +117,7 @@ const tpStyles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center', padding: 40,
   },
   card: { width: '100%', borderRadius: 20, padding: 24, alignItems: 'center' },
-  title: { fontFamily: typography.sansBold, fontSize: 14, marginBottom: 16 },
+  title: { fontFamily: typography.sansBold, fontSize: 16, marginBottom: 16 },
   row: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
   col: { alignItems: 'center', width: 60 },
   arrowBtn: { padding: 8 },
@@ -125,7 +125,7 @@ const tpStyles = StyleSheet.create({
   digit: { fontFamily: typography.serif, fontSize: 42, lineHeight: 48 },
   colon: { fontFamily: typography.serif, fontSize: 36, marginHorizontal: 6 },
   confirm: { borderRadius: radius.md, paddingVertical: 12, paddingHorizontal: 40 },
-  confirmText: { fontFamily: typography.sansBold, fontSize: 13, color: '#fff' },
+  confirmText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
 })
 
 export default function NotificationsScreen() {
@@ -371,21 +371,21 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingHorizontal: 20, paddingTop: 8, paddingBottom: 10,
       backgroundColor: theme.surface,
     },
-    back: { fontFamily: typography.sansBold, fontSize: 12, marginBottom: 10 },
+    back: { fontFamily: typography.sansBold, fontSize: 14, marginBottom: 10 },
     headerRow: {
       flexDirection: 'row', alignItems: 'center',
       justifyContent: 'space-between', marginBottom: 6,
     },
     title: { fontFamily: typography.serif, fontSize: 26, color: theme.text },
     titleEm: { fontFamily: typography.serifItalic, color: theme.accent },
-    sub: { fontFamily: typography.sans, fontSize: 11, color: theme.muted },
+    sub: { fontFamily: typography.sans, fontSize: 13, color: theme.muted },
     toggleRow: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
       paddingHorizontal: 20, paddingVertical: 12, borderBottomWidth: 1,
     },
     smartRow: { flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1, marginRight: 12 },
-    toggleLabel: { fontFamily: typography.sansBold, fontSize: 12 },
-    toggleSub: { fontFamily: typography.sans, fontSize: 10, marginTop: 2 },
+    toggleLabel: { fontFamily: typography.sansBold, fontSize: 14 },
+    toggleSub: { fontFamily: typography.sans, fontSize: 12, marginTop: 2 },
     proBadge: {
       backgroundColor: colors.yellow, paddingHorizontal: 7,
       paddingVertical: 2, borderRadius: radius.full,
@@ -402,11 +402,11 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     smartHint: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       lineHeight: 15,
     },
     sectionLabel: {
-      fontFamily: typography.sansBold, fontSize: 9, letterSpacing: 2,
+      fontFamily: typography.sansBold, fontSize: 11, letterSpacing: 2,
       textTransform: 'uppercase', color: theme.muted,
       paddingHorizontal: 20, paddingTop: 14, paddingBottom: 8,
     },
@@ -417,7 +417,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     timeTop: { alignItems: 'center' },
     timeBottom: { alignItems: 'center', marginTop: 4 },
     timeEmoji: { fontSize: 18, marginBottom: 4 },
-    timeName: { fontFamily: typography.sansBold, fontSize: 11, marginBottom: 2 },
+    timeName: { fontFamily: typography.sansBold, fontSize: 13, marginBottom: 2 },
     timeValue: {
       fontFamily: typography.sansBold, fontSize: 16, color: theme.accent, textAlign: 'center',
     },

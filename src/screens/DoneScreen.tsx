@@ -99,7 +99,7 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 12,
+      fontSize: 14,
       color: theme.muted,
       textAlign: 'center',
       lineHeight: 19,
@@ -116,12 +116,12 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     btnText: {
       fontFamily: typography.sansBold,
-      fontSize: 14,
+      fontSize: 16,
       color: '#fff',
     },
     streak: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       color: theme.muted,
       letterSpacing: 0.8,
       marginTop: 12,

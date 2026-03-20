@@ -116,9 +116,9 @@ const emptyStyles = StyleSheet.create({
   },
   emoji: { fontSize: 32 },
   title: { fontSize: 22, marginBottom: spacing.sm, textAlign: 'center', lineHeight: 28 },
-  sub: { fontSize: 11, textAlign: 'center', marginBottom: spacing.xl, lineHeight: 18 },
+  sub: { fontSize: 13, textAlign: 'center', marginBottom: spacing.xl, lineHeight: 18 },
   btn: { borderRadius: radius.md, padding: spacing.md, paddingHorizontal: spacing.xl },
-  btnText: { fontFamily: typography.sansBold, fontSize: 14 },
+  btnText: { fontFamily: typography.sansBold, fontSize: 16 },
 })
 
 const taskStyles = (theme: ReturnType<typeof useTheme>) =>
@@ -137,7 +137,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     altBannerText: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: 'rgba(255,255,255,0.7)',
       textAlign: 'center',
     },
@@ -151,14 +151,14 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     badgeText: {
       fontFamily: typography.sansBold,
-      fontSize: 9,
+      fontSize: 11,
       letterSpacing: 1,
       textTransform: 'uppercase',
       color: 'rgba(255,255,255,0.75)',
     },
     label: {
       fontFamily: typography.sansBold,
-      fontSize: 10,
+      fontSize: 12,
       letterSpacing: 1.8,
       textTransform: 'uppercase',
       color: theme.dark ? '#5a6480' : 'rgba(255,255,255,0.6)',
@@ -174,7 +174,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     meta: { flexDirection: 'row', gap: spacing.md },
     metaText: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.dark ? '#5a6480' : 'rgba(255,255,255,0.6)',
     },
     bottom: { padding: 14, paddingBottom: spacing.xl },
@@ -188,7 +188,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     doneBtnText: {
       fontFamily: typography.sansBold,
-      fontSize: 13,
+      fontSize: 15,
       color: '#fff',
     },
     skipBtn: {
@@ -200,12 +200,12 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     skipBtnText: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.dark ? '#8a90a8' : 'rgba(255,255,255,0.8)',
     },
     hint: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       color: 'rgba(255,255,255,0.3)',
       textAlign: 'center',
     },

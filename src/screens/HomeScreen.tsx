@@ -103,7 +103,7 @@ export default function HomeScreen() {
               style={s.btnSecondary}
               onPress={() => router.push('/add-task')}
             >
-              <View style={[s.micDot, { backgroundColor: theme.accent }]} />
+
               <Text style={s.btnSecondaryText}>{t('home.add')}</Text>
             </TouchableOpacity>
           </View>
@@ -133,7 +133,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     greeting: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       letterSpacing: 1.8,
       textTransform: 'uppercase',
       color: theme.muted,
@@ -152,13 +152,13 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.muted,
       marginTop: 3,
     },
     sectionLabel: {
       fontFamily: typography.sansBold,
-      fontSize: 9,
+      fontSize: 11,
       letterSpacing: 2,
       textTransform: 'uppercase',
       color: theme.muted,
@@ -188,7 +188,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     energyName: {
       fontFamily: typography.serifItalic,
-      fontSize: 15,
+      fontSize: 16,
       color: theme.dark ? theme.text : theme.muted,
     },
     btns: {
@@ -210,7 +210,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     btnDisabled: { opacity: 0.4 },
     btnPrimaryText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       color: '#fff',
     },
     btnSecondary: {
@@ -226,7 +226,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     btnSecondaryText: {
       fontFamily: typography.sansBold,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.muted,
     },
     micDot: {

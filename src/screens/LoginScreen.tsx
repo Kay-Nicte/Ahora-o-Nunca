@@ -8,10 +8,11 @@ import { useTheme } from '../hooks/useTheme'
 import { useAuth } from '../hooks/useAuth'
 import { spacing, radius, typography } from '../lib/theme'
 import { LogoMark } from '../components/LogoMark'
+import { GoogleIcon, AppleIcon } from '../components/Icons'
 
 export default function LoginScreen() {
   const theme = useTheme()
-  const { signIn, signUp } = useAuth()
+  const { signIn, signUp, signInWithGoogle, signInWithApple } = useAuth()
   const [isRegister, setIsRegister] = useState(true)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -88,15 +89,23 @@ export default function LoginScreen() {
         <TouchableOpacity style={[s.socialBtn, {
           backgroundColor: theme.dark ? theme.surface : '#fff',
           borderColor: theme.border,
-        }]}>
-          <Text style={[s.socialBtnText, { color: theme.text }]}>🌐  Google</Text>
+        }]} onPress={async () => {
+          const { error: err } = await signInWithGoogle()
+          if (err) setError(err.message)
+        }}>
+          <GoogleIcon size={18} />
+          <Text style={[s.socialBtnText, { color: theme.text }]}>Google</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[s.socialBtn, {
-          backgroundColor: theme.dark ? theme.surface : '#fff',
-          borderColor: theme.border,
-        }]}>
-          <Text style={[s.socialBtnText, { color: theme.text }]}>🍎  Apple</Text>
+          backgroundColor: '#000',
+          borderColor: theme.dark ? '#333' : '#000',
+        }]} onPress={async () => {
+          const { error: err } = await signInWithApple()
+          if (err) setError(err.message)
+        }}>
+          <AppleIcon size={18} color="#fff" />
+          <Text style={[s.socialBtnText, { color: '#fff' }]}>Apple</Text>
         </TouchableOpacity>
       </View>
 
@@ -140,7 +149,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.muted,
     },
     form: {
@@ -153,11 +162,11 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       padding: 12,
       paddingHorizontal: 14,
       fontFamily: typography.sans,
-      fontSize: 12,
+      fontSize: 14,
     },
     error: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.error,
       textAlign: 'center',
     },
@@ -169,7 +178,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     btnText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       color: '#fff',
     },
     divider: {
@@ -179,7 +188,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       marginVertical: 4,
     },
     dividerLine: { flex: 1, height: 1 },
-    dividerText: { fontFamily: typography.sans, fontSize: 10 },
+    dividerText: { fontFamily: typography.sans, fontSize: 12 },
     socialBtn: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -191,7 +200,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     socialBtnText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
     },
     footer: {
       alignItems: 'center',
@@ -199,7 +208,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     footerText: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
     },
     footerLink: {
       color: theme.accent,
@@ -211,7 +220,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     skipText: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       textDecorationLine: 'underline',
     },
   })

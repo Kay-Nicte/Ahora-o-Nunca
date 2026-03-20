@@ -188,7 +188,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     back: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       marginBottom: 16,
     },
     title: {
@@ -234,15 +234,15 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     uploadName: {
       fontFamily: typography.sansBold,
-      fontSize: 11,
+      fontSize: 13,
     },
     uploadDesc: {
       fontFamily: typography.sans,
-      fontSize: 9,
+      fontSize: 11,
     },
     sectionLabel: {
       fontFamily: typography.sansBold,
-      fontSize: 9,
+      fontSize: 11,
       letterSpacing: 2,
       textTransform: 'uppercase',
       color: theme.muted,
@@ -276,7 +276,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     saveBtnText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       color: '#fff',
     },
   })

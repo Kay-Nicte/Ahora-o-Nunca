@@ -75,7 +75,7 @@ const s = StyleSheet.create({
   },
   sub: {
     fontFamily: typography.sans,
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
     lineHeight: 18,
     marginBottom: 20,
@@ -90,7 +90,7 @@ const s = StyleSheet.create({
   },
   ctaBtnText: {
     fontFamily: typography.sansBold,
-    fontSize: 13,
+    fontSize: 15,
     color: '#1a1e2e',
   },
   dismissBtn: {
@@ -98,6 +98,6 @@ const s = StyleSheet.create({
   },
   dismissText: {
     fontFamily: typography.sans,
-    fontSize: 12,
+    fontSize: 14,
   },
 })

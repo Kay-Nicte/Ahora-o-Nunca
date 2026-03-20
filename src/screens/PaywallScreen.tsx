@@ -102,13 +102,13 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.muted,
       marginTop: 6,
     },
     trialBadge: {
       fontFamily: typography.sansBold,
-      fontSize: 10,
+      fontSize: 12,
       color: colors.yellowDark,
       textAlign: 'center',
       letterSpacing: 0.5,
@@ -131,11 +131,11 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     perkIcon: { fontSize: 16 },
     perkTitle: {
       fontFamily: typography.sansBold,
-      fontSize: 11,
+      fontSize: 13,
     },
     perkSub: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       marginTop: 1,
     },
     priceRow: {
@@ -151,7 +151,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     priceLabel: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
     },
     ctaArea: {
       paddingHorizontal: 14,
@@ -166,12 +166,12 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     ctaBtnText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       color: '#1a1e2e',
     },
     ctaSub: {
       fontFamily: typography.sans,
-      fontSize: 10,
+      fontSize: 12,
       marginTop: 10,
     },
     close: {
@@ -180,7 +180,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     closeText: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       textDecorationLine: 'underline',
     },
   })

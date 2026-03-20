@@ -49,7 +49,7 @@ const s = StyleSheet.create({
   },
   message: {
     fontFamily: typography.sans,
-    fontSize: 12,
+    fontSize: 14,
     marginBottom: 10,
   },
   actions: {
@@ -65,7 +65,7 @@ const s = StyleSheet.create({
   },
   ctaText: {
     fontFamily: typography.sansBold,
-    fontSize: 11,
+    fontSize: 13,
     color: '#fff',
   },
   laterBtn: {
@@ -73,6 +73,6 @@ const s = StyleSheet.create({
   },
   laterText: {
     fontFamily: typography.sans,
-    fontSize: 11,
+    fontSize: 13,
   },
 })

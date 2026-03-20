@@ -69,7 +69,7 @@ const s = StyleSheet.create({
   },
   message: {
     fontFamily: typography.sans,
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
     lineHeight: 18,
     marginBottom: 20,
@@ -83,7 +83,7 @@ const s = StyleSheet.create({
   },
   btnText: {
     fontFamily: typography.sansBold,
-    fontSize: 13,
+    fontSize: 15,
     color: '#fff',
   },
   cancel: {
@@ -91,6 +91,6 @@ const s = StyleSheet.create({
   },
   cancelText: {
     fontFamily: typography.sans,
-    fontSize: 12,
+    fontSize: 14,
   },
 })

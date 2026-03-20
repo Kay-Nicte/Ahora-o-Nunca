@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   label: {
-    fontSize: 9,
+    fontSize: 11,
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },

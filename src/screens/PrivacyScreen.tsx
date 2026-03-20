@@ -157,7 +157,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     back: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       marginBottom: 16,
     },
     title: {
@@ -168,7 +168,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sub: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       color: theme.muted,
     },
     section: {
@@ -181,12 +181,12 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     infoTitle: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
       marginBottom: 4,
     },
     infoText: {
       fontFamily: typography.sans,
-      fontSize: 11,
+      fontSize: 13,
       lineHeight: 17,
     },
     actionRow: {
@@ -196,6 +196,6 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     actionText: {
       fontFamily: typography.sansBold,
-      fontSize: 12,
+      fontSize: 14,
     },
   })
