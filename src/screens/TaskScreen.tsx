@@ -16,6 +16,7 @@ import { usePremium } from '../hooks/usePremium'
 import { MicroSteps } from '../components/MicroSteps'
 import { PremiumModal } from '../components/PremiumModal'
 import { RemindMe } from '../components/RemindMe'
+import { FocusMode } from '../components/FocusMode'
 
 export default function TaskScreen() {
   const theme = useTheme()
@@ -101,6 +102,7 @@ export default function TaskScreen() {
   // Premium for micro-steps
   const { isPremium } = usePremium()
   const [showPremiumModal, setShowPremiumModal] = useState(false)
+  const [focusMode, setFocusMode] = useState(false)
 
   if (!currentTask) {
     return (
@@ -179,6 +181,14 @@ export default function TaskScreen() {
           isPremium={isPremium}
           onPremiumRequired={() => setShowPremiumModal(true)}
         />
+
+        {/* Focus mode button */}
+        <TouchableOpacity
+          style={[s.focusBtn, { borderColor: 'rgba(255,255,255,0.2)' }]}
+          onPress={() => setFocusMode(true)}
+        >
+          <Text style={s.focusBtnText}>{t('task.focusMode')}</Text>
+        </TouchableOpacity>
       </View>
 
       <PremiumModal
@@ -199,6 +209,14 @@ export default function TaskScreen() {
         </View>
         <Text style={s.hint}>{t('task.shake')}</Text>
       </View>
+
+      {/* Focus mode */}
+      <FocusMode
+        visible={focusMode}
+        taskText={currentTask.text}
+        onDone={() => { setFocusMode(false); handleDone() }}
+        onExit={() => setFocusMode(false)}
+      />
 
       {/* Frustration modal */}
       <Modal visible={showFrustration} transparent animationType="fade" onRequestClose={() => setShowFrustration(false)}>
@@ -309,6 +327,19 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.serif,
       fontSize: 14,
       color: 'rgba(255,255,255,0.4)',
+    },
+    focusBtn: {
+      marginTop: spacing.md,
+      borderWidth: 1.5,
+      borderRadius: radius.full,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      alignSelf: 'flex-start',
+    },
+    focusBtnText: {
+      fontFamily: typography.serifItalic,
+      fontSize: 15,
+      color: 'rgba(255,255,255,0.6)',
     },
     nudgeText: {
       fontFamily: typography.serifItalic,
