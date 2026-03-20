@@ -231,6 +231,10 @@ const translations = {
     'frustration.rest': 'Descanso',
     'frustration.try': 'Voy a intentarlo',
 
+    // Context switch
+    'context.switch': 'Cambio de contexto.',
+    'context.breathe': 'Respira un momento.',
+
     // Quick capture
     'capture.placeholder': 'Apunta antes de que se te olvide...',
     'capture.saved': 'Apuntado.',
@@ -495,6 +499,9 @@ const translations = {
     'frustration.sub': 'Sometimes it\'s not the right time.',
     'frustration.rest': 'I\'ll rest',
     'frustration.try': 'I\'ll try',
+
+    'context.switch': 'Context switch.',
+    'context.breathe': 'Take a breath.',
 
     'capture.placeholder': 'Write it down before you forget...',
     'capture.saved': 'Got it.',

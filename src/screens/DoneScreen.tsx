@@ -88,14 +88,28 @@ export default function DoneScreen() {
     }).start()
   }, [])
 
+  // Remember last task's category for context switch detection
+  const lastCategory = useRef(useAppStore.getState().currentTask?.category).current
+  const [showBreather, setShowBreather] = useState(false)
+
   const handleOneMore = async () => {
     await fetchTaskForEnergy(selectedEnergy)
     const next = useAppStore.getState().currentTask
-    if (next) {
-      router.replace('/task')
-    } else {
+    if (!next) {
       resetFocusStreak()
       router.replace('/')
+      return
+    }
+
+    // Detect context switch: different category
+    if (lastCategory && next.category && lastCategory !== next.category) {
+      setShowBreather(true)
+      setTimeout(() => {
+        setShowBreather(false)
+        router.replace('/task')
+      }, 3000)
+    } else {
+      router.replace('/task')
     }
   }
 
@@ -155,6 +169,14 @@ export default function DoneScreen() {
       </Animated.View>
 
       <RewardModal reward={pendingReward} onClose={() => setPendingReward(null)} />
+
+      {/* Context switch breather */}
+      {showBreather && (
+        <View style={s.breatherOverlay}>
+          <Text style={s.breatherTitle}>{t('context.switch')}</Text>
+          <Text style={s.breatherSub}>{t('context.breathe')}</Text>
+        </View>
+      )}
     </SafeAreaView>
   )
 }
@@ -244,5 +266,27 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
       fontSize: 11,
       letterSpacing: 1,
       marginTop: 8,
+    },
+    breatherOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: theme.bg,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: spacing.xl,
+    },
+    breatherTitle: {
+      fontFamily: typography.serifItalic,
+      fontSize: 26,
+      color: theme.accent,
+      marginBottom: 8,
+    },
+    breatherSub: {
+      fontFamily: typography.sans,
+      fontSize: 15,
+      color: theme.muted,
     },
   })
