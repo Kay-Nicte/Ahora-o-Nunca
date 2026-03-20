@@ -216,6 +216,12 @@ const translations = {
     'allDone.sub': 'No tienes nada pendiente.',
     'allDone.add': 'Añadir tarea',
 
+    // Focus mode
+    'focus.oneMore': 'Una más?',
+    'focus.yes': 'Vamos',
+    'focus.no': 'Suficiente',
+    'focus.streak': 'seguidas',
+
     // Task limit
     'limit.reached': 'Has llegado a 5 tareas.',
     'limit.feature': 'Tareas ilimitadas',
@@ -427,6 +433,11 @@ const translations = {
     'premium.sub': 'Unlock it with a single payment.\nNo subscriptions, forever.',
     'premium.cta': 'See Premium →',
     'premium.dismiss': 'Not now',
+
+    'focus.oneMore': 'One more?',
+    'focus.yes': 'Let\'s go',
+    'focus.no': 'Enough',
+    'focus.streak': 'in a row',
 
     'allDone.title': 'All done.',
     'allDone.sub': 'Nothing pending.',

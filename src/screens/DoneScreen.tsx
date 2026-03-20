@@ -29,13 +29,20 @@ export default function DoneScreen() {
   const t = useT()
   const language = useAppStore((s) => s.language)
   const tasks = useAppStore((s) => s.tasks)
+  const selectedEnergy = useAppStore((s) => s.selectedEnergy)
+  const focusStreak = useAppStore((s) => s.focusStreak)
+  const incrementFocusStreak = useAppStore((s) => s.incrementFocusStreak)
+  const resetFocusStreak = useAppStore((s) => s.resetFocusStreak)
+  const fetchTaskForEnergy = useAppStore((s) => s.fetchTaskForEnergy)
+
   const completedThisWeek = tasks.filter((tk) => {
     if (!tk.completed || !tk.completed_at) return false
     const d = new Date(tk.completed_at)
     const now = new Date()
-    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-    return d >= weekAgo
+    return d >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
   }).length
+
+  const pendingCount = tasks.filter((tk) => !tk.completed).length
 
   const phrases = language === 'es' ? PHRASES_ES : PHRASES_EN
   const phrase = phrases[completedThisWeek % phrases.length]
@@ -45,6 +52,8 @@ export default function DoneScreen() {
 
   useEffect(() => {
     tapSuccess()
+    incrementFocusStreak()
+
     Animated.spring(scale, {
       toValue: 1,
       damping: 12,
@@ -59,6 +68,22 @@ export default function DoneScreen() {
       useNativeDriver: true,
     }).start()
   }, [])
+
+  const handleOneMore = async () => {
+    await fetchTaskForEnergy(selectedEnergy)
+    const next = useAppStore.getState().currentTask
+    if (next) {
+      router.replace('/task')
+    } else {
+      resetFocusStreak()
+      router.replace('/')
+    }
+  }
+
+  const handleDone = () => {
+    resetFocusStreak()
+    router.replace('/')
+  }
 
   const translateY = opacity.interpolate({
     inputRange: [0, 1],
@@ -78,16 +103,33 @@ export default function DoneScreen() {
           {phrase[0]}{'\n'}<Text style={s.bigEm}>{phrase[1]}</Text>
         </Text>
         <Text style={s.sub}>{t('done.sub')}</Text>
+        {focusStreak > 1 && (
+          <Text style={[s.streak, { color: theme.accent }]}>
+            {focusStreak} {t('focus.streak')}
+          </Text>
+        )}
       </Animated.View>
 
       <Animated.View style={[s.actions, { opacity, transform: [{ translateY }] }]}>
-        <TouchableOpacity
-          style={s.btn}
-          onPress={() => router.replace('/')}
-        >
-          <Text style={s.btnText}>{t('done.btn')}</Text>
-        </TouchableOpacity>
-        <Text style={s.streak}>{completedThisWeek} {t('done.streak')}</Text>
+        {/* Focus mode: one more? */}
+        {pendingCount > 0 ? (
+          <>
+            <Text style={[s.oneMoreLabel, { color: theme.muted }]}>{t('focus.oneMore')}</Text>
+            <TouchableOpacity style={s.oneMoreBtn} onPress={handleOneMore}>
+              <Text style={s.oneMoreBtnText}>{t('focus.yes')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={s.enoughBtn} onPress={handleDone}>
+              <Text style={[s.enoughBtnText, { color: theme.muted }]}>{t('focus.no')}</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <TouchableOpacity style={s.oneMoreBtn} onPress={handleDone}>
+              <Text style={s.oneMoreBtnText}>{t('done.btn')}</Text>
+            </TouchableOpacity>
+          </>
+        )}
+        <Text style={s.weekCount}>{completedThisWeek} {t('done.streak')}</Text>
       </Animated.View>
     </SafeAreaView>
   )
@@ -135,8 +177,18 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
       lineHeight: 19,
       maxWidth: 200,
     },
+    streak: {
+      fontFamily: typography.sansBold,
+      fontSize: 16,
+      marginTop: 12,
+    },
     actions: { width: '100%', alignItems: 'center' },
-    btn: {
+    oneMoreLabel: {
+      fontFamily: typography.serifItalic,
+      fontSize: 18,
+      marginBottom: 12,
+    },
+    oneMoreBtn: {
       width: '100%',
       backgroundColor: theme.accent,
       borderRadius: radius.md,
@@ -144,16 +196,23 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: 'center',
       marginBottom: spacing.sm,
     },
-    btnText: {
+    oneMoreBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 16,
       color: '#fff',
     },
-    streak: {
+    enoughBtn: {
+      padding: 10,
+    },
+    enoughBtnText: {
+      fontFamily: typography.sans,
+      fontSize: 14,
+    },
+    weekCount: {
       fontFamily: typography.sans,
       fontSize: 12,
       color: theme.muted,
       letterSpacing: 0.8,
-      marginTop: 12,
+      marginTop: 16,
     },
   })

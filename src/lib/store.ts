@@ -45,6 +45,11 @@ interface AppState {
   setCurrentTask: (task: Task | null, isAlt?: boolean) => void
   resetSkipped: () => void
 
+  // Focus mode
+  focusStreak: number
+  incrementFocusStreak: () => void
+  resetFocusStreak: () => void
+
   // Notifications
   notificationsConfig: NotificationsConfig | null
   setNotificationsConfig: (config: NotificationsConfig) => void
@@ -156,6 +161,10 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   setCurrentTask: (task, isAlt = false) =>
     set({ currentTask: task, isAltTask: isAlt }),
   resetSkipped: () => set({ skippedTaskIds: [] }),
+
+  focusStreak: 0,
+  incrementFocusStreak: () => set((s) => ({ focusStreak: s.focusStreak + 1 })),
+  resetFocusStreak: () => set({ focusStreak: 0 }),
 
   notificationsConfig: null,
   setNotificationsConfig: (config) => set({ notificationsConfig: config }),

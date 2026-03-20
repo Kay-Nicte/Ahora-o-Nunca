@@ -56,10 +56,12 @@ export default function HomeScreen() {
   }
 
   const resetSkipped = useAppStore((s) => s.resetSkipped)
+  const resetFocusStreak = useAppStore((s) => s.resetFocusStreak)
 
   const handleSeeTask = async () => {
     if (selected.length === 0) return
     resetSkipped()
+    resetFocusStreak()
     await fetchTaskForEnergy(selected)
     router.push('/task')
   }
