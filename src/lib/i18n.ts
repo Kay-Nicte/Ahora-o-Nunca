@@ -245,6 +245,9 @@ const translations = {
     'frustration.rest': 'Descanso',
     'frustration.try': 'Voy a intentarlo',
 
+    // System tasks
+    'systemTask.createAccount': 'Crear tu cuenta',
+
     // Welcome back
     'welcome.back': 'Qué bien que estés aquí.',
 
@@ -554,6 +557,8 @@ const translations = {
     'frustration.sub': 'Sometimes it\'s not the right time.',
     'frustration.rest': 'I\'ll rest',
     'frustration.try': 'I\'ll try',
+
+    'systemTask.createAccount': 'Create your account',
 
     'welcome.back': 'Good to see you here.',
 

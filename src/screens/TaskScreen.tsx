@@ -61,6 +61,14 @@ export default function TaskScreen() {
     if (!currentTask) return
     tapSuccess()
     resetSkips()
+
+    // System task: redirect to login instead of done
+    if (currentTask.id === 'system_create_account') {
+      await markComplete(currentTask.id)
+      router.replace('/login')
+      return
+    }
+
     await markComplete(currentTask.id)
     router.push('/done')
   }, [currentTask])
