@@ -130,6 +130,11 @@ export default function TaskScreen() {
               ● {t(`cat.${currentTask.category}` as any)}
             </Text>
           )}
+          {currentTask.estimated_minutes && (
+            <Text style={s.estimate}>
+              ~{currentTask.estimated_minutes} {t('task.estimate')}
+            </Text>
+          )}
         </View>
 
         {/* Nudge after 5s */}
@@ -249,10 +254,15 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       lineHeight: 35,
       marginBottom: spacing.sm,
     },
-    meta: { flexDirection: 'row', gap: spacing.md },
+    meta: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
     metaText: {
       fontFamily: typography.sansBold,
       fontSize: 13,
+    },
+    estimate: {
+      fontFamily: typography.serif,
+      fontSize: 14,
+      color: 'rgba(255,255,255,0.4)',
     },
     nudgeText: {
       fontFamily: typography.serifItalic,

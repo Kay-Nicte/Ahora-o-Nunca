@@ -5,14 +5,11 @@ import { classifyLocally } from './classifyLocal'
 interface ClassifyResult {
   category: Category | null
   energyLevels: EnergyLevel[]
+  estimatedMinutes: number | null
 }
 
-/**
- * Classify a task. Tries Supabase Edge Function (Claude) first,
- * falls back to local keyword rules.
- */
 export async function classifyTask(text: string): Promise<ClassifyResult> {
-  // Try remote (Claude) first
+  // Try remote first
   try {
     const { data, error } = await supabase.functions.invoke('classify-task', {
       body: { text },
@@ -26,13 +23,13 @@ export async function classifyTask(text: string): Promise<ClassifyResult> {
       const energyLevels = Array.isArray(data.energyLevels)
         ? data.energyLevels.filter((l: string) => validEnergy.includes(l as EnergyLevel))
         : []
+      const estimatedMinutes = typeof data.estimatedMinutes === 'number' ? data.estimatedMinutes : null
 
       if (category || energyLevels.length > 0) {
-        return { category, energyLevels }
+        return { category, energyLevels, estimatedMinutes }
       }
     }
   } catch (_) {}
 
-  // Fallback: local keyword matching
   return classifyLocally(text)
 }

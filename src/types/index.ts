@@ -25,6 +25,7 @@ export interface Task {
   completed_at: string | null
   created_at: string
   energy_levels?: EnergyLevel[]
+  estimated_minutes?: number | null
 }
 
 export interface TaskEnergyLevel {

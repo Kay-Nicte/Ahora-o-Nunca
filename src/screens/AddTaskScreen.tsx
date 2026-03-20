@@ -41,6 +41,7 @@ export default function AddTaskScreen() {
   const [showLimit, setShowLimit] = useState(false)
   const [classifying, setClassifying] = useState(false)
   const [wasClassified, setWasClassified] = useState(false)
+  const [estimatedMinutes, setEstimatedMinutes] = useState<number | null>(null)
   const [showRecording, setShowRecording] = useState(false)
   const [voiceError, setVoiceError] = useState(false)
   const { recording, processing, startRecording, stopAndTranscribe, cancelRecording } = useVoiceRecorder()
@@ -86,6 +87,7 @@ export default function AddTaskScreen() {
       const result = await classifyTask(text.trim())
       if (result.category) setCategory(result.category)
       if (result.energyLevels.length > 0) setEnergy(result.energyLevels)
+      if (result.estimatedMinutes) setEstimatedMinutes(result.estimatedMinutes)
       if (result.category || result.energyLevels.length > 0) setWasClassified(true)
     } catch (_) {}
     setClassifying(false)
@@ -97,10 +99,11 @@ export default function AddTaskScreen() {
       setShowLimit(true)
       return
     }
-    await createTask(text.trim(), energy, category ?? undefined)
+    await createTask(text.trim(), energy, category ?? undefined, estimatedMinutes)
     setText('')
     setCategory(null)
     setEnergy([])
+    setEstimatedMinutes(null)
     setWasClassified(false)
     router.back()
   }

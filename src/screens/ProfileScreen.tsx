@@ -14,6 +14,7 @@ import { spacing, radius, typography, colors } from '../lib/theme'
 import { ChevronRightIcon } from '../components/Icons'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { usePremium } from '../hooks/usePremium'
+import { getLevel } from '../lib/rewards'
 import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 
@@ -52,6 +53,8 @@ export default function ProfileScreen() {
     })
     setShowEditName(false)
   }
+  const totalCompleted = useAppStore((s) => s.totalCompleted)
+  const level = getLevel(totalCompleted)
   const ns = useAppStore((s) => s.notifSettings)
 
   const pad = (n: number) => n.toString().padStart(2, '0')
@@ -75,6 +78,9 @@ export default function ProfileScreen() {
           <TouchableOpacity onPress={() => { setEditName(profile?.username || ''); setShowEditName(true) }}>
             <Text style={s.name}>{displayName}</Text>
             <Text style={s.email}>{userEmail || t('profile.noAccount')}</Text>
+            <Text style={[s.levelBadge, { color: theme.accent }]}>
+              {t('rewards.level')} {level.level} — {language === 'es' ? level.title_es : level.title_en} · {totalCompleted} {t('rewards.tasksTotal')}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -222,6 +228,11 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sans,
       fontSize: 12,
       color: theme.muted,
+    },
+    levelBadge: {
+      fontFamily: typography.sansBold,
+      fontSize: 11,
+      marginTop: 4,
     },
     section: {
       borderTopWidth: 1,

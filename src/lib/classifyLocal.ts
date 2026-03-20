@@ -3,6 +3,7 @@ import { Category, EnergyLevel } from '../types'
 interface ClassifyResult {
   category: Category | null
   energyLevels: EnergyLevel[]
+  estimatedMinutes: number | null
 }
 
 const RULES: { words: string[]; category: Category; energy: EnergyLevel[] }[] = [
@@ -55,5 +56,12 @@ export function classifyLocally(text: string): ClassifyResult {
     energy.push('short_time')
   }
 
-  return { category, energyLevels: energy }
+  // Estimate time
+  let estimatedMinutes: number | null = null
+  if (energy.includes('short_time')) estimatedMinutes = 5
+  else if (energy.includes('mobile_only')) estimatedMinutes = 5
+  else if (energy.includes('calm')) estimatedMinutes = 15
+  else if (energy.includes('high')) estimatedMinutes = 30
+
+  return { category, energyLevels: energy, estimatedMinutes }
 }

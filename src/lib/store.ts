@@ -302,6 +302,7 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   name: 'ahora-o-nunca-store',
   storage: createJSONStorage(() => AsyncStorage),
   partialize: (state) => ({
+    profile: state.profile,
     userEmail: state.userEmail,
     hasSeenOnboarding: state.hasSeenOnboarding,
     trialActivated: state.trialActivated,

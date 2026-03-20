@@ -13,7 +13,8 @@ export function useTasks() {
   const createTask = async (
     text: string,
     energyLevels: EnergyLevel[],
-    category?: Category
+    category?: Category,
+    estimatedMinutes?: number | null,
   ) => {
     // Try Supabase first
     try {
@@ -66,6 +67,7 @@ export function useTasks() {
       completed_at: null,
       created_at: new Date().toISOString(),
       energy_levels: energyLevels,
+      estimated_minutes: estimatedMinutes ?? null,
     }
 
     addTask(localTask)
