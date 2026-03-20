@@ -7,6 +7,7 @@ import { useTheme } from '../hooks/useTheme'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography, colors } from '../lib/theme'
 import { AvatarButton } from '../components/AvatarButton'
+import { SunIcon, MoonIcon } from '../components/Icons'
 import { BottomNav } from '../components/BottomNav'
 import { PremiumModal } from '../components/PremiumModal'
 import { useAppStore } from '../lib/store'
@@ -282,7 +283,7 @@ export default function NotificationsScreen() {
               borderColor: morningOn ? theme.accent : theme.border,
             }]}>
               <TouchableOpacity onPress={() => toggleMorning(!morningOn)} style={s.timeTop}>
-                <Text style={s.timeEmoji}></Text>
+                <SunIcon size={20} color={morningOn ? theme.accent : theme.muted} />
                 <Text style={[s.timeName, { color: theme.text }]}>{t('notif.morning')}</Text>
               </TouchableOpacity>
               {morningOn && (
@@ -300,7 +301,7 @@ export default function NotificationsScreen() {
               borderColor: eveningOn ? theme.accent : theme.border,
             }]}>
               <TouchableOpacity onPress={() => toggleEvening(!eveningOn)} style={s.timeTop}>
-                <Text style={s.timeEmoji}></Text>
+                <MoonIcon size={20} color={eveningOn ? theme.accent : theme.muted} />
                 <Text style={[s.timeName, { color: theme.text }]}>{t('notif.evening')}</Text>
               </TouchableOpacity>
               {eveningOn && (
