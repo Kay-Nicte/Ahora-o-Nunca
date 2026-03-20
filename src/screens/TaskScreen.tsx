@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
-  View, Text, StyleSheet, TouchableOpacity, Animated,
+  View, Text, StyleSheet, TouchableOpacity, Animated, Modal, Pressable,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -51,9 +51,15 @@ export default function TaskScreen() {
     return () => clearTimeout(timer)
   }, [currentTask?.id])
 
+  const incrementSkips = useAppStore((s) => s.incrementSkips)
+  const resetSkips = useAppStore((s) => s.resetSkips)
+  const consecutiveSkips = useAppStore((s) => s.consecutiveSkips)
+  const [showFrustration, setShowFrustration] = useState(false)
+
   const handleDone = useCallback(async () => {
     if (!currentTask) return
     tapSuccess()
+    resetSkips()
     await markComplete(currentTask.id)
     router.push('/done')
   }, [currentTask])
@@ -61,10 +67,32 @@ export default function TaskScreen() {
   const handleSkip = useCallback(async () => {
     if (!currentTask) return
     tapMedium()
+    incrementSkips()
+    const newSkips = useAppStore.getState().consecutiveSkips
+    if (newSkips >= 3) {
+      setShowFrustration(true)
+      return
+    }
     await skipAndNext(currentTask.id, selectedEnergy)
     const next = useAppStore.getState().currentTask
     if (!next) router.replace('/')
   }, [currentTask, selectedEnergy])
+
+  const handleFrustrationRest = () => {
+    resetSkips()
+    setShowFrustration(false)
+    useAppStore.setState({ currentTask: null })
+    router.replace('/')
+  }
+
+  const handleFrustrationTry = async () => {
+    resetSkips()
+    setShowFrustration(false)
+    if (!currentTask) return
+    await skipAndNext(currentTask.id, selectedEnergy)
+    const next = useAppStore.getState().currentTask
+    if (!next) router.replace('/')
+  }
 
   // Shake to skip (if enabled)
   const shakeEnabled = useAppStore((s) => s.shakeEnabled)
@@ -171,6 +199,24 @@ export default function TaskScreen() {
         </View>
         <Text style={s.hint}>{t('task.shake')}</Text>
       </View>
+
+      {/* Frustration modal */}
+      <Modal visible={showFrustration} transparent animationType="fade" onRequestClose={() => setShowFrustration(false)}>
+        <Pressable style={s.frustBackdrop}>
+          <View style={[s.frustCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}>
+            <Text style={[s.frustTitle, { color: theme.text }]}>{t('frustration.title')}</Text>
+            <Text style={[s.frustSub, { color: theme.muted }]}>{t('frustration.sub')}</Text>
+            <View style={s.frustActions}>
+              <TouchableOpacity style={[s.frustRestBtn, { backgroundColor: theme.surface, borderColor: theme.border }]} onPress={handleFrustrationRest}>
+                <Text style={[s.frustRestText, { color: theme.text }]}>{t('frustration.rest')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[s.frustTryBtn, { backgroundColor: theme.accent }]} onPress={handleFrustrationTry}>
+                <Text style={s.frustTryText}>{t('frustration.try')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   )
 }
@@ -300,5 +346,58 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       fontSize: 12,
       color: 'rgba(255,255,255,0.3)',
       textAlign: 'center',
+    },
+    // Frustration modal
+    frustBackdrop: {
+      flex: 1,
+      backgroundColor: 'rgba(0,0,0,0.6)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 30,
+    },
+    frustCard: {
+      width: '100%',
+      borderRadius: 24,
+      padding: 28,
+      alignItems: 'center',
+    },
+    frustTitle: {
+      fontFamily: typography.serifItalic,
+      fontSize: 24,
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    frustSub: {
+      fontFamily: typography.sans,
+      fontSize: 14,
+      textAlign: 'center',
+      marginBottom: 24,
+    },
+    frustActions: {
+      flexDirection: 'row',
+      gap: 10,
+      width: '100%',
+    },
+    frustRestBtn: {
+      flex: 1,
+      borderWidth: 1.5,
+      borderRadius: radius.md,
+      padding: 14,
+      alignItems: 'center',
+    },
+    frustRestText: {
+      fontFamily: typography.sansBold,
+      fontSize: 14,
+    },
+    frustTryBtn: {
+      flex: 1,
+      borderRadius: radius.md,
+      padding: 14,
+      alignItems: 'center',
+    },
+    frustTryText: {
+      fontFamily: typography.sansBold,
+      fontSize: 14,
+      color: '#fff',
     },
   })

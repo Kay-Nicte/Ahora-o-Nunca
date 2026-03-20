@@ -52,6 +52,11 @@ interface AppState {
   incrementFocusStreak: () => void
   resetFocusStreak: () => void
 
+  // Frustration detection
+  consecutiveSkips: number
+  incrementSkips: () => void
+  resetSkips: () => void
+
   // Notifications
   notificationsConfig: NotificationsConfig | null
   setNotificationsConfig: (config: NotificationsConfig) => void
@@ -172,6 +177,10 @@ export const useAppStore = create<AppState>()(persist((set, get) => ({
   focusStreak: 0,
   incrementFocusStreak: () => set((s) => ({ focusStreak: s.focusStreak + 1 })),
   resetFocusStreak: () => set({ focusStreak: 0 }),
+
+  consecutiveSkips: 0,
+  incrementSkips: () => set((s) => ({ consecutiveSkips: s.consecutiveSkips + 1 })),
+  resetSkips: () => set({ consecutiveSkips: 0 }),
 
   notificationsConfig: null,
   setNotificationsConfig: (config) => set({ notificationsConfig: config }),

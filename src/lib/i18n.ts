@@ -225,6 +225,12 @@ const translations = {
     'premium.cta': 'Ver Premium →',
     'premium.dismiss': 'Ahora no',
 
+    // Frustration detection
+    'frustration.title': 'Oye, no pasa nada.',
+    'frustration.sub': 'A veces no es el momento.',
+    'frustration.rest': 'Descanso',
+    'frustration.try': 'Voy a intentarlo',
+
     // Resume
     'resume.title': 'Estabas con:',
     'resume.continue': 'Seguimos',
@@ -480,6 +486,11 @@ const translations = {
     'focus.yes': 'Let\'s go',
     'focus.no': 'Enough',
     'focus.streak': 'in a row',
+
+    'frustration.title': 'Hey, it\'s okay.',
+    'frustration.sub': 'Sometimes it\'s not the right time.',
+    'frustration.rest': 'I\'ll rest',
+    'frustration.try': 'I\'ll try',
 
     'resume.title': 'You were on:',
     'resume.continue': 'Continue',
