@@ -5,17 +5,19 @@ import { getLocales } from 'expo-localization'
 import { Profile, Task, NotificationsConfig, EnergyLevel } from '../types'
 import { supabase } from '../lib/supabase'
 
-function detectLanguage(): 'es' | 'en' {
+function detectLanguage(): AppLanguage {
   try {
     const locale = getLocales()[0]?.languageCode ?? 'en'
-    return locale === 'es' ? 'es' : 'en'
+    const supported: AppLanguage[] = ['es', 'en', 'eu', 'ca', 'gl', 'fr', 'it', 'de', 'pt']
+    if (supported.includes(locale as AppLanguage)) return locale as AppLanguage
+    return 'en'
   } catch {
     return 'en'
   }
 }
 
 export type AppearanceMode = 'system' | 'light' | 'dark'
-export type AppLanguage = 'es' | 'en'
+export type AppLanguage = 'es' | 'en' | 'eu' | 'ca' | 'gl' | 'fr' | 'it' | 'de' | 'pt'
 
 interface AppState {
   // Auth

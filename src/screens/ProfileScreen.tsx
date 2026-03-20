@@ -17,7 +17,7 @@ import { usePremium } from '../hooks/usePremium'
 import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 
-const LANGUAGE_LABELS = { es: 'Español', en: 'English' } as const
+const LANGUAGE_LABELS = { es: 'Español', en: 'English', eu: 'Euskara', ca: 'Català', gl: 'Galego', fr: 'Français', it: 'Italiano', de: 'Deutsch', pt: 'Português' } as const
 
 export default function ProfileScreen() {
   const theme = useTheme()

@@ -10,6 +10,13 @@ import { spacing, radius, typography } from '../lib/theme'
 const LANGUAGES: { key: AppLanguage; label: string; flag: string }[] = [
   { key: 'es', label: 'Español', flag: '🇪🇸' },
   { key: 'en', label: 'English', flag: '🇬🇧' },
+  { key: 'eu', label: 'Euskara', flag: '🇪🇺' },
+  { key: 'ca', label: 'Català', flag: '🏳️' },
+  { key: 'gl', label: 'Galego', flag: '🏳️' },
+  { key: 'fr', label: 'Français', flag: '🇫🇷' },
+  { key: 'it', label: 'Italiano', flag: '🇮🇹' },
+  { key: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { key: 'pt', label: 'Português', flag: '🇵🇹' },
 ]
 
 export default function LanguageScreen() {
