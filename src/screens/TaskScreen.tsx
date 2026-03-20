@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
-  View, Text, StyleSheet, TouchableOpacity, Animated, Modal, Pressable,
+  View, Text, StyleSheet, TouchableOpacity, Animated, Modal, Pressable, Share,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -182,13 +182,25 @@ export default function TaskScreen() {
           onPremiumRequired={() => setShowPremiumModal(true)}
         />
 
-        {/* Focus mode button */}
-        <TouchableOpacity
-          style={[s.focusBtn, { borderColor: 'rgba(255,255,255,0.2)' }]}
-          onPress={() => setFocusMode(true)}
-        >
-          <Text style={s.focusBtnText}>{t('task.focusMode')}</Text>
-        </TouchableOpacity>
+        {/* Action buttons row */}
+        <View style={s.taskActions}>
+          <TouchableOpacity
+            style={[s.focusBtn, { borderColor: 'rgba(255,255,255,0.2)' }]}
+            onPress={() => setFocusMode(true)}
+          >
+            <Text style={s.focusBtnText}>{t('task.focusMode')}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[s.focusBtn, { borderColor: 'rgba(255,255,255,0.2)' }]}
+            onPress={() => {
+              const msg = t('task.askHelp.msg').replace('{task}', currentTask.text)
+              Share.share({ message: msg })
+            }}
+          >
+            <Text style={s.focusBtnText}>{t('task.askHelp')}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <PremiumModal
@@ -328,13 +340,16 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
       fontSize: 14,
       color: 'rgba(255,255,255,0.4)',
     },
-    focusBtn: {
+    taskActions: {
+      flexDirection: 'row',
+      gap: 8,
       marginTop: spacing.md,
+    },
+    focusBtn: {
       borderWidth: 1.5,
       borderRadius: radius.full,
       paddingVertical: 10,
-      paddingHorizontal: 20,
-      alignSelf: 'flex-start',
+      paddingHorizontal: 16,
     },
     focusBtnText: {
       fontFamily: typography.serifItalic,
