@@ -197,6 +197,11 @@ const translations = {
     'premium.cta': 'Ver Premium →',
     'premium.dismiss': 'Ahora no',
 
+    // All done
+    'allDone.title': 'Todo hecho.',
+    'allDone.sub': 'No tienes nada pendiente.',
+    'allDone.add': 'Añadir tarea',
+
     // Task limit
     'limit.reached': 'Has llegado a 5 tareas.',
     'limit.feature': 'Tareas ilimitadas',
@@ -396,6 +401,10 @@ const translations = {
     'premium.sub': 'Unlock it with a single payment.\nNo subscriptions, forever.',
     'premium.cta': 'See Premium →',
     'premium.dismiss': 'Not now',
+
+    'allDone.title': 'All done.',
+    'allDone.sub': 'Nothing pending.',
+    'allDone.add': 'Add task',
 
     'limit.reached': 'You\'ve reached 5 tasks.',
     'limit.feature': 'Unlimited tasks',

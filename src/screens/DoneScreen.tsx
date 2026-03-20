@@ -1,20 +1,52 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
+import { useAppStore } from '../lib/store'
 import { useT } from '../lib/i18n'
+import { tapSuccess } from '../lib/haptics'
 import { spacing, radius, typography } from '../lib/theme'
+
+const PHRASES_ES = [
+  ['Una cosa', 'menos.'],
+  ['Hecho.', 'A por otra.'],
+  ['Eso era', 'lo difícil.'],
+  ['Vas', 'bien.'],
+  ['Ya está.', 'Respira.'],
+]
+
+const PHRASES_EN = [
+  ['One thing', 'less.'],
+  ['Done.', 'Next one.'],
+  ['That was', 'the hard part.'],
+  ['You\'re doing', 'great.'],
+  ['It\'s done.', 'Breathe.'],
+]
 
 export default function DoneScreen() {
   const theme = useTheme()
   const t = useT()
-  const completedThisWeek = 3 // TODO: fetch from DB
+  const language = useAppStore((s) => s.language)
+  const tasks = useAppStore((s) => s.tasks)
+  const completedThisWeek = tasks.filter((tk) => {
+    if (!tk.completed || !tk.completed_at) return false
+    const d = new Date(tk.completed_at)
+    const now = new Date()
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    return d >= weekAgo
+  }).length
+
+  const phrase = useMemo(() => {
+    const phrases = language === 'es' ? PHRASES_ES : PHRASES_EN
+    return phrases[Math.floor(Math.random() * phrases.length)]
+  }, [language])
 
   const scale = useRef(new Animated.Value(0)).current
   const opacity = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
+    tapSuccess()
     Animated.spring(scale, {
       toValue: 1,
       damping: 12,
@@ -45,7 +77,7 @@ export default function DoneScreen() {
 
       <Animated.View style={[s.textBlock, { opacity, transform: [{ translateY }] }]}>
         <Text style={s.big}>
-          {t('done.title')}{'\n'}<Text style={s.bigEm}>{t('done.titleEm')}</Text>
+          {phrase[0]}{'\n'}<Text style={s.bigEm}>{phrase[1]}</Text>
         </Text>
         <Text style={s.sub}>{t('done.sub')}</Text>
       </Animated.View>

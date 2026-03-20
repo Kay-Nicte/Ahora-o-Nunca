@@ -10,6 +10,7 @@ import { useTasks } from '../hooks/useTasks'
 import { ENERGY_SYMBOLS, CATEGORY_COLORS } from '../types'
 import { useT } from '../lib/i18n'
 import { spacing, radius, typography } from '../lib/theme'
+import { tapSuccess, tapMedium } from '../lib/haptics'
 
 export default function TaskScreen() {
   const theme = useTheme()
@@ -42,11 +43,13 @@ export default function TaskScreen() {
   }
 
   const handleDone = async () => {
+    tapSuccess()
     await markComplete(currentTask.id)
     router.push('/done')
   }
 
   const handleSkip = async () => {
+    tapMedium()
     await skipAndNext(currentTask.id, selectedEnergy)
     // If no more tasks after skip, go home
     const next = useAppStore.getState().currentTask

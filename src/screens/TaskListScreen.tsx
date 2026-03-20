@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity, ScrollView,
-  Modal, Pressable, TextInput,
+  Modal, Pressable, TextInput, RefreshControl,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -23,6 +23,7 @@ import { AvatarButton } from '../components/AvatarButton'
 import { BottomNav } from '../components/BottomNav'
 import { SwipeableScreen } from '../components/SwipeableScreen'
 import { ConfirmModal } from '../components/ConfirmModal'
+import { tapSuccess, tapWarning, tapLight } from '../lib/haptics'
 import { TrialBanner } from '../components/TrialBanner'
 
 const CATEGORIES: Category[] = ['home', 'work', 'mobile', 'errands', 'personal']
@@ -46,7 +47,15 @@ export default function TaskListScreen() {
   const [editEnergy, setEditEnergy] = useState<EnergyLevel[]>([])
   const [showCompleted, setShowCompleted] = useState(false)
 
+  const [refreshing, setRefreshing] = useState(false)
+
   useEffect(() => { fetchTasks() }, [])
+
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await fetchTasks()
+    setRefreshing(false)
+  }
 
   const pendingTasks = tasks.filter((tk) => !tk.completed)
   const completedTasks = tasks.filter((tk) => tk.completed)
@@ -84,8 +93,8 @@ export default function TaskListScreen() {
         backgroundColor: theme.dark ? theme.surface : '#fff',
         borderColor: theme.border,
       }]}
-      onPress={completed ? undefined : () => markComplete(task.id)}
-      onLongPress={() => completed ? setCompletedActionTask(task.id) : setActionTask(task)}
+      onPress={completed ? undefined : () => { tapSuccess(); markComplete(task.id) }}
+      onLongPress={() => { tapWarning(); completed ? setCompletedActionTask(task.id) : setActionTask(task) }}
       activeOpacity={0.7}
     >
       <View style={[
@@ -128,7 +137,11 @@ export default function TaskListScreen() {
           </Text>
         </View>
 
-        <ScrollView style={s.list} contentContainerStyle={s.listContent}>
+        <ScrollView
+          style={s.list}
+          contentContainerStyle={s.listContent}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.accent} colors={[theme.accent]} />}
+        >
           <TrialBanner />
           {pendingTasks.map((task) => renderTask(task))}
 

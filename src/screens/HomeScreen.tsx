@@ -20,6 +20,7 @@ const ENERGY_ICONS: Record<EnergyLevel, typeof BoltIcon> = {
   mobile_only: SmartphoneIcon,
 }
 import { SwipeableScreen } from '../components/SwipeableScreen'
+import { tapLight } from '../lib/haptics'
 import { TrialBanner } from '../components/TrialBanner'
 import { AccountNudge } from '../components/AccountNudge'
 import { useT } from '../lib/i18n'
@@ -30,10 +31,13 @@ export default function HomeScreen() {
   const theme = useTheme()
   const t = useT()
   const profile = useAppStore((s) => s.profile)
+  const tasks = useAppStore((s) => s.tasks)
+  const pendingCount = tasks.filter((tk) => !tk.completed).length
   const { fetchTaskForEnergy } = useTasks()
   const [selected, setSelected] = useState<EnergyLevel[]>([])
 
   const toggleEnergy = (level: EnergyLevel) => {
+    tapLight()
     setSelected((prev) =>
       prev.includes(level)
         ? prev.filter((l) => l !== level)
@@ -68,6 +72,16 @@ export default function HomeScreen() {
           </View>
           <TrialBanner />
           <AccountNudge />
+          {pendingCount === 0 ? (
+            <View style={s.allDone}>
+              <Text style={[s.allDoneTitle, { color: theme.accent }]}>{t('allDone.title')}</Text>
+              <Text style={[s.allDoneSub, { color: theme.muted }]}>{t('allDone.sub')}</Text>
+              <TouchableOpacity style={[s.allDoneBtn, { backgroundColor: theme.accent }]} onPress={() => router.push('/add-task')}>
+                <Text style={s.allDoneBtnText}>{t('allDone.add')}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+          <>
           <Text style={s.sectionLabel}>{t('home.state')}</Text>
           <View style={s.energyList}>
             {ENERGY_OPTIONS.map((level) => {
@@ -107,6 +121,8 @@ export default function HomeScreen() {
               <Text style={s.btnSecondaryText}>{t('home.add')}</Text>
             </TouchableOpacity>
           </View>
+          </>
+          )}
         </ScrollView>
         <BottomNav active="home" />
       </SafeAreaView>
@@ -228,6 +244,31 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold,
       fontSize: 13,
       color: theme.muted,
+    },
+    allDone: {
+      alignItems: 'center',
+      paddingVertical: 40,
+      paddingHorizontal: 20,
+    },
+    allDoneTitle: {
+      fontFamily: typography.serifItalic,
+      fontSize: 28,
+      marginBottom: 8,
+    },
+    allDoneSub: {
+      fontFamily: typography.sans,
+      fontSize: 14,
+      marginBottom: 24,
+    },
+    allDoneBtn: {
+      borderRadius: radius.md,
+      paddingVertical: 14,
+      paddingHorizontal: 32,
+    },
+    allDoneBtnText: {
+      fontFamily: typography.sansBold,
+      fontSize: 14,
+      color: '#fff',
     },
     micDot: {
       width: 6,
