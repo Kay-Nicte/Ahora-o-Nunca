@@ -82,7 +82,7 @@ export default function ProfileScreen() {
         <View style={[s.header, profileBackground && { backgroundColor: profileBackground }]}>
           <AvatarButton size={48} onPress={() => router.push('/avatar')} />
           <TouchableOpacity onPress={() => { setEditName(profile?.username || ''); setShowEditName(true) }}>
-            <Text style={[s.name, profileBackground && { color: '#fff' }]}>{displayName}</Text>
+            <Text style={[s.name, profileBackground && { color: theme.white }]}>{displayName}</Text>
             <Text style={[s.email, profileBackground && { color: 'rgba(255,255,255,0.7)' }]}>{userEmail || t('profile.noAccount')}</Text>
             <Text style={[s.levelBadge, { color: profileBackground ? 'rgba(255,255,255,0.8)' : theme.accent }]}>
               {t('rewards.level')} {level.level} — {language === 'es' ? level.title_es : level.title_en} · {totalCompleted} {t('rewards.tasksTotal')}
@@ -204,7 +204,7 @@ export default function ProfileScreen() {
       {/* Edit name modal */}
       <Modal visible={showEditName} transparent animationType="fade" onRequestClose={() => setShowEditName(false)}>
         <Pressable style={s.modalBackdrop} onPress={() => setShowEditName(false)}>
-          <Pressable style={[s.modalCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
+          <Pressable style={[s.modalCard, { backgroundColor: theme.dark ? theme.surface : theme.white }]} onPress={(e) => e.stopPropagation()}>
             <Text style={[s.modalTitle, { color: theme.text }]}>{t('profile.editName')}</Text>
             <TextInput
               style={[s.modalInput, {
@@ -343,7 +343,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     toggleKnob: {
       width: 16, height: 16, borderRadius: 8,
-      backgroundColor: '#fff', position: 'absolute', top: 3,
+      backgroundColor: theme.white, position: 'absolute', top: 3,
       elevation: 2, shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.2, shadowRadius: 3,
     },
@@ -366,7 +366,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: '100%', borderRadius: radius.md, padding: 14, alignItems: 'center',
     },
     modalSaveBtnText: {
-      fontFamily: typography.sansBold, fontSize: 15, color: '#fff',
+      fontFamily: typography.sansBold, fontSize: 15, color: theme.white,
     },
     rowSubNotif: {
       fontFamily: typography.serif,

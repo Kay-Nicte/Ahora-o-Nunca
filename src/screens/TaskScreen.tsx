@@ -145,7 +145,7 @@ export default function TaskScreen() {
             style={[emptyStyles.btn, { backgroundColor: theme.accent }]}
             onPress={() => router.back()}
           >
-            <Text style={[emptyStyles.btnText, { color: '#fff' }]}>{t('task.empty.back')}</Text>
+            <Text style={[emptyStyles.btnText, { color: theme.white }]}>{t('task.empty.back')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -257,7 +257,7 @@ export default function TaskScreen() {
       {/* Frustration modal */}
       <Modal visible={showFrustration} transparent animationType="fade" onRequestClose={() => setShowFrustration(false)}>
         <Pressable style={s.frustBackdrop}>
-          <View style={[s.frustCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}>
+          <View style={[s.frustCard, { backgroundColor: theme.dark ? theme.surface : theme.white }]}>
             <Text style={[s.frustTitle, { color: theme.text }]}>{t('frustration.title')}</Text>
             <Text style={[s.frustSub, { color: theme.muted }]}>{t('frustration.sub')}</Text>
             <View style={s.frustActions}>
@@ -350,7 +350,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     taskTitle: {
       fontFamily: typography.serifItalic,
       fontSize: 32,
-      color: theme.dark ? theme.text : '#fff',
+      color: theme.dark ? theme.text : theme.white,
       lineHeight: 35,
       marginBottom: spacing.sm,
     },
@@ -397,7 +397,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     doneBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 15,
-      color: '#fff',
+      color: theme.white,
     },
     skipBtn: {
       backgroundColor: theme.dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.12)',
@@ -468,6 +468,6 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     frustTryText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#fff',
+      color: theme.white,
     },
   })

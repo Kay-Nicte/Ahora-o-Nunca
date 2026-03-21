@@ -4,7 +4,7 @@ import { router } from 'expo-router'
 import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useT } from '../lib/i18n'
-import { typography, radius, spacing } from '../lib/theme'
+import { typography, radius, spacing, colors } from '../lib/theme'
 
 export function ResumeBanner() {
   const theme = useTheme()
@@ -71,7 +71,7 @@ const s = StyleSheet.create({
   continueBtnText: {
     fontFamily: typography.sansBold,
     fontSize: 13,
-    color: '#fff',
+    color: colors.white,
   },
   skipBtn: {
     paddingVertical: 8,

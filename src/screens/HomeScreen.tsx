@@ -248,12 +248,17 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       backgroundColor: theme.accent,
       borderRadius: radius.full,
       padding: 16,
+      elevation: 6,
+      shadowColor: theme.accent,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.35,
+      shadowRadius: 10,
     },
-    btnDisabled: { opacity: 0.4 },
+    btnDisabled: { opacity: 0.4, elevation: 0, shadowOpacity: 0 },
     btnPrimaryText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#fff',
+      color: theme.white,
     },
     btnSecondary: {
       flex: 1,
@@ -306,7 +311,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     allDoneBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#fff',
+      color: theme.white,
     },
     micDot: {
       width: 6,

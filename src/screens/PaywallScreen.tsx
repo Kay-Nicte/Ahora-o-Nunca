@@ -38,7 +38,7 @@ export default function PaywallScreen() {
 
         {/* Perks card */}
         <View style={[s.card, {
-          backgroundColor: theme.dark ? theme.surface : '#fff',
+          backgroundColor: theme.dark ? theme.surface : theme.white,
           borderColor: colors.yellow,
         }]}>
           {PERKS.map((perk, i) => (

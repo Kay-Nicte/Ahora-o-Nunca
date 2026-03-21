@@ -47,7 +47,7 @@ export default function LoginScreen() {
       <View style={s.form}>
         <TextInput
           style={[s.input, {
-            backgroundColor: theme.dark ? theme.surface : '#fff',
+            backgroundColor: theme.dark ? theme.surface : theme.white,
             borderColor: theme.border,
             color: theme.text,
           }]}
@@ -60,7 +60,7 @@ export default function LoginScreen() {
         />
         <TextInput
           style={[s.input, {
-            backgroundColor: theme.dark ? theme.surface : '#fff',
+            backgroundColor: theme.dark ? theme.surface : theme.white,
             borderColor: theme.border,
             color: theme.text,
           }]}
@@ -87,7 +87,7 @@ export default function LoginScreen() {
         </View>
 
         <TouchableOpacity style={[s.socialBtn, {
-          backgroundColor: theme.dark ? theme.surface : '#fff',
+          backgroundColor: theme.dark ? theme.surface : theme.white,
           borderColor: theme.border,
         }]} onPress={async () => {
           const { error: err } = await signInWithGoogle()
@@ -179,7 +179,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     btnText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#fff',
+      color: theme.white,
     },
     divider: {
       flexDirection: 'row',

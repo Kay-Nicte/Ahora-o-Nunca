@@ -35,7 +35,7 @@ export function TrialBanner() {
       >
         <Pressable style={s.backdrop} onPress={() => setShowModal(false)}>
           <Pressable
-            style={[s.card, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+            style={[s.card, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
             onPress={(e) => e.stopPropagation()}
           >
             <Text style={[s.title, { color: theme.text }]}>{t('trial.modal.title')}</Text>

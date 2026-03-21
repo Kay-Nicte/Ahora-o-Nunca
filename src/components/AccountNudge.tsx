@@ -19,7 +19,7 @@ export function AccountNudge() {
 
   return (
     <View style={[s.container, {
-      backgroundColor: theme.dark ? theme.surface : '#fff',
+      backgroundColor: theme.dark ? theme.surface : theme.white,
       borderColor: theme.border,
     }]}>
       <Text style={[s.message, { color: theme.text }]}>{message}</Text>
@@ -66,7 +66,7 @@ const s = StyleSheet.create({
   ctaText: {
     fontFamily: typography.sansBold,
     fontSize: 13,
-    color: '#fff',
+    color: colors.white,
   },
   laterBtn: {
     paddingVertical: 8,

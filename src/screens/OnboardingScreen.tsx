@@ -112,7 +112,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     title: {
       fontFamily: typography.serifItalic,
       fontSize: 22,
-      color: theme.dark ? theme.text : '#fff',
+      color: theme.dark ? theme.text : theme.white,
       textAlign: 'center',
       lineHeight: 28,
       marginBottom: 10,
@@ -141,7 +141,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     dotActive: {
       width: 18,
       borderRadius: 3,
-      backgroundColor: theme.dark ? theme.accent : '#fff',
+      backgroundColor: theme.dark ? theme.accent : theme.white,
     },
     btn: {
       backgroundColor: theme.accent,
@@ -155,7 +155,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     btnText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#fff',
+      color: theme.white,
     },
     skip: {
       fontFamily: typography.sans,

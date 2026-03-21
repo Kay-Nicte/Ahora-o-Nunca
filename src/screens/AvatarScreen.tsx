@@ -124,7 +124,7 @@ export default function AvatarScreen() {
         {/* Upload options */}
         <View style={s.uploadGrid}>
           <TouchableOpacity style={[s.uploadCard, {
-            backgroundColor: theme.dark ? theme.surface : '#fff',
+            backgroundColor: theme.dark ? theme.surface : theme.white,
             borderColor: theme.border,
           }]} onPress={pickFromGallery}>
             <ImageIcon size={18} color={theme.text} />
@@ -134,7 +134,7 @@ export default function AvatarScreen() {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[s.uploadCard, {
-            backgroundColor: theme.dark ? theme.surface : '#fff',
+            backgroundColor: theme.dark ? theme.surface : theme.white,
             borderColor: theme.border,
           }]} onPress={pickFromCamera}>
             <CameraIcon size={18} color={theme.text} />
@@ -285,6 +285,6 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     saveBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#fff',
+      color: theme.white,
     },
   })

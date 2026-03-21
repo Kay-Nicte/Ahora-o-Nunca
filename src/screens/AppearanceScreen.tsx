@@ -40,7 +40,7 @@ export default function AppearanceScreen() {
               style={[
                 s.card,
                 {
-                  backgroundColor: theme.dark ? theme.surface : '#fff',
+                  backgroundColor: theme.dark ? theme.surface : theme.white,
                   borderColor: selected ? theme.accent : theme.border,
                 },
               ]}

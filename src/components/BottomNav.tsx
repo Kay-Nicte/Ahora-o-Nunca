@@ -30,7 +30,7 @@ export function BottomNav({ active }: BottomNavProps) {
 
   return (
     <View style={[styles.nav, {
-      backgroundColor: theme.dark ? theme.surface : '#fff',
+      backgroundColor: theme.dark ? theme.surface : theme.white,
       borderTopColor: theme.border,
       paddingBottom: Math.max(insets.bottom, 12),
     }]}>

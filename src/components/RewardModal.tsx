@@ -26,7 +26,7 @@ export function RewardModal({ reward, onClose }: RewardModalProps) {
   return (
     <Modal visible transparent animationType="fade" onRequestClose={onClose}>
       <Pressable style={s.backdrop} onPress={onClose}>
-        <Pressable style={[s.card, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
+        <Pressable style={[s.card, { backgroundColor: theme.dark ? theme.surface : theme.white }]} onPress={(e) => e.stopPropagation()}>
           <Text style={s.icon}>{icon}</Text>
           <Text style={[s.unlocked, { color: theme.accent }]}>{t('rewards.unlocked')}</Text>
           <Text style={[s.label, { color: theme.text }]}>{label}</Text>
@@ -76,6 +76,6 @@ const s = StyleSheet.create({
   btnText: {
     fontFamily: typography.sansBold,
     fontSize: 14,
-    color: '#fff',
+    color: colors.white,
   },
 })

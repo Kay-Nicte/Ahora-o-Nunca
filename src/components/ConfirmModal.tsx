@@ -25,7 +25,7 @@ export function ConfirmModal({
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <Pressable style={s.backdrop} onPress={onClose}>
         <Pressable
-          style={[s.card, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+          style={[s.card, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
           onPress={(e) => e.stopPropagation()}
         >
           <Text style={[s.title, { color: theme.text }]}>{title}</Text>
@@ -84,7 +84,7 @@ const s = StyleSheet.create({
   btnText: {
     fontFamily: typography.sansBold,
     fontSize: 15,
-    color: '#fff',
+    color: colors.white,
   },
   cancel: {
     padding: 8,

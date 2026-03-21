@@ -53,7 +53,7 @@ export function QuickCapture() {
       {/* Capture modal */}
       <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
         <Pressable style={s.backdrop} onPress={() => { Keyboard.dismiss(); setOpen(false) }}>
-          <Pressable style={[s.card, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
+          <Pressable style={[s.card, { backgroundColor: theme.dark ? theme.surface : theme.white }]} onPress={(e) => e.stopPropagation()}>
             {saved ? (
               <Text style={[s.savedText, { color: theme.accent }]}>{t('capture.saved')}</Text>
             ) : (
@@ -98,17 +98,17 @@ const s = StyleSheet.create({
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4,
-    shadowColor: '#000',
+    elevation: 8,
+    shadowColor: colors.accent,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.4,
     shadowRadius: 12,
     zIndex: 50,
   },
   fabText: {
     fontFamily: typography.sans,
     fontSize: 22,
-    color: '#fff',
+    color: colors.white,
     lineHeight: 24,
   },
   backdrop: {
@@ -142,7 +142,7 @@ const s = StyleSheet.create({
   },
   saveBtnText: {
     fontSize: 20,
-    color: '#fff',
+    color: colors.white,
   },
   savedText: {
     fontFamily: typography.serifItalic,

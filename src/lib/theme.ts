@@ -1,10 +1,10 @@
 export const colors = {
-  // Light mode: quiet luxury, paper feel
-  bgLight: '#F9F7F2',       // crema — relaja la vista
-  surfaceLight: '#F2EDE6',   // parchment sutil
-  textLight: '#2D2C2A',      // negro suave, no vibra
-  mutedLight: '#8a8078',     // warm grey
-  borderLight: '#E6E2D8',    // ultra sutil
+  // Light mode: Electric Ink & Bone
+  bgLight: '#FAF9F6',       // white bone premium
+  surfaceLight: '#F3F1ED',   // subtle warmth
+  textLight: '#121212',      // black with weight
+  mutedLight: '#7a7775',     // warm neutral
+  borderLight: '#E8E5E0',    // whisper border
 
   // Dark mode: deep ink
   bgDark: '#12141e',
@@ -13,16 +13,17 @@ export const colors = {
   mutedDark: '#5a6480',
   borderDark: '#252b40',
 
-  // Accents
-  accent: '#4A5D4E',         // verde bosque — calma + "check" natural
-  accentDark: '#9b8ec4',     // lavanda para dark mode
-  accentHover: '#5a6d5e',
+  // Accents: dopamine
+  accent: '#5D3FD3',         // iris/violet electric — energy, modern
+  accentDark: '#9b8ec4',     // softer lavender for dark mode
+  accentHover: '#6d4fe3',
+  secondary: '#FF6B6B',      // coral — soft alert, warm attention
 
   // Brand
-  yellow: '#d4a94c',         // gold cálido
+  yellow: '#d4a94c',         // warm gold
   yellowDark: '#c49a3c',
-  error: '#c45c5c',          // rojo apagado
-  white: '#F9F7F2',          // crema, no blanco nuclear
+  error: '#FF6B6B',          // coral (same as secondary)
+  white: '#FAF9F6',          // bone, never pure white
 }
 
 export const typography = {

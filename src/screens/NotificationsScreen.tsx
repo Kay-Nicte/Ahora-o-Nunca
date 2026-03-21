@@ -36,7 +36,7 @@ const toggleStyles = StyleSheet.create({
   },
   knob: {
     width: 16, height: 16, borderRadius: 8,
-    backgroundColor: '#fff', position: 'absolute', top: 3,
+    backgroundColor: colors.white, position: 'absolute', top: 3,
     elevation: 2, shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.2, shadowRadius: 3,
   },
@@ -73,7 +73,7 @@ function TimePicker({ visible, hour, minute, onConfirm, onClose, label, confirmL
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <Pressable style={tpStyles.backdrop} onPress={onClose}>
         <Pressable
-          style={[tpStyles.card, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+          style={[tpStyles.card, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
           onPress={(e) => e.stopPropagation()}
         >
           <Text style={[tpStyles.title, { color: theme.text }]}>{label}</Text>
@@ -126,7 +126,7 @@ const tpStyles = StyleSheet.create({
   digit: { fontFamily: typography.serif, fontSize: 42, lineHeight: 48 },
   colon: { fontFamily: typography.serif, fontSize: 36, marginHorizontal: 6 },
   confirm: { borderRadius: radius.md, paddingVertical: 12, paddingHorizontal: 40 },
-  confirmText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
+  confirmText: { fontFamily: typography.sansBold, fontSize: 15, color: colors.white },
 })
 
 export default function NotificationsScreen() {
@@ -279,7 +279,7 @@ export default function NotificationsScreen() {
             <View style={[s.timeCard, {
               backgroundColor: morningOn
                 ? (theme.dark ? '#202640' : '#eef1fa')
-                : (theme.dark ? theme.surface : '#fff'),
+                : (theme.dark ? theme.surface : theme.white),
               borderColor: morningOn ? theme.accent : theme.border,
             }]}>
               <TouchableOpacity onPress={() => toggleMorning(!morningOn)} style={s.timeTop}>
@@ -297,7 +297,7 @@ export default function NotificationsScreen() {
             <View style={[s.timeCard, {
               backgroundColor: eveningOn
                 ? (theme.dark ? '#202640' : '#eef1fa')
-                : (theme.dark ? theme.surface : '#fff'),
+                : (theme.dark ? theme.surface : theme.white),
               borderColor: eveningOn ? theme.accent : theme.border,
             }]}>
               <TouchableOpacity onPress={() => toggleEvening(!eveningOn)} style={s.timeTop}>

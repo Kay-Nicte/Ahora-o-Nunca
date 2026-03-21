@@ -7,7 +7,7 @@ import { useAppStore } from '../lib/store'
 import { supabase } from '../lib/supabase'
 import { useT } from '../lib/i18n'
 import { tapSuccess, tapLight } from '../lib/haptics'
-import { typography, radius, spacing } from '../lib/theme'
+import { typography, radius, spacing, colors } from '../lib/theme'
 
 interface MicroStepsProps {
   taskText: string
@@ -158,7 +158,7 @@ const s = StyleSheet.create({
   stepText: {
     fontFamily: typography.serifItalic,
     fontSize: 22,
-    color: '#fff',
+    color: colors.white,
     lineHeight: 28,
     marginBottom: spacing.md,
   },
@@ -177,7 +177,7 @@ const s = StyleSheet.create({
   stepBtnText: {
     fontFamily: typography.sansBold,
     fontSize: 14,
-    color: '#fff',
+    color: colors.white,
   },
   completeContainer: {
     marginTop: spacing.lg,

@@ -31,7 +31,7 @@ export function PremiumModal({ visible, onClose, feature }: PremiumModalProps) {
     >
       <Pressable style={s.backdrop} onPress={onClose}>
         <Pressable style={[s.card, {
-          backgroundColor: theme.dark ? theme.surface : '#fff',
+          backgroundColor: theme.dark ? theme.surface : theme.white,
         }]} onPress={(e) => e.stopPropagation()}>
           <Text style={[s.title, { color: theme.text }]}>
             {feature || 'Esta función'} {t('premium.isPro')}

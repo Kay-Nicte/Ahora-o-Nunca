@@ -13,7 +13,8 @@
       "Bash(npm ls:*)",
       "Bash(npm uninstall:*)",
       "Bash(winget search:*)",
-      "Bash(curl -L -o \"C:/Users/34696/Desktop/Panal/supabase.exe\" \"https://github.com/supabase/cli/releases/latest/download/supabase_windows_amd64.exe\")"
+      "Bash(curl -L -o \"C:/Users/34696/Desktop/Panal/supabase.exe\" \"https://github.com/supabase/cli/releases/latest/download/supabase_windows_amd64.exe\")",
+      "Bash(grep -rn \"color: ''''#fff''''\" src/screens/ src/components/ --include=\"*.tsx\")"
     ]
   }
 }

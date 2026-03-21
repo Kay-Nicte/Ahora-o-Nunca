@@ -142,7 +142,7 @@ export default function AddTaskScreen() {
             {/* Text input */}
             <TextInput
               style={[s.input, {
-                backgroundColor: theme.dark ? theme.surface : '#fff',
+                backgroundColor: theme.dark ? theme.surface : theme.white,
                 borderColor: theme.border,
                 color: theme.text,
               }]}
@@ -243,7 +243,7 @@ export default function AddTaskScreen() {
         {/* Recording modal */}
         <Modal visible={showRecording} transparent animationType="fade" onRequestClose={handleVoiceCancel}>
           <Pressable style={s.recBackdrop} onPress={recording ? undefined : handleVoiceCancel}>
-            <Pressable style={[s.recCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]} onPress={(e) => e.stopPropagation()}>
+            <Pressable style={[s.recCard, { backgroundColor: theme.dark ? theme.surface : theme.white }]} onPress={(e) => e.stopPropagation()}>
               {processing ? (
                 <>
                   <ActivityIndicator size="large" color={theme.accent} style={{ marginBottom: 16 }} />
@@ -352,7 +352,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       padding: 14, alignItems: 'center',
     },
     saveBtnText: {
-      fontFamily: typography.sansBold, fontSize: 14, color: '#fff',
+      fontFamily: typography.sansBold, fontSize: 14, color: theme.white,
     },
     // Recording modal
     recBackdrop: {
@@ -376,7 +376,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: 56, height: 56, borderRadius: 28,
       alignItems: 'center', justifyContent: 'center',
     },
-    recStopText: { fontSize: 24, color: '#fff' },
+    recStopText: { fontSize: 24, color: theme.white },
     voiceErrorRow: {
       paddingHorizontal: 20, paddingTop: 4, paddingBottom: 8,
     },

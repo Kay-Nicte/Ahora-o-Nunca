@@ -191,7 +191,7 @@ export default function TaskListScreen() {
         >
           <Pressable style={s.sheetBackdrop} onPress={() => setActionTask(null)}>
             <Pressable
-              style={[s.sheetCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+              style={[s.sheetCard, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
               onPress={(e) => e.stopPropagation()}
             >
               <Text style={[s.sheetTitle, { color: theme.text }]} numberOfLines={2}>
@@ -231,7 +231,7 @@ export default function TaskListScreen() {
         >
           <Pressable style={s.sheetBackdrop} onPress={() => setEditTask(null)}>
             <Pressable
-              style={[s.editCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+              style={[s.editCard, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
               onPress={(e) => e.stopPropagation()}
             >
               <Text style={[s.editTitle, { color: theme.text }]}>{t('tasks.edit.title')}</Text>
@@ -309,7 +309,7 @@ export default function TaskListScreen() {
         >
           <Pressable style={s.sheetBackdrop} onPress={() => setCompletedActionTask(null)}>
             <Pressable
-              style={[s.sheetCard, { backgroundColor: theme.dark ? theme.surface : '#fff' }]}
+              style={[s.sheetCard, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
               onPress={(e) => e.stopPropagation()}
             >
               <View style={s.sideBySide}>
@@ -381,7 +381,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: 18, height: 18, borderRadius: 9, borderWidth: 2,
       alignItems: 'center', justifyContent: 'center',
     },
-    checkMark: { color: '#fff', fontSize: 12, fontWeight: '700' },
+    checkMark: { color: theme.white, fontSize: 12, fontWeight: '700' },
     taskInfo: { flex: 1 },
     taskName: { fontFamily: typography.sansBold, fontSize: 14 },
     taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4, alignItems: 'center' },
@@ -425,7 +425,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       borderRadius: radius.full, padding: 14,
       alignItems: 'center', marginBottom: 8,
     },
-    sheetBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
+    sheetBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: theme.white },
     sideBySide: {
       flexDirection: 'row',
       gap: 8,
@@ -472,5 +472,5 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     editSaveBtn: {
       borderRadius: radius.full, padding: 14, alignItems: 'center', marginBottom: 4,
     },
-    editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
+    editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: theme.white },
   })

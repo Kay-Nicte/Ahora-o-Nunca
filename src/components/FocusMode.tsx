@@ -5,7 +5,7 @@ import {
 import { useTheme } from '../hooks/useTheme'
 import { useT } from '../lib/i18n'
 import { tapSuccess } from '../lib/haptics'
-import { typography, radius, spacing } from '../lib/theme'
+import { typography, radius, spacing, colors } from '../lib/theme'
 
 interface FocusModeProps {
   visible: boolean
@@ -106,7 +106,7 @@ const s = StyleSheet.create({
   doneBtnText: {
     fontFamily: typography.sansBold,
     fontSize: 16,
-    color: '#fff',
+    color: colors.white,
   },
   exitBtn: {
     padding: 10,

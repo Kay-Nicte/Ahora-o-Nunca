@@ -8,7 +8,7 @@ import { useTheme } from '../hooks/useTheme'
 import { useAppStore } from '../lib/store'
 import { useT } from '../lib/i18n'
 import * as Haptics from 'expo-haptics'
-import { typography, radius, spacing } from '../lib/theme'
+import { typography, radius, spacing, colors } from '../lib/theme'
 
 type CalmMode = 'menu' | 'discharge' | 'grounding' | 'breathe'
 
@@ -261,7 +261,7 @@ const s = StyleSheet.create({
   actionBtnText: {
     fontFamily: typography.sansBold,
     fontSize: 14,
-    color: '#fff',
+    color: colors.white,
   },
   actionBtnOutline: {
     paddingVertical: 12,
