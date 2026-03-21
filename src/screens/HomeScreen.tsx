@@ -112,9 +112,9 @@ export default function HomeScreen() {
                 >
                   {React.createElement(ENERGY_ICONS[level], {
                     size: 16,
-                    color: isSelected ? theme.accent : (theme.dark ? theme.text : theme.muted),
+                    color: isSelected ? theme.white : (theme.dark ? theme.text : theme.muted),
                   })}
-                  <Text style={[s.energyName, isSelected && { color: theme.accent }]}>
+                  <Text style={[s.energyName, isSelected && { color: theme.white }]}>
                     {t(`energy.${level}` as any)}
                   </Text>
                 </TouchableOpacity>
@@ -174,10 +174,8 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       marginBottom: 6,
     },
     greeting: {
-      fontFamily: typography.sans,
-      fontSize: 11,
-      letterSpacing: 3,
-      textTransform: 'uppercase',
+      fontFamily: typography.serifItalic,
+      fontSize: 14,
       color: theme.muted,
       marginBottom: 6,
     },
@@ -222,12 +220,12 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: '48%',
       paddingVertical: 12,
       borderRadius: radius.md,
-      borderWidth: 1.5,
+      borderWidth: 1,
       borderColor: theme.dark ? '#3a4060' : theme.border,
     },
     energyRowSelected: {
       borderColor: theme.accent,
-      backgroundColor: theme.dark ? '#1e2238' : '#edf0f8',
+      backgroundColor: theme.accent,
     },
     energyName: {
       fontFamily: typography.serifItalic,

@@ -90,9 +90,7 @@ export default function TaskListScreen() {
   const renderTask = (task: Task, completed = false) => (
     <TouchableOpacity
       key={task.id}
-      style={[s.taskItem, completed && s.taskItemCompleted, {
-        backgroundColor: theme.dark ? theme.surface : '#fff',
-      }]}
+      style={[s.taskItem, completed && s.taskItemCompleted]}
       onPress={completed ? undefined : () => { tapSuccess(); markComplete(task.id) }}
       onLongPress={() => { tapWarning(); completed ? setCompletedActionTask(task.id) : setActionTask(task) }}
       activeOpacity={0.7}
