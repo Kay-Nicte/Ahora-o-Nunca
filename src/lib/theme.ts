@@ -25,7 +25,6 @@ export const colors = {
   white: '#FAF8F4',
   onAccent: '#1A1814',       // text on accent buttons (dark on gold)
 }
-}
 
 export const typography = {
   serif: 'InstrumentSerif_400Regular',
