@@ -117,6 +117,11 @@ export default function TaskListScreen() {
               ↻
             </Text>
           )}
+          {!completed && task.estimated_minutes && (
+            <Text style={[s.estimateText, { color: theme.muted }]}>
+              ~{task.estimated_minutes} min
+            </Text>
+          )}
         </View>
       </View>
       {task.category && (
@@ -198,22 +203,24 @@ export default function TaskListScreen() {
                 {actionTask?.text}
               </Text>
 
-              <TouchableOpacity
-                style={[s.sheetBtn, { backgroundColor: theme.accent }]}
-                onPress={() => actionTask && openEdit(actionTask)}
-              >
-                <Text style={s.sheetBtnText}>{t('tasks.action.edit')}</Text>
-              </TouchableOpacity>
+              <View style={s.sideBySide}>
+                <TouchableOpacity
+                  style={[s.sideBySideBtn, { backgroundColor: theme.accent }]}
+                  onPress={() => actionTask && openEdit(actionTask)}
+                >
+                  <Text style={s.sheetBtnText}>{t('tasks.action.edit')}</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[s.sheetBtn, { backgroundColor: colors.error }]}
-                onPress={() => {
-                  if (actionTask) setTaskToDelete(actionTask.id)
+                <TouchableOpacity
+                  style={[s.sideBySideBtn, { backgroundColor: colors.error }]}
+                  onPress={() => {
+                    if (actionTask) setTaskToDelete(actionTask.id)
                   setActionTask(null)
                 }}
               >
-                <Text style={s.sheetBtnText}>{t('tasks.action.delete')}</Text>
-              </TouchableOpacity>
+                  <Text style={s.sheetBtnText}>{t('tasks.action.delete')}</Text>
+                </TouchableOpacity>
+              </View>
 
               <TouchableOpacity style={s.sheetCancel} onPress={() => setActionTask(null)}>
                 <Text style={[s.sheetCancelText, { color: theme.muted }]}>{t('tasks.action.cancel')}</Text>
@@ -386,6 +393,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     taskName: { fontFamily: typography.sansBold, fontSize: 14 },
     taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4, alignItems: 'center' },
     recurrenceBadge: { fontFamily: typography.sans, fontSize: 14 },
+    estimateText: { fontFamily: typography.serif, fontSize: 12 },
     taskNameDone: { textDecorationLine: 'line-through' },
     taskMeta: { fontFamily: typography.sans, fontSize: 12, marginTop: 2 },
     catBadge: {
