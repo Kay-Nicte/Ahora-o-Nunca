@@ -28,8 +28,12 @@ export function ConfirmModal({
           style={[s.card, { backgroundColor: theme.dark ? theme.surface : theme.white }]}
           onPress={(e) => e.stopPropagation()}
         >
-          <Text style={[s.title, { color: theme.text }]}>{title}</Text>
-          {message ? <Text style={[s.message, { color: theme.muted }]}>{message}</Text> : null}
+          {message ? (
+            <>
+              <Text style={[s.title, { color: theme.text }]}>{title}</Text>
+              <Text style={[s.message, { color: theme.muted }]}>{message}</Text>
+            </>
+          ) : null}
 
           <TouchableOpacity
             style={[s.btn, { backgroundColor: destructive ? colors.error : theme.accent }]}

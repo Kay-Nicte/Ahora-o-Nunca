@@ -35,19 +35,19 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   logoExclamation: {
-    fontFamily: 'InstrumentSerif_400Regular_Italic',
+    fontFamily: typography.serifItalic,
     fontSize: 72,
     color: colors.textLight,
     lineHeight: 72,
   },
   appName: {
-    fontFamily: 'InstrumentSerif_400Regular_Italic',
+    fontFamily: typography.serifItalic,
     fontSize: 32,
     color: colors.textDark,
     marginBottom: 8,
   },
   tagline: {
-    fontFamily: 'AtkinsonHyperlegible_700Bold',
+    fontFamily: typography.sansBold,
     fontSize: 12,
     letterSpacing: 4,
     color: colors.mutedDark,

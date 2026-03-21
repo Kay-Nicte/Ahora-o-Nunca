@@ -104,7 +104,21 @@ export default function AddTaskScreen() {
       setShowLimit(true)
       return
     }
-    await createTask(text.trim(), energy, category ?? undefined, estimatedMinutes, recurrence)
+    // Ensure classification runs before save
+    let finalCategory = category
+    let finalEnergy = energy
+    let finalEstimate = estimatedMinutes
+    if (!finalCategory && !finalEnergy.length) {
+      const result = classifyLocally(text.trim())
+      finalCategory = result.category
+      finalEnergy = result.energyLevels
+      finalEstimate = result.estimatedMinutes
+    }
+    if (!finalEstimate) {
+      const result = classifyLocally(text.trim())
+      finalEstimate = result.estimatedMinutes
+    }
+    await createTask(text.trim(), finalEnergy, finalCategory ?? undefined, finalEstimate, recurrence)
     setText('')
     setCategory(null)
     setEnergy([])

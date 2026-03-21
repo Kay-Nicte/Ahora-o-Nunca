@@ -392,7 +392,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingVertical: 2, borderRadius: radius.full,
     },
     proBadgeText: {
-      fontFamily: typography.sansBold, fontSize: 8,
+      fontFamily: typography.sansBold, fontSize: 10,
       letterSpacing: 1, textTransform: 'uppercase', color: colors.textLight,
     },
     smartHintRow: {
@@ -422,5 +422,5 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     timeValue: {
       fontFamily: typography.sansBold, fontSize: 16, color: theme.accent, textAlign: 'center',
     },
-    tapHint: { fontFamily: typography.sans, fontSize: 8, textAlign: 'center', marginTop: 2 },
+    tapHint: { fontFamily: typography.sans, fontSize: 11, textAlign: 'center', marginTop: 2 },
   })

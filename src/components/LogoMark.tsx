@@ -3,7 +3,7 @@
 // =============================================
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { colors } from '../lib/theme'
+import { colors, typography } from '../lib/theme'
 
 interface LogoMarkProps {
   size?: number
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontFamily: 'InstrumentSerif_400Regular_Italic',
+    fontFamily: typography.serifItalic,
     color: colors.textLight,
     lineHeight: undefined,
     includeFontPadding: false,
