@@ -286,7 +286,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       marginTop: 4,
     },
     section: {
-      borderTopWidth: 1,
+      borderTopWidth: 0.5,
       marginTop: 4,
     },
     row: {
@@ -295,7 +295,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       justifyContent: 'space-between',
       paddingHorizontal: 20,
       paddingVertical: 12,
-      borderBottomWidth: 1,
+      borderBottomWidth: 0.5,
     },
     premiumRow: {
       backgroundColor: theme.dark ? 'rgba(245,200,0,0.06)' : 'rgba(245,200,0,0.08)',

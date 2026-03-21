@@ -70,7 +70,7 @@ export function getSwipeRoute(current: NavTab, direction: 'left' | 'right'): str
 const styles = StyleSheet.create({
   nav: {
     flexDirection: 'row',
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     paddingTop: 12,
   },
   tab: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    letterSpacing: 0.5,
+    letterSpacing: 1.5,
     textTransform: 'uppercase',
   },
 })

@@ -294,7 +294,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     greeting: {
       fontFamily: typography.sans, fontSize: 12,
-      letterSpacing: 1.8, textTransform: 'uppercase',
+      letterSpacing: 3, textTransform: 'uppercase',
       color: theme.muted, marginBottom: 6,
     },
     title: { fontFamily: typography.serif, fontSize: 22, color: theme.text },
@@ -329,7 +329,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     sectionLabel: {
       fontFamily: typography.sansBold, fontSize: 11,
-      letterSpacing: 2, textTransform: 'uppercase',
+      letterSpacing: 3, textTransform: 'uppercase',
       color: theme.muted, paddingHorizontal: 20, paddingBottom: 8,
     },
     chips: {
@@ -338,7 +338,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     chip: {
       paddingVertical: 5, paddingHorizontal: 12,
-      borderRadius: radius.full, borderWidth: 1.5,
+      borderRadius: radius.full, borderWidth: 1,
     },
     chipSelected: {
       borderColor: theme.accent,
@@ -348,7 +348,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     chipTextSelected: { color: theme.accent },
     saveArea: { paddingHorizontal: 14, paddingTop: 14 },
     saveBtn: {
-      backgroundColor: theme.accent, borderRadius: radius.md,
+      backgroundColor: theme.accent, borderRadius: radius.full,
       padding: 14, alignItems: 'center',
     },
     saveBtnText: {

@@ -92,7 +92,6 @@ export default function TaskListScreen() {
       key={task.id}
       style={[s.taskItem, completed && s.taskItemCompleted, {
         backgroundColor: theme.dark ? theme.surface : '#fff',
-        borderColor: theme.border,
       }]}
       onPress={completed ? undefined : () => { tapSuccess(); markComplete(task.id) }}
       onLongPress={() => { tapWarning(); completed ? setCompletedActionTask(task.id) : setActionTask(task) }}
@@ -376,9 +375,8 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     listContent: { paddingTop: 8, paddingBottom: 20 },
     taskItem: {
       flexDirection: 'row', alignItems: 'center', gap: 10,
-      borderWidth: 1.5, borderRadius: 12,
-      padding: 10, paddingHorizontal: 12,
-      marginHorizontal: 14, marginBottom: 8,
+      borderBottomWidth: 0.5, borderBottomColor: theme.border,
+      paddingVertical: 14, paddingHorizontal: 20,
     },
     taskItemCompleted: { opacity: 0.5 },
     taskCheck: {
@@ -393,7 +391,6 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     taskNameDone: { textDecorationLine: 'line-through' },
     taskMeta: { fontFamily: typography.sans, fontSize: 12, marginTop: 2 },
     catBadge: {
-      backgroundColor: 'rgba(91,126,201,0.15)',
       paddingHorizontal: 7, paddingVertical: 2, borderRadius: radius.full,
     },
     catBadgeText: { fontFamily: typography.sansBold, fontSize: 11, color: theme.accent },
@@ -402,7 +399,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     addArea: { paddingHorizontal: 14, paddingVertical: 10 },
     addBtn: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-      gap: 6, borderWidth: 1.5, borderRadius: radius.md, padding: 12,
+      gap: 6, borderWidth: 1, borderRadius: radius.full, padding: 12,
     },
     addBtnText: { fontFamily: typography.sansBold, fontSize: 13 },
     micDot: { width: 6, height: 6, borderRadius: 3 },
@@ -427,7 +424,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       textAlign: 'center', marginBottom: 16,
     },
     sheetBtn: {
-      borderRadius: radius.md, padding: 14,
+      borderRadius: radius.full, padding: 14,
       alignItems: 'center', marginBottom: 8,
     },
     sheetBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
@@ -475,7 +472,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     chipText: { fontFamily: typography.sansBold, fontSize: 11 },
     editSaveBtn: {
-      borderRadius: radius.md, padding: 14, alignItems: 'center', marginBottom: 4,
+      borderRadius: radius.full, padding: 14, alignItems: 'center', marginBottom: 4,
     },
     editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: '#fff' },
   })

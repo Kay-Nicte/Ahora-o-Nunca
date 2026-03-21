@@ -312,12 +312,12 @@ const menuStyles = (theme: ReturnType<typeof useTheme>) =>
     },
     options: {
       paddingHorizontal: 14,
-      gap: 10,
+      gap: 14,
     },
     card: {
-      borderWidth: 1.5,
+      borderWidth: 1,
       borderRadius: radius.md,
-      padding: 18,
+      padding: 24,
     },
     cardTitle: {
       fontFamily: typography.serifItalic,
