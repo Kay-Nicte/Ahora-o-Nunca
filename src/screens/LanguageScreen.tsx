@@ -46,8 +46,7 @@ export default function LanguageScreen() {
               style={[
                 s.card,
                 {
-                  backgroundColor: theme.dark ? theme.surface : theme.white,
-                  borderColor: selected ? theme.accent : theme.border,
+                  backgroundColor: selected ? theme.accent + '15' : theme.surface,
                 },
               ]}
               onPress={() => setLanguage(lang.key)}
@@ -99,7 +98,6 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
-      borderWidth: 1.5,
       borderRadius: radius.md,
       padding: 14,
     },

@@ -293,8 +293,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       paddingTop: 8, paddingBottom: 20,
     },
     greeting: {
-      fontFamily: typography.sans, fontSize: 12,
-      letterSpacing: 3, textTransform: 'uppercase',
+      fontFamily: typography.serifItalic, fontSize: 14,
       color: theme.muted, marginBottom: 6,
     },
     title: { fontFamily: typography.serif, fontSize: 22, color: theme.text },

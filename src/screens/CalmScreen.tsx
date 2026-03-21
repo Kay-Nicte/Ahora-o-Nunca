@@ -172,7 +172,7 @@ export default function CalmScreen() {
 
   const handleBack = () => {
     if (enabledTools.length === 1) {
-      router.back()
+      router.replace('/')
     } else {
       setMode('menu')
     }
@@ -197,7 +197,7 @@ export default function CalmScreen() {
   return (
     <SafeAreaView style={[s.container, { backgroundColor: theme.bg }]}>
       <View style={s2.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => router.replace('/')}>
           <Text style={[s2.back, { color: theme.accent }]}>{t('back')}</Text>
         </TouchableOpacity>
         <Text style={[s2.title, { color: theme.text }]}>
@@ -207,21 +207,21 @@ export default function CalmScreen() {
 
       <View style={s2.options}>
         {calmTools.discharge && (
-          <TouchableOpacity style={[s2.card, { borderColor: theme.border }]} onPress={() => setMode('discharge')}>
+          <TouchableOpacity style={[s2.card, { backgroundColor: theme.surface }]} onPress={() => setMode('discharge')}>
             <Text style={[s2.cardTitle, { color: theme.text }]}>{t('calm.discharge')}</Text>
             <Text style={[s2.cardSub, { color: theme.muted }]}>{t('calm.discharge.sub')}</Text>
           </TouchableOpacity>
         )}
 
         {calmTools.grounding && (
-          <TouchableOpacity style={[s2.card, { borderColor: theme.border }]} onPress={() => setMode('grounding')}>
+          <TouchableOpacity style={[s2.card, { backgroundColor: theme.surface }]} onPress={() => setMode('grounding')}>
             <Text style={[s2.cardTitle, { color: theme.text }]}>{t('calm.grounding')}</Text>
             <Text style={[s2.cardSub, { color: theme.muted }]}>{t('calm.grounding.sub')}</Text>
           </TouchableOpacity>
         )}
 
         {calmTools.breathe && (
-          <TouchableOpacity style={[s2.card, { borderColor: theme.border }]} onPress={() => setMode('breathe')}>
+          <TouchableOpacity style={[s2.card, { backgroundColor: theme.surface }]} onPress={() => setMode('breathe')}>
             <Text style={[s2.cardTitle, { color: theme.text }]}>{t('calm.breathe')}</Text>
             <Text style={[s2.cardSub, { color: theme.muted }]}>{t('calm.breathe.sub')}</Text>
           </TouchableOpacity>
@@ -322,7 +322,6 @@ const menuStyles = (theme: ReturnType<typeof useTheme>) =>
       gap: 14,
     },
     card: {
-      borderWidth: 1,
       borderRadius: radius.md,
       padding: 24,
     },

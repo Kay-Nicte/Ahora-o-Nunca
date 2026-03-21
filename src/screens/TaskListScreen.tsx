@@ -397,7 +397,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     addArea: { paddingHorizontal: 14, paddingVertical: 10 },
     addBtn: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-      gap: 6, borderWidth: 1, borderRadius: radius.full, padding: 12,
+      gap: 6, backgroundColor: theme.surface, borderRadius: radius.full, padding: 12,
     },
     addBtnText: { fontFamily: typography.sansBold, fontSize: 13 },
     micDot: { width: 6, height: 6, borderRadius: 3 },

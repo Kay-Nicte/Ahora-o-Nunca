@@ -220,11 +220,9 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: '48%',
       paddingVertical: 12,
       borderRadius: radius.md,
-      borderWidth: 1,
-      borderColor: theme.dark ? '#3a4060' : theme.border,
+      backgroundColor: theme.dark ? theme.surface : theme.surface,
     },
     energyRowSelected: {
-      borderColor: theme.accent,
       backgroundColor: theme.accent,
     },
     energyName: {
@@ -266,8 +264,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: 'center',
       justifyContent: 'center',
       gap: 6,
-      borderWidth: 1,
-      borderColor: theme.border,
+      backgroundColor: theme.surface,
       borderRadius: radius.full,
       padding: 12,
     },
