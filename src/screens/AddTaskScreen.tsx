@@ -11,6 +11,7 @@ import { useAppStore } from '../lib/store'
 import { Category, EnergyLevel, CATEGORY_COLORS, ENERGY_SYMBOLS } from '../types'
 import { useT } from '../lib/i18n'
 import { classifyTask } from '../lib/classify'
+import { classifyLocally } from '../lib/classifyLocal'
 import { usePremium } from '../hooks/usePremium'
 import { spacing, radius, typography } from '../lib/theme'
 import { MicIcon } from '../components/Icons'
@@ -82,17 +83,20 @@ export default function AddTaskScreen() {
   }
 
   const handleTextBlur = useCallback(async () => {
-    if (!isPremium || !text.trim() || text.trim().length < 3) return
+    if (!text.trim() || text.trim().length < 3) return
     setClassifying(true)
     try {
-      const result = await classifyTask(text.trim())
-      if (result.category) setCategory(result.category)
-      if (result.energyLevels.length > 0) setEnergy(result.energyLevels)
+      // Premium: full API classification. Free: local keyword matching only.
+      const result = isPremium
+        ? await classifyTask(text.trim())
+        : classifyLocally(text.trim())
+      if (result.category && !category) setCategory(result.category)
+      if (result.energyLevels.length > 0 && energy.length === 0) setEnergy(result.energyLevels)
       if (result.estimatedMinutes) setEstimatedMinutes(result.estimatedMinutes)
       if (result.category || result.energyLevels.length > 0) setWasClassified(true)
     } catch (_) {}
     setClassifying(false)
-  }, [isPremium, text])
+  }, [isPremium, text, category, energy])
 
   const handleSave = async () => {
     if (!text.trim()) return

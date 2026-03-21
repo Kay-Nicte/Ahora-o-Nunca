@@ -313,7 +313,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     proBadgeText: {
       fontFamily: typography.sansBold,
-      fontSize: 8,
+      fontSize: 10,
       letterSpacing: 1,
       textTransform: 'uppercase',
       color: colors.textLight,
