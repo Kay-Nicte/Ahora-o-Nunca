@@ -369,7 +369,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       padding: 14, alignItems: 'center',
     },
     saveBtnText: {
-      fontFamily: typography.sansBold, fontSize: 14, color: theme.white,
+      fontFamily: typography.sansBold, fontSize: 14, color: theme.onAccent,
     },
     // Recording modal
     recBackdrop: {

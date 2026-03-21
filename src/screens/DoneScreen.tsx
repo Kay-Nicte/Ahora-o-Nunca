@@ -245,7 +245,7 @@ const doneStyles = (theme: ReturnType<typeof useTheme>) =>
     oneMoreBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 16,
-      color: theme.white,
+      color: theme.onAccent,
     },
     enoughBtn: {
       padding: 10,

@@ -112,9 +112,9 @@ export default function HomeScreen() {
                 >
                   {React.createElement(ENERGY_ICONS[level], {
                     size: 16,
-                    color: isSelected ? theme.white : (theme.dark ? theme.text : theme.muted),
+                    color: isSelected ? theme.onAccent : (theme.dark ? theme.text : theme.muted),
                   })}
-                  <Text style={[s.energyName, isSelected && { color: theme.white }]}>
+                  <Text style={[s.energyName, isSelected && { color: theme.onAccent }]}>
                     {t(`energy.${level}` as any)}
                   </Text>
                 </TouchableOpacity>
@@ -256,7 +256,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     btnPrimaryText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: theme.white,
+      color: theme.onAccent,
     },
     btnSecondary: {
       flex: 1,
@@ -308,7 +308,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     allDoneBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: theme.white,
+      color: theme.onAccent,
     },
     micDot: {
       width: 6,

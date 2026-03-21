@@ -19,6 +19,7 @@ export function useTheme() {
     muted: dark ? colors.mutedDark : colors.mutedLight,
     border: dark ? colors.borderDark : colors.borderLight,
     accent: dark ? colors.accentDark : colors.accent,
+    onAccent: colors.onAccent,
     yellow: colors.yellow,
     error: colors.error,
     white: colors.white,

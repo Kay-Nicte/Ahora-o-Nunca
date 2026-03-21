@@ -1,28 +1,30 @@
 export const colors = {
-  // Light mode: Deep Ink & Raw Silk
-  bgLight: '#F2F0ED',
-  surfaceLight: '#EAE7E3',
-  textLight: '#0F0F0F',
-  mutedLight: '#7a7775',
-  borderLight: '#DDD9D3',
+  // Light mode: warm bone + amber accent
+  bgLight: '#FAF8F4',
+  surfaceLight: '#F2EEE8',
+  textLight: '#1A1814',
+  mutedLight: '#8A8378',
+  borderLight: '#E5E0D8',
 
-  // Dark mode
-  bgDark: '#12141e',
-  surfaceDark: '#1a1e2e',
-  textDark: '#e4e8f4',
-  mutedDark: '#5a6480',
-  borderDark: '#252b40',
+  // Dark mode: deep warm ink
+  bgDark: '#141210',
+  surfaceDark: '#1E1C18',
+  textDark: '#F0ECE6',
+  mutedDark: '#6A6458',
+  borderDark: '#2E2A24',
 
-  // Accents
-  accent: '#002FA7',         // Klein Blue
-  accentDark: '#9b8ec4',     // lavender for dark
-  accentHover: '#1040B7',
+  // Accent: amber/gold — tied to the logo, pushes to action
+  accent: '#C8961E',
+  accentDark: '#D4A83A',
+  accentHover: '#B8860E',
 
   // Brand
-  yellow: '#E5A823',         // cúrcuma
-  yellowDark: '#d49a1c',
-  error: '#c45c5c',
-  white: '#F2F0ED',
+  yellow: '#C8961E',
+  yellowDark: '#D4A83A',
+  error: '#C45C5C',
+  white: '#FAF8F4',
+  onAccent: '#1A1814',       // text on accent buttons (dark on gold)
+}
 }
 
 export const typography = {

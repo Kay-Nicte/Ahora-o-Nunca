@@ -388,7 +388,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       width: 18, height: 18, borderRadius: 9, borderWidth: 2,
       alignItems: 'center', justifyContent: 'center',
     },
-    checkMark: { color: theme.white, fontSize: 12, fontWeight: '700' },
+    checkMark: { color: theme.onAccent, fontSize: 12, fontWeight: '700' },
     taskInfo: { flex: 1 },
     taskName: { fontFamily: typography.sansBold, fontSize: 14 },
     taskMetaRow: { flexDirection: 'row', gap: 6, marginTop: 4, alignItems: 'center' },
@@ -433,7 +433,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       borderRadius: radius.full, padding: 14,
       alignItems: 'center', marginBottom: 8,
     },
-    sheetBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: theme.white },
+    sheetBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: theme.onAccent },
     sideBySide: {
       flexDirection: 'row',
       gap: 8,
@@ -480,5 +480,5 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     editSaveBtn: {
       borderRadius: radius.full, padding: 14, alignItems: 'center', marginBottom: 4,
     },
-    editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: theme.white },
+    editSaveBtnText: { fontFamily: typography.sansBold, fontSize: 15, color: theme.onAccent },
   })

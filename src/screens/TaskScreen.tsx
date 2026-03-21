@@ -145,7 +145,7 @@ export default function TaskScreen() {
             style={[emptyStyles.btn, { backgroundColor: theme.accent }]}
             onPress={() => router.back()}
           >
-            <Text style={[emptyStyles.btnText, { color: theme.white }]}>{t('task.empty.back')}</Text>
+            <Text style={[emptyStyles.btnText, { color: theme.onAccent }]}>{t('task.empty.back')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -397,7 +397,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     doneBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 15,
-      color: theme.white,
+      color: theme.onAccent,
     },
     skipBtn: {
       backgroundColor: theme.dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.12)',
@@ -468,6 +468,6 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     frustTryText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: theme.white,
+      color: theme.onAccent,
     },
   })
