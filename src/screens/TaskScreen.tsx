@@ -78,6 +78,12 @@ export default function TaskScreen() {
       router.replace('/notifications')
       return
     }
+    if (currentTask.id === 'system_activate_trial') {
+      useAppStore.getState().activateTrial()
+      await markComplete(currentTask.id)
+      router.push('/done')
+      return
+    }
 
     await markComplete(currentTask.id)
     router.push('/done')

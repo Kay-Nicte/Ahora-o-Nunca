@@ -5,7 +5,7 @@ import HomeScreen from '../src/screens/HomeScreen'
 
 function injectSystemTasks() {
   const state = useAppStore.getState()
-  const { tasks, userEmail, avatarEmoji, avatarImageUri, notifSettings, addTask } = state
+  const { tasks, userEmail, avatarEmoji, avatarImageUri, notifSettings, trialActivated, addTask } = state
   const lang = state.language
 
   const systemTasks: { id: string; textEs: string; textEn: string; minutes: number; shouldExist: boolean }[] = [
@@ -29,6 +29,13 @@ function injectSystemTasks() {
       textEn: 'Set up your notifications',
       minutes: 2,
       shouldExist: !notifSettings.morningOn && !notifSettings.eveningOn && !notifSettings.smartEnabled,
+    },
+    {
+      id: 'system_activate_trial',
+      textEs: 'Activa 7 días gratis de Pro',
+      textEn: 'Activate 7 free days of Pro',
+      minutes: 1,
+      shouldExist: !trialActivated,
     },
   ]
 

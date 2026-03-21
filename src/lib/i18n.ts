@@ -249,6 +249,7 @@ const translations = {
     'systemTask.createAccount': 'Crear tu cuenta',
     'systemTask.pickAvatar': 'Elige tu avatar',
     'systemTask.setupNotifs': 'Configura tus notificaciones',
+    'systemTask.activateTrial': 'Activa 7 días gratis de Pro',
 
     // Welcome back
     'welcome.back': 'Qué bien que estés aquí.',
@@ -563,6 +564,7 @@ const translations = {
     'systemTask.createAccount': 'Create your account',
     'systemTask.pickAvatar': 'Pick your avatar',
     'systemTask.setupNotifs': 'Set up your notifications',
+    'systemTask.activateTrial': 'Activate 7 free days of Pro',
 
     'welcome.back': 'Good to see you here.',
 
