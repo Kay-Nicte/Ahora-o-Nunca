@@ -166,24 +166,31 @@ export default function CalmScreen() {
     calmTools.breathe && 'breathe',
   ].filter(Boolean) as CalmMode[]
 
-  // If only 1 tool enabled, go straight to it
-  const [mode, setMode] = useState<CalmMode>(enabledTools.length === 1 ? enabledTools[0] : 'menu')
+  const [mode, setMode] = useState<CalmMode>('menu')
 
   const s2 = menuStyles(theme)
 
+  const handleBack = () => {
+    if (enabledTools.length === 1) {
+      router.back()
+    } else {
+      setMode('menu')
+    }
+  }
+
   if (mode === 'discharge') return (
-    <SafeAreaView style={s.container}>
-      <DischargeMode onBack={() => setMode('menu')} />
+    <SafeAreaView style={[s.container, { backgroundColor: theme.bg }]}>
+      <DischargeMode onBack={handleBack} />
     </SafeAreaView>
   )
   if (mode === 'grounding') return (
-    <SafeAreaView style={s.container}>
-      <GroundingMode onBack={() => setMode('menu')} />
+    <SafeAreaView style={[s.container, { backgroundColor: theme.bg }]}>
+      <GroundingMode onBack={handleBack} />
     </SafeAreaView>
   )
   if (mode === 'breathe') return (
-    <SafeAreaView style={s.container}>
-      <BreatheMode onBack={() => setMode('menu')} />
+    <SafeAreaView style={[s.container, { backgroundColor: theme.bg }]}>
+      <BreatheMode onBack={handleBack} />
     </SafeAreaView>
   )
 

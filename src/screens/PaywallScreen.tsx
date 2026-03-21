@@ -167,7 +167,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     ctaBtnText: {
       fontFamily: typography.sansBold,
       fontSize: 14,
-      color: '#1a1e2e',
+      color: theme.text,
     },
     ctaSub: {
       fontFamily: typography.sans,

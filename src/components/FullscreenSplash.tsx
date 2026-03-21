@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   logoExclamation: {
     fontFamily: 'InstrumentSerif_400Regular_Italic',
     fontSize: 72,
-    color: '#1a1e2e',
+    color: colors.textLight,
     lineHeight: 72,
   },
   appName: {

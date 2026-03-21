@@ -238,7 +238,7 @@ export default function TaskListScreen() {
 
               <TextInput
                 style={[s.editInput, {
-                  backgroundColor: theme.dark ? theme.bg : '#f0f2f7',
+                  backgroundColor: theme.dark ? theme.bg : theme.surface,
                   borderColor: theme.border,
                   color: theme.text,
                 }]}
@@ -466,7 +466,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     chipSel: {
       borderColor: theme.accent,
-      backgroundColor: 'rgba(91,126,201,0.1)',
+      backgroundColor: theme.accent + '18',
     },
     chipText: { fontFamily: typography.sansBold, fontSize: 11 },
     editSaveBtn: {

@@ -208,7 +208,7 @@ export default function ProfileScreen() {
             <Text style={[s.modalTitle, { color: theme.text }]}>{t('profile.editName')}</Text>
             <TextInput
               style={[s.modalInput, {
-                backgroundColor: theme.dark ? theme.bg : '#f0f2f7',
+                backgroundColor: theme.dark ? theme.bg : theme.surface,
                 borderColor: theme.border,
                 color: theme.text,
               }]}
@@ -316,7 +316,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontSize: 8,
       letterSpacing: 1,
       textTransform: 'uppercase',
-      color: '#1a1e2e',
+      color: colors.textLight,
     },
     rowText: {
       fontFamily: typography.sansBold,

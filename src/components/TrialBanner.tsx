@@ -72,7 +72,7 @@ const s = StyleSheet.create({
   bannerText: {
     fontFamily: typography.sansBold,
     fontSize: 15,
-    color: '#1a1e2e',
+    color: colors.textLight,
   },
   backdrop: {
     flex: 1,
@@ -110,7 +110,7 @@ const s = StyleSheet.create({
   activateBtnText: {
     fontFamily: typography.sansBold,
     fontSize: 16,
-    color: '#1a1e2e',
+    color: colors.textLight,
   },
   laterBtn: { padding: 8 },
   laterText: {

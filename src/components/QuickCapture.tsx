@@ -61,7 +61,7 @@ export function QuickCapture() {
                 <TextInput
                   ref={inputRef}
                   style={[s.input, {
-                    backgroundColor: theme.dark ? theme.bg : '#f0f2f7',
+                    backgroundColor: theme.dark ? theme.bg : theme.surface,
                     borderColor: theme.border,
                     color: theme.text,
                   }]}

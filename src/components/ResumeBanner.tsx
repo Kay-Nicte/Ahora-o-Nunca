@@ -16,7 +16,7 @@ export function ResumeBanner() {
 
   return (
     <View style={[s.container, {
-      backgroundColor: theme.dark ? '#1e2238' : '#edf0f8',
+      backgroundColor: theme.surface,
       borderColor: theme.accent,
     }]}>
       <Text style={[s.label, { color: theme.muted }]}>{t('resume.title')}</Text>

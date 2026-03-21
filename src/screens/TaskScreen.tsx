@@ -389,7 +389,7 @@ const taskStyles = (theme: ReturnType<typeof useTheme>) =>
     actions: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm },
     doneBtn: {
       flex: 1,
-      backgroundColor: theme.dark ? theme.accent : '#1a1e2e',
+      backgroundColor: theme.dark ? theme.accent : theme.text,
       borderRadius: radius.lg,
       padding: 18,
       alignItems: 'center',

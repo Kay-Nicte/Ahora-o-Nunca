@@ -91,7 +91,7 @@ const s = StyleSheet.create({
   ctaBtnText: {
     fontFamily: typography.sansBold,
     fontSize: 15,
-    color: '#1a1e2e',
+    color: colors.textLight,
   },
   dismissBtn: {
     padding: 8,

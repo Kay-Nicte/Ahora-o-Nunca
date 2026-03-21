@@ -1,29 +1,28 @@
 export const colors = {
-  // Light mode: Electric Ink & Bone
-  bgLight: '#FAF9F6',       // white bone premium
-  surfaceLight: '#F3F1ED',   // subtle warmth
-  textLight: '#121212',      // black with weight
-  mutedLight: '#7a7775',     // warm neutral
-  borderLight: '#E8E5E0',    // whisper border
+  // Light mode: Deep Ink & Raw Silk
+  bgLight: '#F2F0ED',
+  surfaceLight: '#EAE7E3',
+  textLight: '#0F0F0F',
+  mutedLight: '#7a7775',
+  borderLight: '#DDD9D3',
 
-  // Dark mode: deep ink
+  // Dark mode
   bgDark: '#12141e',
   surfaceDark: '#1a1e2e',
   textDark: '#e4e8f4',
   mutedDark: '#5a6480',
   borderDark: '#252b40',
 
-  // Accents: dopamine
-  accent: '#5D3FD3',         // iris/violet electric — energy, modern
-  accentDark: '#9b8ec4',     // softer lavender for dark mode
-  accentHover: '#6d4fe3',
-  secondary: '#FF6B6B',      // coral — soft alert, warm attention
+  // Accents
+  accent: '#002FA7',         // Klein Blue
+  accentDark: '#9b8ec4',     // lavender for dark
+  accentHover: '#1040B7',
 
   // Brand
-  yellow: '#d4a94c',         // warm gold
-  yellowDark: '#c49a3c',
-  error: '#FF6B6B',          // coral (same as secondary)
-  white: '#FAF9F6',          // bone, never pure white
+  yellow: '#E5A823',         // cúrcuma
+  yellowDark: '#d49a1c',
+  error: '#c45c5c',
+  white: '#F2F0ED',
 }
 
 export const typography = {

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'InstrumentSerif_400Regular_Italic',
-    color: '#1a1e2e',
+    color: colors.textLight,
     lineHeight: undefined,
     includeFontPadding: false,
   },

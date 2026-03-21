@@ -278,7 +278,7 @@ export default function NotificationsScreen() {
           <View style={s.timeGrid}>
             <View style={[s.timeCard, {
               backgroundColor: morningOn
-                ? (theme.dark ? '#202640' : '#eef1fa')
+                ? theme.surface
                 : (theme.dark ? theme.surface : theme.white),
               borderColor: morningOn ? theme.accent : theme.border,
             }]}>
@@ -296,7 +296,7 @@ export default function NotificationsScreen() {
 
             <View style={[s.timeCard, {
               backgroundColor: eveningOn
-                ? (theme.dark ? '#202640' : '#eef1fa')
+                ? theme.surface
                 : (theme.dark ? theme.surface : theme.white),
               borderColor: eveningOn ? theme.accent : theme.border,
             }]}>
@@ -393,7 +393,7 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     },
     proBadgeText: {
       fontFamily: typography.sansBold, fontSize: 8,
-      letterSpacing: 1, textTransform: 'uppercase', color: '#1a1e2e',
+      letterSpacing: 1, textTransform: 'uppercase', color: colors.textLight,
     },
     smartHintRow: {
       paddingHorizontal: 20,
