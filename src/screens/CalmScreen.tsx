@@ -310,7 +310,7 @@ const menuStyles = (theme: ReturnType<typeof useTheme>) =>
       marginBottom: 16,
     },
     title: {
-      fontFamily: typography.serif,
+      fontFamily: typography.serifItalic,
       fontSize: 26,
       lineHeight: 32,
     },

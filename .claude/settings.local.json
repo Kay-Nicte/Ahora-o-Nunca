@@ -16,7 +16,10 @@
       "Bash(curl -L -o \"C:/Users/34696/Desktop/Panal/supabase.exe\" \"https://github.com/supabase/cli/releases/latest/download/supabase_windows_amd64.exe\")",
       "Bash(grep -rn \"color: ''''#fff''''\" src/screens/ src/components/ --include=\"*.tsx\")",
       "Bash(grep -n \"fontFamily:\" src/screens/*.tsx src/components/*.tsx)",
-      "Bash(grep -rn \"''InstrumentSerif_400Regular_Italic''\\\\|''AtkinsonHyperlegible_700Bold''\\\\|''AtkinsonHyperlegible_400Regular''\" src/screens/ src/components/ --include=\"*.tsx\")"
+      "Bash(grep -rn \"''InstrumentSerif_400Regular_Italic''\\\\|''AtkinsonHyperlegible_700Bold''\\\\|''AtkinsonHyperlegible_400Regular''\" src/screens/ src/components/ --include=\"*.tsx\")",
+      "Bash(done)",
+      "Bash(grep -n \"back:.*fontFamily\\\\|greeting.*fontFamily\\\\|sub:.*fontFamily\\\\|title:.*fontFamily\\\\|rowText.*fontFamily\\\\|label.*fontFamily\" src/screens/*.tsx)",
+      "Bash(grep -n \"typography.serif,\" src/screens/*.tsx src/components/*.tsx)"
     ]
   }
 }

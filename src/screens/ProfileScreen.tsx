@@ -323,8 +323,8 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontSize: 14,
     },
     rowSub: {
-      fontFamily: typography.sansBold,
-      fontSize: 14,
+      fontFamily: typography.sans,
+      fontSize: 13,
       marginTop: 2,
     },
     calmChip: {
