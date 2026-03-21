@@ -45,7 +45,7 @@ export function BottomNav({ active }: BottomNavProps) {
             onPress={() => router.replace(route as any)}
           >
             <Icon size={20} color={color} />
-            <Text style={[styles.label, { color, fontFamily: typography.sansBold }]}>
+            <Text style={[styles.label, { color, fontFamily: typography.sans }]}>
               {label}
             </Text>
           </TouchableOpacity>
@@ -79,8 +79,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   label: {
-    fontSize: 12,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
+    fontSize: 11,
+    letterSpacing: 0.5,
   },
 })

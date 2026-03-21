@@ -197,10 +197,9 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       marginTop: 3,
     },
     sectionLabel: {
-      fontFamily: typography.sansBold,
-      fontSize: 11,
-      letterSpacing: 3,
-      textTransform: 'uppercase',
+      fontFamily: typography.sans,
+      fontSize: 12,
+      letterSpacing: 1,
       color: theme.muted,
       paddingHorizontal: spacing.md,
       paddingTop: spacing.md,

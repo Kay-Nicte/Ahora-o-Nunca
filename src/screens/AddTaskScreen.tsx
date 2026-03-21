@@ -317,8 +317,8 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
     title: { fontFamily: typography.serif, fontSize: 22, color: theme.text },
     titleEm: { fontFamily: typography.serifItalic },
     inputArea: {
-      paddingHorizontal: 20, paddingBottom: 14,
-      alignItems: 'center', gap: 10,
+      paddingHorizontal: 20, paddingBottom: 20,
+      alignItems: 'center', gap: 12,
     },
     voiceBtn: {
       width: 72, height: 72, borderRadius: 36,
@@ -345,9 +345,9 @@ const styles = (theme: ReturnType<typeof useTheme>) =>
       fontFamily: typography.sansBold, fontSize: 13,
     },
     sectionLabel: {
-      fontFamily: typography.sansBold, fontSize: 11,
-      letterSpacing: 3, textTransform: 'uppercase',
-      color: theme.muted, paddingHorizontal: 20, paddingBottom: 8,
+      fontFamily: typography.sans, fontSize: 12,
+      letterSpacing: 1,
+      color: theme.muted, paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8,
     },
     chips: {
       flexDirection: 'row', flexWrap: 'wrap',
